@@ -12,13 +12,10 @@ function Card({ imgSrc, price, name, count }) {
                 <p className="text text_type_digits-default mr-1"> {price}</p>
                 <CurrencyIcon type="primary" />                
             </div>
-            <p className="text text_type_main-small mt-1"> {name}</p>
+            <p className={`${styles.description} text text_type_main-small mt-1`}> {name}</p>
             <Counter count={5} size="default" />
         </div>
     );
-
-
-
 }
 
 

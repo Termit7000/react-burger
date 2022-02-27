@@ -1,0 +1,9 @@
+
+.ingredients_container {
+    max-width: 600px;    
+}
+
+.ingrediens_wrapper {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);    
+}

@@ -1,5 +1,7 @@
 .section{
     margin: 0 auto;
+    width: fit-content;
+    
 }
 
 .tab_content {
@@ -7,13 +9,12 @@
     flex-direction: row;
 }
 
-
-
-.ingredients_container {
-    max-width: 600px;    
+.content {
+    overflow-y: scroll;
+    height: 100vh;
 }
 
-.ingrediens_wrapper {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);    
+.content::-webkit-scrollbar-thumb {
+    border: none;
+    border-radius: 0;
 }
