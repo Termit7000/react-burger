@@ -5,9 +5,9 @@ import { BurgerIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { ProfileIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import LinkButton from '../LinkButton/LinkButton.js';
 
-import styles from './Header.module.css';
+import styles from './AppHeader.module.css';
 
-export default function Header() {
+export default function AppHeader() {
 
     return (
 

@@ -1,15 +1,16 @@
 import React from 'react';
 import './App.css';
-import Header from '../Header/Header'
-
-
+import AppHeader from '../AppHeader/AppHeader';
+import BurgerIngredients from '../BurgerIngredients/BurgerIngredients';
+import IngredientsProvider from '../hooks/ingredient-hooks';
 
 
 function App() {
   return (
-    <>
-      <Header/>      
-    </>
+    <IngredientsProvider>
+      <AppHeader />
+      <BurgerIngredients/>
+    </IngredientsProvider>
   );
 }
 

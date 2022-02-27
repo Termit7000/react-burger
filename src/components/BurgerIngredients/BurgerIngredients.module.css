@@ -1,0 +1,19 @@
+.section{
+    margin: 0 auto;
+}
+
+.tab_content {
+    display: flex;
+    flex-direction: row;
+}
+
+
+
+.ingredients_container {
+    max-width: 600px;    
+}
+
+.ingrediens_wrapper {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);    
+}
