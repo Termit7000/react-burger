@@ -9,10 +9,10 @@ function Card({ imgSrc, price, name, count }) {
         <div className={styles.card}>
             <img className={`${styles.img} mb-1`} src={imgSrc} alt={name} />
             <div className={styles.price} >
-                <p className="text text_type_digits-default mr-1"> {price}</p>
+                <p className="text text_type_digits-default mr-2"> {price}</p>
                 <CurrencyIcon type="primary" />                
             </div>
-            <p className={`${styles.description} text text_type_main-small mt-1`}> {name}</p>
+            <p className={`${styles.description} text text_type_main-default mt-1`}> {name}</p>
             <Counter count={5} size="default" />
         </div>
     );

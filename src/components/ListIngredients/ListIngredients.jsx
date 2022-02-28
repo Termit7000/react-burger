@@ -9,9 +9,9 @@ const ListIngredients=forwardRef( ({name, type}, ref)=> {
     const {ingredients} = useIngredients();
 
     return (
-        <article className={`${styles.ingredients_container}`}>
+        <article>
             <p ref={ref} className="mb-6 text text_type_main-medium">{name}</p>
-            <div className={`${styles.ingrediens_wrapper} pl-4 pr-4`}>
+            <div className={`${styles.ingrediens_wrapper} pl-4 pr-4 mb-10`}>
                 {ingredients
                     .filter(el => el.type === type)
                     .map(el =>

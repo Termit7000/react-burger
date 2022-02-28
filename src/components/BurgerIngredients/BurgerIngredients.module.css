@@ -1,20 +1,25 @@
-.section{
-    margin: 0 auto;
-    width: fit-content;
-    
-}
-
 .tab_content {
     display: flex;
     flex-direction: row;
+    list-style: none;
+    margin: 0;
+    padding: 0;
 }
 
 .content {
-    overflow-y: scroll;
-    height: 100vh;
+    overflow-y: scroll;    
+    list-style: none;    
+    padding: 0;
+    height: 700px; 
+    
 }
 
 .content::-webkit-scrollbar-thumb {
     border: none;
     border-radius: 0;
+ 
+}
+
+.content::-webkit-scrollbar {
+	width: 8px;
 }
