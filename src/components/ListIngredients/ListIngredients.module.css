@@ -4,7 +4,11 @@
 }
 
 .ingrediens_wrapper {
+    list-style: none;
     display: grid;
-    grid-template-columns: repeat(2, 1fr);    
-    column-gap: 24px;
+    grid-template-columns: repeat(2, 1fr);        
+}
+
+.card_item:nth-child(even) {
+    margin-right: 0;
 }
