@@ -37,6 +37,7 @@ export default function BurgerIngredients() {
 
         const elementPosition = jumpRef.current?.offsetTop || 0;
         containerRef.current.scrollTop = elementPosition - containerPositionTop;
+
     }
 
     function onScroll() {
@@ -74,10 +75,10 @@ export default function BurgerIngredients() {
                         Соусы
                     </Tab>
                 </li>
-                <li>
+                <li>                   
                     <Tab value={MAIN_NAME} active={currentTab === MAIN_NAME} onClick={onClickTab}>
                         Начинки
-                    </Tab>
+                    </Tab>                    
                 </li>
             </ul>
 

@@ -1,7 +1,7 @@
 import React, { forwardRef } from "react";
 import PropTypes from 'prop-types';
 import Card from "../Card/Card";
-import { useIngredients } from "../hooks/ingredient-hooks";
+import { useIngredients } from "../../contexts/ingredient-context";
 import styles from './ListIngredients.module.css';
 
 const ListIngredients = forwardRef(({ name, type }, ref) => {
@@ -28,6 +28,7 @@ const ListIngredients = forwardRef(({ name, type }, ref) => {
 
 
 ListIngredients.propTypes = {
+    name: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired
 }
 

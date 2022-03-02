@@ -10,7 +10,6 @@ import styles from './AppHeader.module.css';
 export default function AppHeader() {
 
     return (
-
         <header className={`${styles.header}`}>
             <div className={`${styles.container} pt-4 pb-4`} >
 

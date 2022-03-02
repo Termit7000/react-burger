@@ -17,7 +17,7 @@ export default function BurgerConstructor() {
                 key={id}
                 type={type}
                 isLocked={true}
-                text={name}
+                text={type==='top' ? `${name} (верх)` : `${name} (низ)`}
                 price={price}
                 thumbnail={image}
             />
@@ -59,7 +59,6 @@ export default function BurgerConstructor() {
                     Оформить заказ
                 </Button>
             </div>
-
         </section>
     );
 }

@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState } from "react";
-import ingredientsData from '../../utils/data.json'
+import ingredientsData from '../utils/data.json';
 
 const ContextIngredients = createContext();
 export const useIngredients = ()=> useContext(ContextIngredients);

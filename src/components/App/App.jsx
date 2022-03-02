@@ -1,10 +1,9 @@
 import React from 'react';
-import './App.css';
 import styles from './App.module.css';
 
 import AppHeader from '../AppHeader/AppHeader';
 import BurgerIngredients from '../BurgerIngredients/BurgerIngredients';
-import IngredientsProvider from '../hooks/ingredient-hooks';
+import IngredientsProvider from '../../contexts/ingredient-context';
 import BurgerConstructor from '../BurgerConstructor/BurgerConstructor';
 
 function App() {
