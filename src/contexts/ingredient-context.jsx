@@ -6,25 +6,25 @@ export const useIngredients = ()=> useContext(ContextIngredients);
 
 export default function IngredientsProvider ({children}) {
     
-    const [ingredients, setIngredients] = useState(null);
+    const [data, setData] = useState(null);
     const [error, setError] = useState();
     const [isLoading, setLoading]  = useState(true);    
 
     useEffect(()=>{
 
         getIngredients()
-        .then((data)=>{
-            if (!data.success) {
+        .then((dataFetch)=>{
+            if (!dataFetch.success) {
                 return Promise.reject("Запрос к данным неуспешен");
             }            
-            setIngredients(data.data.map(el=>({...el, count:0})));
+            setData(dataFetch.data.map(el=>({...el, count:0})));
         })        
         .catch(setError)
         .finally(()=>setLoading(false));       
     },[]);    
     
     return (
-        <ContextIngredients.Provider value={{ingredients, error, isLoading}}>
+        <ContextIngredients.Provider value={{data, error, isLoading}}>
             {children}
         </ContextIngredients.Provider>
     );

@@ -5,7 +5,11 @@ import { useIngredients } from '../../contexts/ingredient-context';
 
 export default function BurgerConstructor() {
 
-    const { ingredients: burgerComponents, error, isLoading } = useIngredients();
+    const { data } = useIngredients();
+
+    const bun = data.find(el => el.type === 'bun');
+    const outherComponents = data.filter(el => el.type !== 'bun');
+    const sum = (bun?.price || 0) + outherComponents.reduce((acc, el) => acc + el.price, 0);
 
     const blokedItem = ({ type, id, name, price, image }) =>
 
@@ -20,14 +24,8 @@ export default function BurgerConstructor() {
             />
         </div>;
 
-    const componentsItems = ()=> {
-
-        const bun = burgerComponents.find(el => el.type === 'bun');
-        const outherComponents = burgerComponents.filter(el => el.type !== 'bun');
-        const sum = (bun?.price || 0) + outherComponents.reduce((acc,el)=>acc+el.price,0);
-        
-        return (
-        <>
+    return (
+        <section className={`${styles.components_container} page__section mt-25`}>
             {bun && blokedItem({ ...bun, type: 'top' })}
             <ul className={`${styles.burger_items} mt-4 mb-4 mr-1 custom-scroll`}>
                 {
@@ -57,15 +55,5 @@ export default function BurgerConstructor() {
                     Оформить заказ
                 </Button>
             </div>
-        </>)};
-
-    return (
-
-        <section className={`${styles.components_container} page__section mt-25`}>
-
-            {isLoading && <p>Загрузка данных...</p>}
-            {error && <p>Ошибка загрузки: {error}</p>}
-            {burgerComponents && componentsItems()}       
-
         </section>);
 }

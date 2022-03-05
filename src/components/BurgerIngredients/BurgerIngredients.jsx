@@ -3,8 +3,7 @@ import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from './BurgerIngredients.module.css';
 import ListIngredients from "../ListIngredients/ListIngredients";
 
-
-export default function BurgerIngredients() {    
+export default function BurgerIngredients() {
 
     const BUN_NAME = 'bun';
     const SAUSE_NAME = 'sauce';
@@ -74,10 +73,10 @@ export default function BurgerIngredients() {
                         Соусы
                     </Tab>
                 </li>
-                <li>                   
+                <li>
                     <Tab value={MAIN_NAME} active={currentTab === MAIN_NAME} onClick={onClickTab}>
                         Начинки
-                    </Tab>                    
+                    </Tab>
                 </li>
             </ul>
 
@@ -86,6 +85,7 @@ export default function BurgerIngredients() {
                 <ListIngredients ref={sauseRef} name={'Соусы'} type={SAUSE_NAME} />
                 <ListIngredients ref={mainRef} name={'Начинки'} type={MAIN_NAME} />
             </ul>
+
         </section>
     );
 }
