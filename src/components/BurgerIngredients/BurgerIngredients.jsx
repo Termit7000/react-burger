@@ -4,7 +4,7 @@ import styles from './BurgerIngredients.module.css';
 import ListIngredients from "../ListIngredients/ListIngredients";
 
 
-export default function BurgerIngredients() {
+export default function BurgerIngredients() {    
 
     const BUN_NAME = 'bun';
     const SAUSE_NAME = 'sauce';
@@ -37,7 +37,6 @@ export default function BurgerIngredients() {
 
         const elementPosition = jumpRef.current?.offsetTop || 0;
         containerRef.current.scrollTop = elementPosition - containerPositionTop;
-
     }
 
     function onScroll() {

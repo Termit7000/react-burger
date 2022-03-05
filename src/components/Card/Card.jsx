@@ -13,11 +13,12 @@ function Card({ imgSrc, price, name, count }) {
                 <CurrencyIcon type="primary" />                
             </div>
             <p className={`${styles.description} text text_type_main-default mt-1`}> {name}</p>
-            <Counter count={5} size="default" />
+            
+            {count>0 && <Counter count={count} size="default" />}
+           
         </div>
     );
 }
-
 
 Card.propTypes = {
     imgSrc: PropTypes.string.isRequired,
