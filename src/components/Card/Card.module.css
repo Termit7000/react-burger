@@ -1,0 +1,29 @@
+.card {
+    box-sizing: border-box;
+    position: relative;
+    width: 272px;
+    height: 208px;    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    overflow: hidden;
+    text-overflow: clip;
+}
+
+.img {
+    display: block;
+    width: 240px;
+    height: 120px;
+    object-fit: contain;    
+}
+
+.price {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;    
+}
+
+.description {
+    text-align: center;
+}
