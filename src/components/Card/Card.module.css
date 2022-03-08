@@ -9,6 +9,8 @@
 
     overflow: hidden;
     text-overflow: clip;
+
+    cursor: pointer;
 }
 
 .img {

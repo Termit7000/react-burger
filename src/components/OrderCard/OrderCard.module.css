@@ -1,0 +1,10 @@
+.order {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.title {
+    align-self: flex-start;
+    line-height: 2em;    
+}

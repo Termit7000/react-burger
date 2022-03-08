@@ -14,6 +14,6 @@ code {
 
 .page__section {  
   max-width: 600px;  
-  height: 912px;
+  max-height: 912px;
   box-sizing: border-box;
 }
