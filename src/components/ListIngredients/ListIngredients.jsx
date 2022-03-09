@@ -4,7 +4,7 @@ import Card from "../Card/Card";
 import styles from './ListIngredients.module.css';
 import { useIngredients } from "../../contexts/ingredient-context";
 
-const ListIngredients = forwardRef(({ name, type }, ref) => {
+const ListIngredients = forwardRef(({handlerOpenIngredient,  name, type }, ref) => {
 
     const { data } = useIngredients();
 
@@ -18,7 +18,7 @@ const ListIngredients = forwardRef(({ name, type }, ref) => {
                         .filter(el => el.type === type)
                         .map(el =>
                             <li key={el._id} className={`${styles.card_item} mr-6`}>
-                                <Card imgSrc={el.image} {...el} />
+                                <Card imgSrc={el.image} {...el} handlerOpenIngredient={handlerOpenIngredient} />
                             </li>
                         )}
                 </ul>}

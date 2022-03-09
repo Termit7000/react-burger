@@ -3,7 +3,7 @@ import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from './BurgerIngredients.module.css';
 import ListIngredients from "../ListIngredients/ListIngredients";
 
-export default function BurgerIngredients() {
+export default function BurgerIngredients({handlerOpenIngredient}) {
 
     const BUN_NAME = 'bun';
     const SAUSE_NAME = 'sauce';
@@ -81,9 +81,9 @@ export default function BurgerIngredients() {
             </ul>
 
             <ul ref={containerRef} onScroll={onScroll} className={`${styles.content} mt-10 custom-scroll`}>
-                <ListIngredients ref={bunRef} name={'Булки'} type={BUN_NAME} />
-                <ListIngredients ref={sauseRef} name={'Соусы'} type={SAUSE_NAME} />
-                <ListIngredients ref={mainRef} name={'Начинки'} type={MAIN_NAME} />
+                <ListIngredients ref={bunRef} name={'Булки'} type={BUN_NAME} handlerOpenIngredient={handlerOpenIngredient} />
+                <ListIngredients ref={sauseRef} name={'Соусы'} type={SAUSE_NAME} handlerOpenIngredient={handlerOpenIngredient} />
+                <ListIngredients ref={mainRef} name={'Начинки'} type={MAIN_NAME} handlerOpenIngredient={handlerOpenIngredient}/>
             </ul>
 
         </section>

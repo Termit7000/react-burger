@@ -3,10 +3,13 @@ import styles from './Card.module.css';
 import PropTypes from 'prop-types';
 import { Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
-function Card({ imgSrc, price, name, count }) {
+function Card({ imgSrc, price, name, count, handlerOpenIngredient }) {
+
+    const openCard = () => handlerOpenIngredient({imgSrc, name});
+
 
     return (
-        <div className={styles.card}>
+        <div className={styles.card} onClick={openCard}>
             <img className={`${styles.img} mb-1`} src={imgSrc} alt={name} />
             <div className={styles.price} >
                 <p className="text text_type_digits-default mr-2"> {price}</p>

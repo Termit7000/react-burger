@@ -1,26 +1,25 @@
-import React, { useState } from "react";
+import React from "react";
 import PropTypes from 'prop-types';
-import styles from './Modal.module.css';
-import { MODAL_ELEMENT } from "../../utils/constants";
+import { MODAL_ROOT } from "../../utils/constants";
 import { createPortal } from "react-dom";
 import ModalOverlay from "../ModalOverlay/ModalOverlay";
 
-function Modal({ children }) {
-    const [opened, useOpened] = useState(true);
-
-    function useCloseHandler() {
-        useOpened(false);
-    }
+function Modal({ handleClose,  children }) {
 
     return (
-        opened && createPortal(
+       createPortal(
 
-            <ModalOverlay onCloseHandler={useCloseHandler}>
+            <ModalOverlay onCloseHandler={handleClose}>
                 {children}
             </ModalOverlay>
 
-            , MODAL_ELEMENT)
+            , MODAL_ROOT)
     );
+}
+
+Modal.propTypes = {
+    handleClose: PropTypes.func.isRequired,
+    children: PropTypes.element.isRequired
 }
 
 export default Modal;

@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Button, ConstructorElement, CurrencyIcon, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './BurgerConstructor.module.css';
 import { useIngredients } from '../../contexts/ingredient-context';
 
-export default function BurgerConstructor() {
+export default function BurgerConstructor({handleOrder}) {
 
-    const { data } = useIngredients();
+    const { data } = useIngredients();    
 
     const bun = data.find(el => el.type === 'bun');
     const outherComponents = data.filter(el => el.type !== 'bun');
@@ -51,7 +51,7 @@ export default function BurgerConstructor() {
                     <CurrencyIcon type="primary" />
                 </div>
 
-                <Button type="primary" size="large">
+                <Button type="primary" size="large" onClick={handleOrder}>
                     Оформить заказ
                 </Button>
             </div>
