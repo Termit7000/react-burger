@@ -2,10 +2,13 @@ import React from 'react';
 import { Button, ConstructorElement, CurrencyIcon, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './BurgerConstructor.module.css';
 import { useIngredients } from '../../contexts/ingredient-context';
+import { ORDER_MODAL_NAME } from '../../utils/constants';
 
-export default function BurgerConstructor({handleOrder}) {
+export default function BurgerConstructor({ children }) {
 
-    const { data } = useIngredients();    
+    const { data, contentModal, openModal } = useIngredients();
+
+    const openOrderDetails = ()=>openModal(ORDER_MODAL_NAME);
 
     const bun = data.find(el => el.type === 'bun');
     const outherComponents = data.filter(el => el.type !== 'bun');
@@ -51,9 +54,14 @@ export default function BurgerConstructor({handleOrder}) {
                     <CurrencyIcon type="primary" />
                 </div>
 
-                <Button type="primary" size="large" onClick={handleOrder}>
+                <Button type="primary" size="large" onClick={openOrderDetails}>
                     Оформить заказ
                 </Button>
             </div>
+
+            {contentModal.isOpened && contentModal.modalName===ORDER_MODAL_NAME && <>
+                {children}
+            </>}
+
         </section>);
 }

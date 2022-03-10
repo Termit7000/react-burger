@@ -2,11 +2,14 @@ import React from "react";
 import styles from './Card.module.css';
 import PropTypes from 'prop-types';
 import { Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import { useIngredients } from "../../contexts/ingredient-context";
+import { INGREDIENTS_MODAL_NAME } from "../../utils/constants";
 
-function Card({ imgSrc, price, name, count, handlerOpenIngredient }) {
+function Card({_id, imgSrc, price, name, count}) {
 
-    const openCard = () => handlerOpenIngredient({imgSrc, name});
-
+    const { openModal } = useIngredients();
+    
+    const openCard = () => openModal(INGREDIENTS_MODAL_NAME, {ingredientID: _id, imgSrc, name});
 
     return (
         <div className={styles.card} onClick={openCard}>
@@ -24,6 +27,7 @@ function Card({ imgSrc, price, name, count, handlerOpenIngredient }) {
 }
 
 Card.propTypes = {
+    _id: PropTypes.string.isRequired,
     imgSrc: PropTypes.string.isRequired,
     price: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,

@@ -2,12 +2,16 @@ import React, { useRef, useState } from "react";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from './BurgerIngredients.module.css';
 import ListIngredients from "../ListIngredients/ListIngredients";
+import { useIngredients } from "../../contexts/ingredient-context";
+import { INGREDIENTS_MODAL_NAME } from "../../utils/constants";
 
-export default function BurgerIngredients({handlerOpenIngredient}) {
+export default function BurgerIngredients({ children }) {
 
     const BUN_NAME = 'bun';
     const SAUSE_NAME = 'sauce';
     const MAIN_NAME = 'main';
+
+    const { contentModal } = useIngredients();       
 
     const [currentTab, setTab] = useState(BUN_NAME);
 
@@ -59,6 +63,7 @@ export default function BurgerIngredients({handlerOpenIngredient}) {
 
     return (
 
+
         <section className='page__section'>
             <p className="mt-10 mb-5 text text_type_main-large">Соберите бургер</p>
 
@@ -81,10 +86,17 @@ export default function BurgerIngredients({handlerOpenIngredient}) {
             </ul>
 
             <ul ref={containerRef} onScroll={onScroll} className={`${styles.content} mt-10 custom-scroll`}>
-                <ListIngredients ref={bunRef} name={'Булки'} type={BUN_NAME} handlerOpenIngredient={handlerOpenIngredient} />
-                <ListIngredients ref={sauseRef} name={'Соусы'} type={SAUSE_NAME} handlerOpenIngredient={handlerOpenIngredient} />
-                <ListIngredients ref={mainRef} name={'Начинки'} type={MAIN_NAME} handlerOpenIngredient={handlerOpenIngredient}/>
+                <ListIngredients ref={bunRef} name={'Булки'} type={BUN_NAME} />
+                <ListIngredients ref={sauseRef} name={'Соусы'} type={SAUSE_NAME} />
+                <ListIngredients ref={mainRef} name={'Начинки'} type={MAIN_NAME} />
             </ul>
+
+            {contentModal.isOpened && contentModal.modalName === INGREDIENTS_MODAL_NAME  &&
+
+                <>
+                    {children}
+                </>
+            }
 
         </section>
     );
