@@ -1,48 +1,31 @@
-import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import React, { useCallback, useEffect, useRef } from "react";
+
+import React, { forwardRef, useImperativeHandle, useRef } from "react";
 import styles from './ModalOverlay.module.css';
 
-function ModalOverlay({ onCloseHandler, children }) {
+const ModalOverlay = forwardRef(({ handlerClose, children }, ref) => {
 
     const refContainer = useRef();
 
-    const closeModal = useCallback(() => {
+    const closeSmooth = () => {
         refContainer.current.classList.remove(styles.opened);
-        setTimeout(onCloseHandler, 400);
-    }, [onCloseHandler]);
+        setTimeout(handlerClose, 400);
+    };
 
-    const onClick = (ev) => {
+    useImperativeHandle(ref, ()=> ({
+        closeSmooth: ()=> closeSmooth()
+    }));
+
+    const onMouseDown = (ev) => {
 
         if ([...ev.target.classList].includes(styles.overlay)) {
-            closeModal();
+            closeSmooth();
         }
     }
 
-    useEffect(() => {
-
-        const closeOnEsc = (event) => {
-            if (event.key === 'Escape') {
-                closeModal();
-            }
-        };
-
-        document.addEventListener('keydown', closeOnEsc);
-        return () => document.removeEventListener('keydown', closeOnEsc);
-        
-    }, [closeModal]);
-
     return (
-        <div ref={refContainer} className={`${styles.overlay} ${styles.opened}`} onMouseDown={onClick}>
-
-            <div className={styles.popup}>
-
-                <div className={styles.icon_close} onClick={closeModal}>
-                    <CloseIcon type="primary" />
-                </div>
-
-                {children}
-            </div>
+        <div ref={refContainer} className={`${styles.overlay} ${styles.opened}`} onMouseDown={onMouseDown}>
+            {children}
         </div>);
-}
+});
 
 export default ModalOverlay;

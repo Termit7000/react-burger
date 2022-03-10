@@ -2,8 +2,7 @@ import React, { useRef, useState } from "react";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from './BurgerIngredients.module.css';
 import ListIngredients from "../ListIngredients/ListIngredients";
-import { useIngredients } from "../../contexts/ingredient-context";
-import { INGREDIENTS_MODAL_NAME } from "../../utils/constants";
+import { useModals } from "../../contexts/modal-context";
 
 export default function BurgerIngredients({ children }) {
 
@@ -11,7 +10,7 @@ export default function BurgerIngredients({ children }) {
     const SAUSE_NAME = 'sauce';
     const MAIN_NAME = 'main';
 
-    const { contentModal } = useIngredients();       
+    const { contentModal } = useModals();       
 
     const [currentTab, setTab] = useState(BUN_NAME);
 
@@ -91,7 +90,7 @@ export default function BurgerIngredients({ children }) {
                 <ListIngredients ref={mainRef} name={'Начинки'} type={MAIN_NAME} />
             </ul>
 
-            {contentModal.isOpened && contentModal.modalName === INGREDIENTS_MODAL_NAME  &&
+            {contentModal.isOpened  &&
 
                 <>
                     {children}

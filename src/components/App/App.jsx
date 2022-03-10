@@ -9,6 +9,7 @@ import FetchIngredients from '../FetchIngredients/FetchIngredients';
 import Modal from '../Modal/Modal';
 import OrderDetails from '../OrderDetails/OrderDetails';
 import IngredientDetails from '../IngredientDetails/IngredientDetails';
+import ModalProvider from '../../contexts/modal-context';
 
 function App() {
 
@@ -21,34 +22,36 @@ function App() {
 
         <div className={styles.section_wrapper}>
           <div className='mr-10'>
-            <BurgerIngredients>
 
-              <Modal>
-                <IngredientDetails />
-              </Modal>
+            <ModalProvider>
+              <BurgerIngredients>
 
-            </BurgerIngredients>
+                <Modal>
+                  <IngredientDetails />
+                </Modal>
+
+              </BurgerIngredients>
+
+            </ModalProvider>
           </div>
-          
+
           <div className='ml-7'>
-            <BurgerConstructor>
+            <ModalProvider>
 
-              <Modal>
-                <OrderDetails />
-              </Modal>
+              <BurgerConstructor>
 
-            </BurgerConstructor>
+                <Modal>
+                  <OrderDetails />
+                </Modal>
+
+              </BurgerConstructor>
+            </ModalProvider>
           </div>
         </div>
 
       </FetchIngredients>
-
-
-    </IngredientsProvider>
+    </IngredientsProvider >
   );
 }
 
 export default App;
-
-
-

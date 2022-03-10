@@ -1,13 +1,15 @@
 import React, { useMemo } from "react";
 import styles from './IngredientDetails.module.css';
 import { useIngredients } from "../../contexts/ingredient-context";
+import { useModals } from "../../contexts/modal-context";
 
 function IngredientDetails() {
 
-    const { data, contentModal } = useIngredients();
+    const { data } = useIngredients();
+    const { contentModal } = useModals();
     const { ingredientID } = contentModal;
 
-    const currentIngredient = useMemo(()=> data.find(el => el._id === ingredientID) , [ingredientID]);
+    const currentIngredient = useMemo(()=> data.find(el => el._id === ingredientID) , [ingredientID, data]);
 
     return (
 

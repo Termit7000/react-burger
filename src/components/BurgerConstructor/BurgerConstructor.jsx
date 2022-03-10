@@ -2,13 +2,14 @@ import React from 'react';
 import { Button, ConstructorElement, CurrencyIcon, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './BurgerConstructor.module.css';
 import { useIngredients } from '../../contexts/ingredient-context';
-import { ORDER_MODAL_NAME } from '../../utils/constants';
+import { useModals } from '../../contexts/modal-context';
 
 export default function BurgerConstructor({ children }) {
 
-    const { data, contentModal, openModal } = useIngredients();
+    const { data } = useIngredients();
+    const { contentModal, openModal } = useModals();
 
-    const openOrderDetails = ()=>openModal(ORDER_MODAL_NAME);
+    const openOrderDetails = ()=>openModal();
 
     const bun = data.find(el => el.type === 'bun');
     const outherComponents = data.filter(el => el.type !== 'bun');
@@ -59,7 +60,7 @@ export default function BurgerConstructor({ children }) {
                 </Button>
             </div>
 
-            {contentModal.isOpened && contentModal.modalName===ORDER_MODAL_NAME && <>
+            {contentModal.isOpened && <>
                 {children}
             </>}
 
