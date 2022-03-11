@@ -1,10 +1,11 @@
 import React, { createContext, useContext, useState, useEffect} from "react";
+import PropTypes from 'prop-types';
 import { getIngredients } from "../components/api/api";
 
 const ContextIngredients = createContext();
 export const useIngredients = ()=> useContext(ContextIngredients);
 
-export default function IngredientsProvider ({children}) {
+function IngredientsProvider ({children}) {
     
     const [data, setData] = useState(null);
     const [error, setError] = useState();
@@ -29,3 +30,9 @@ export default function IngredientsProvider ({children}) {
         </ContextIngredients.Provider>
     );
 }
+
+IngredientsProvider.propTypes = {
+    children: PropTypes.arrayOf(PropTypes.element.isRequired).isRequired
+}
+
+export default IngredientsProvider;

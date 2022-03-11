@@ -1,5 +1,6 @@
 
 import React, { forwardRef, useImperativeHandle, useRef } from "react";
+import PropTypes from 'prop-types';
 import styles from './ModalOverlay.module.css';
 
 const ModalOverlay = forwardRef(({ handlerClose, children }, ref) => {
@@ -27,5 +28,11 @@ const ModalOverlay = forwardRef(({ handlerClose, children }, ref) => {
             {children}
         </div>);
 });
+
+
+ModalOverlay.propTypes = {
+    handlerClose: PropTypes.func.isRequired,
+    children: PropTypes.element.isRequired
+}
 
 export default ModalOverlay;

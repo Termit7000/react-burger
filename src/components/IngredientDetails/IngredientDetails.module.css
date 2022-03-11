@@ -15,3 +15,24 @@
     object-fit: contain;
     object-position: center;
 }
+
+.nutrients {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--color-secondary-text);    
+    list-style: none;
+    padding: 0;
+}
+
+.nutrient {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    
+}
+
+.nutrient:last-child {
+    margin-right: 0;
+}

@@ -1,10 +1,11 @@
 import React, { useRef, useState } from "react";
+import PropTypes from 'prop-types';
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from './BurgerIngredients.module.css';
 import ListIngredients from "../ListIngredients/ListIngredients";
 import { useModals } from "../../contexts/modal-context";
 
-export default function BurgerIngredients({ children }) {
+function BurgerIngredients({ children }) {
 
     const BUN_NAME = 'bun';
     const SAUSE_NAME = 'sauce';
@@ -100,3 +101,9 @@ export default function BurgerIngredients({ children }) {
         </section>
     );
 }
+
+BurgerIngredients.propTypes = {
+    children: PropTypes.element.isRequired
+}
+
+export default BurgerIngredients;

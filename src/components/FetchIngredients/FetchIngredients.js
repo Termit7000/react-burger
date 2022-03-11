@@ -1,8 +1,9 @@
 import React from "react";
+import PropTypes from 'prop-types';
 import { useIngredients } from "../../contexts/ingredient-context";
 import  styles from "./FetchIngredients.module.css";
 
-export default function FetchIngredients({children}) {    
+function FetchIngredients({children}) {    
 
     const {error, isLoading} = useIngredients();
     
@@ -12,3 +13,10 @@ export default function FetchIngredients({children}) {
 
     return children;
 }
+
+
+FetchIngredients.propTypes = {
+    children: PropTypes.element.isRequired
+}
+
+export default FetchIngredients;

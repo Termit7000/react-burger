@@ -1,10 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Button, ConstructorElement, CurrencyIcon, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './BurgerConstructor.module.css';
 import { useIngredients } from '../../contexts/ingredient-context';
 import { useModals } from '../../contexts/modal-context';
 
-export default function BurgerConstructor({ children }) {
+function BurgerConstructor({ children }) {
 
     const { data } = useIngredients();
     const { contentModal, openModal } = useModals();
@@ -66,3 +67,9 @@ export default function BurgerConstructor({ children }) {
 
         </section>);
 }
+
+BurgerConstructor.propTypes = {
+    children: PropTypes.element.isRequired
+}
+
+export default BurgerConstructor;
