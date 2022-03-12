@@ -1,9 +1,9 @@
 
-.ingredients_container {
+.ingredients {
     max-width: 600px;    
 }
 
-.ingrediens_wrapper {
+.ingrediens__wrapper {
     list-style: none;
     display: grid;
     grid-template-columns: repeat(2, 1fr);        

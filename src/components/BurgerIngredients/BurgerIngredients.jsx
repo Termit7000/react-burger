@@ -1,9 +1,12 @@
 import React, { useRef, useState } from "react";
 import PropTypes from 'prop-types';
+
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-import styles from './BurgerIngredients.module.css';
+
 import ListIngredients from "../ListIngredients/ListIngredients";
-import { useModals } from "../../contexts/modal-context";
+import { useModals } from "../../services/modal-context";
+
+import styles from './BurgerIngredients.module.css';
 
 function BurgerIngredients({ children }) {
 
@@ -91,12 +94,7 @@ function BurgerIngredients({ children }) {
                 <ListIngredients ref={mainRef} name={'Начинки'} type={MAIN_NAME} />
             </ul>
 
-            {contentModal.isOpened  &&
-
-                <>
-                    {children}
-                </>
-            }
+            {contentModal.isOpened  && children}
 
         </section>
     );

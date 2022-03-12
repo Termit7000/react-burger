@@ -8,13 +8,11 @@ const ModalOverlay = forwardRef(({ handlerClose, children }, ref) => {
     const refContainer = useRef();
 
     const closeSmooth = () => {
-        refContainer.current.classList.remove(styles.opened);
+        refContainer.current.classList.remove(styles.overlay_opened);
         setTimeout(handlerClose, 400);
     };
 
-    useImperativeHandle(ref, ()=> ({
-        closeSmooth: ()=> closeSmooth()
-    }));
+    useImperativeHandle(ref, ()=> ({ closeSmooth }));
 
     const onMouseDown = (ev) => {
 
@@ -24,7 +22,7 @@ const ModalOverlay = forwardRef(({ handlerClose, children }, ref) => {
     }
 
     return (
-        <div ref={refContainer} className={`${styles.overlay} ${styles.opened}`} onMouseDown={onMouseDown}>
+        <div ref={refContainer} className={`${styles.overlay} ${styles.overlay_opened}`} onMouseDown={onMouseDown}>
             {children}
         </div>);
 });

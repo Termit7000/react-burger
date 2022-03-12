@@ -1,8 +1,10 @@
 import React from "react";
-import styles from './Card.module.css';
 import PropTypes from 'prop-types';
+
 import { Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useModals } from "../../contexts/modal-context";
+import { useModals } from "../../services/modal-context";
+
+import styles from './Card.module.css';
 
 function Card({_id, imgSrc, price, name, count}) {
 

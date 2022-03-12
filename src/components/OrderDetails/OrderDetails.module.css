@@ -4,13 +4,13 @@
     align-items: center;
 }
 
-.orderId {
+.order__id {
     overflow: hidden;
     white-space: nowrap;
     max-width: 520px;
 }
 
-.graphics {
+.order__graphics {
     background-image: url('../../images/graphics.svg');
     background-position: center;
     background-repeat: no-repeat;
@@ -19,6 +19,6 @@
     height: 120px;
 }
 
-.caption {
+.order__caption {
     color: var(--color-secondary-text);
 }

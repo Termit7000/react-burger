@@ -1,16 +1,21 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useMemo } from "react";
 import PropTypes from 'prop-types';
-import { MODAL_ROOT } from "../../utils/constants";
 import { createPortal } from "react-dom";
-import ModalOverlay from "../ModalOverlay/ModalOverlay";
-import { useModals } from "../../contexts/modal-context";
+
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+
+import { MODAL_ROOT_NAME } from "../../utils/constants";
+import ModalOverlay from "../ModalOverlay/ModalOverlay";
+import { useModals } from "../../services/modal-context";
+
 import styles from './Modal.module.css';
 
 function Modal({ children }) {
 
     const { closeModal } = useModals();
     const refOverlay = useRef();
+
+    const modalElement = useMemo(()=>document.getElementById(MODAL_ROOT_NAME), []);
 
     const closeSmooth = ()=> refOverlay.current.closeSmooth();
 
@@ -41,7 +46,7 @@ function Modal({ children }) {
 
             </ModalOverlay>
 
-            , MODAL_ROOT)
+            , modalElement)
     );
 }
 

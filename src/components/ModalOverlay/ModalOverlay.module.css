@@ -13,7 +13,7 @@
     align-items: center;
 }
 
-.opened {
+.overlay_opened {
   visibility: visible;
   opacity: 1;
 }

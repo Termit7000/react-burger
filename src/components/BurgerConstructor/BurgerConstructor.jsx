@@ -1,20 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import { Button, ConstructorElement, CurrencyIcon, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+
+import { useIngredients } from '../../services/ingredient-context';
+import { useModals } from '../../services/modal-context';
+
 import styles from './BurgerConstructor.module.css';
-import { useIngredients } from '../../contexts/ingredient-context';
-import { useModals } from '../../contexts/modal-context';
 
 function BurgerConstructor({ children }) {
+
+    const BUN_NAME = 'bun';
 
     const { data } = useIngredients();
     const { contentModal, openModal } = useModals();
 
     const openOrderDetails = ()=>openModal();
 
-    const bun = data.find(el => el.type === 'bun');
-    const outherComponents = data.filter(el => el.type !== 'bun');
-    const sum = (bun?.price || 0) + outherComponents.reduce((acc, el) => acc + el.price, 0);
+    const bun = data.find(el => el.type === BUN_NAME);
+    const outherComponents = data.filter(el => el.type !== BUN_NAME);
+    const sum = outherComponents.reduce((acc, el) => acc + el.price, bun?.price || 0);
 
     const blokedItem = ({ type, id, name, price, image }) =>
 
@@ -30,9 +35,9 @@ function BurgerConstructor({ children }) {
         </div>;
 
     return (
-        <section className={`${styles.components_container} page__section mt-25`}>
+        <section className={`${styles.components} page__section mt-25`}>
             {bun && blokedItem({ ...bun, type: 'top' })}
-            <ul className={`${styles.burger_items} mt-4 mb-4 mr-1 custom-scroll`}>
+            <ul className={`${styles.components__items} mt-4 mb-4 mr-1 custom-scroll`}>
                 {
                     outherComponents
                         .map(el =>
@@ -61,9 +66,7 @@ function BurgerConstructor({ children }) {
                 </Button>
             </div>
 
-            {contentModal.isOpened && <>
-                {children}
-            </>}
+            {contentModal.isOpened && children}
 
         </section>);
 }

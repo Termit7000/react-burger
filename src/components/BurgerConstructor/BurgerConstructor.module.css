@@ -1,4 +1,4 @@
-.components_container{    
+.components{    
     display: flex;
     flex-direction: column;
     
@@ -7,7 +7,7 @@
     box-sizing: border-box;
 }
 
-.burger_items {
+.components__items {
     list-style: none;    
     padding: 0;    
     
@@ -16,12 +16,12 @@
     overflow-y: scroll;
 }
 
-.burger_items::-webkit-scrollbar-thumb {
+.components__items::-webkit-scrollbar-thumb {
     border: none;
     border-radius: 0;    
 }
 
-.burger_items::-webkit-scrollbar {
+.components__items::-webkit-scrollbar {
 	width: 8px;
 }
 

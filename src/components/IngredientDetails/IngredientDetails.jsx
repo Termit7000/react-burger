@@ -1,7 +1,9 @@
 import React, { useMemo } from "react";
+
+import { useIngredients } from "../../services/ingredient-context";
+import { useModals } from "../../services/modal-context";
+
 import styles from './IngredientDetails.module.css';
-import { useIngredients } from "../../contexts/ingredient-context";
-import { useModals } from "../../contexts/modal-context";
 
 function IngredientDetails() {
 
@@ -11,32 +13,35 @@ function IngredientDetails() {
 
     const currentIngredient = useMemo(() => data.find(el => el._id === ingredientID), [ingredientID, data]);
 
-    const nutrient_item = (name, value) => {
-        return <li className={`${styles.nutrient} mr-5`}>
-            <p className="text text_type_main-default mb-8">{name}</p>
-            <p className="text text_type_digits-default">{value}</p>
-        </li>
-    };
+    const nutrients = currentIngredient &&
+        [
+            { type: 'Калории, ккал', name: currentIngredient.calories },
+            { type: 'Белки, г', name: currentIngredient.proteins },
+            { type: 'Жиры, г', name: currentIngredient.fat },
+            { type: 'Углеводы, ', name: currentIngredient.carbohydrates },
+        ];
 
     return (
 
-        <div className={styles.container}>
+        <div className={styles.ingredient}>
 
             {currentIngredient
 
                 ?
                 <>
-                    <p className={`${styles.title} mt-10 ml-10 text text_type_main-large`}>Детали ингредиента</p>
-                    <img className={`${styles.img} `} src={currentIngredient.image_large} alt={currentIngredient.name} />
+                    <p className={`${styles.ingredient__title} mt-10 ml-10 text text_type_main-large`}>Детали ингредиента</p>
+                    <img className={`${styles.ingredient__img} `} src={currentIngredient.image_large} alt={currentIngredient.name} />
                     <p className="mt-4 mb-8 text text_type_main-medium">{currentIngredient.name}</p>
 
-                    <ul className={`${styles.nutrients} mb-15`}>
+                    <ul className={`${styles.ingredient__nutrients} mb-15`}>
 
-                        {nutrient_item('Калории, ккал', currentIngredient.calories)}
-                        {nutrient_item('Белки, г', currentIngredient.proteins)}
-                        {nutrient_item('Жиры, г', currentIngredient.fat)}
-                        {nutrient_item('Углеводы, г', currentIngredient.carbohydrates)}
-                       
+                        {nutrients.map(({ type, name }) => {
+                                return <li key={`ingredientID_${type}`} className={`${styles.ingredient__nutrient} mr-5`}>
+                                    <p className="text text_type_main-default mb-8">{type}</p>
+                                    <p className="text text_type_digits-default">{name}</p>
+                                </li>
+                            })
+                        }
                     </ul>
                 </>
                 :
