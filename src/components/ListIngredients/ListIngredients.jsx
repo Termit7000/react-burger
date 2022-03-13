@@ -1,31 +1,30 @@
-import React, { forwardRef } from "react";
+import React, { forwardRef} from "react";
 import PropTypes from 'prop-types';
+
 import Card from "../Card/Card";
-import { useIngredients } from "../../contexts/ingredient-context";
+import { useIngredients } from "../../services/ingredient-context";
+
 import styles from './ListIngredients.module.css';
 
 const ListIngredients = forwardRef(({ name, type }, ref) => {
 
-    const { ingredients } = useIngredients();
+    const { data } = useIngredients();
+    const ingredientsByType = data.filter(el => el.type === type);
 
     return (
-        <article>
+        <article className={styles.ingredients}>
             <p ref={ref} className="mb-6 text text_type_main-medium">{name}</p>
-            <ul className={`${styles.ingrediens_wrapper} pl-4 pr-4 mb-10`}>
-                {ingredients
-                    .filter(el => el.type === type)
-                    .map(el =>
-                        <li key={el._id} className={`${styles.card_item} mr-6`}>
-                            <Card imgSrc={el.image} {...el} />
-                        </li>
 
-                    )
-                }
-            </ul>
-
+            {data &&
+                <ul className={`${styles.ingrediens__wrapper} pl-4 pr-4 mb-10`}>
+                    {ingredientsByType.map(el =>
+                            <li key={el._id} className={`${styles.card_item} mr-6`}>                                
+                                <Card imgSrc={el.image} {...el} />
+                            </li>
+                        )}
+                </ul>}
         </article>);
 });
-
 
 ListIngredients.propTypes = {
     name: PropTypes.string.isRequired,

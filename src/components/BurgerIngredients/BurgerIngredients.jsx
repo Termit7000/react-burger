@@ -1,14 +1,20 @@
 import React, { useRef, useState } from "react";
+import PropTypes from 'prop-types';
+
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-import styles from './BurgerIngredients.module.css';
+
 import ListIngredients from "../ListIngredients/ListIngredients";
+import { useModals } from "../../services/modal-context";
 
+import styles from './BurgerIngredients.module.css';
 
-export default function BurgerIngredients() {
+const BUN_NAME = 'bun';
+const SAUSE_NAME = 'sauce';
+const MAIN_NAME = 'main';
 
-    const BUN_NAME = 'bun';
-    const SAUSE_NAME = 'sauce';
-    const MAIN_NAME = 'main';
+function BurgerIngredients({ children }) {
+
+    const { contentModal } = useModals();       
 
     const [currentTab, setTab] = useState(BUN_NAME);
 
@@ -37,7 +43,6 @@ export default function BurgerIngredients() {
 
         const elementPosition = jumpRef.current?.offsetTop || 0;
         containerRef.current.scrollTop = elementPosition - containerPositionTop;
-
     }
 
     function onScroll() {
@@ -61,6 +66,7 @@ export default function BurgerIngredients() {
 
     return (
 
+
         <section className='page__section'>
             <p className="mt-10 mb-5 text text_type_main-large">Соберите бургер</p>
 
@@ -75,10 +81,10 @@ export default function BurgerIngredients() {
                         Соусы
                     </Tab>
                 </li>
-                <li>                   
+                <li>
                     <Tab value={MAIN_NAME} active={currentTab === MAIN_NAME} onClick={onClickTab}>
                         Начинки
-                    </Tab>                    
+                    </Tab>
                 </li>
             </ul>
 
@@ -87,6 +93,15 @@ export default function BurgerIngredients() {
                 <ListIngredients ref={sauseRef} name={'Соусы'} type={SAUSE_NAME} />
                 <ListIngredients ref={mainRef} name={'Начинки'} type={MAIN_NAME} />
             </ul>
+
+            {contentModal.isOpened  && children}
+
         </section>
     );
 }
+
+BurgerIngredients.propTypes = {
+    children: PropTypes.element.isRequired
+}
+
+export default BurgerIngredients;

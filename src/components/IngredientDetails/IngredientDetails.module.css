@@ -1,0 +1,38 @@
+.ingredient {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.ingredient__title {
+    align-self: flex-start;
+    line-height: 2em;
+}
+
+.ingredient__img {
+    width: 480px;
+    height: 240px;
+    object-fit: contain;
+    object-position: center;
+}
+
+.ingredient__nutrients {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--color-secondary-text);    
+    list-style: none;
+    padding: 0;
+}
+
+.ingredient__nutrient {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    
+}
+
+.ingredient__nutrient:last-child {
+    margin-right: 0;
+}
