@@ -8,9 +8,9 @@ import { useModals } from '../../services/modal-context';
 
 import styles from './BurgerConstructor.module.css';
 
-function BurgerConstructor({ children }) {
+const BUN_NAME = 'bun';
 
-    const BUN_NAME = 'bun';
+function BurgerConstructor({ children }) {
 
     const { data } = useIngredients();
     const { contentModal, openModal } = useModals();

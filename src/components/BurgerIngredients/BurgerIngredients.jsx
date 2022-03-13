@@ -8,11 +8,11 @@ import { useModals } from "../../services/modal-context";
 
 import styles from './BurgerIngredients.module.css';
 
-function BurgerIngredients({ children }) {
+const BUN_NAME = 'bun';
+const SAUSE_NAME = 'sauce';
+const MAIN_NAME = 'main';
 
-    const BUN_NAME = 'bun';
-    const SAUSE_NAME = 'sauce';
-    const MAIN_NAME = 'main';
+function BurgerIngredients({ children }) {
 
     const { contentModal } = useModals();       
 
