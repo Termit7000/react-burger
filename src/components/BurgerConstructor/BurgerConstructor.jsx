@@ -3,23 +3,26 @@ import PropTypes from 'prop-types';
 
 import { Button, ConstructorElement, CurrencyIcon, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
-import { useIngredients } from '../../services/ingredient-context';
 import { useModals } from '../../services/modal-context';
+import Modal from '../Modal/Modal';
+
+import data from '../../utils/testOrder.json';
 
 import styles from './BurgerConstructor.module.css';
 
 const BUN_NAME = 'bun';
 
 function BurgerConstructor({ children }) {
-
-    const { data } = useIngredients();
+ 
     const { contentModal, openModal } = useModals();
 
-    const openOrderDetails = ()=>openModal();
+    const openOrderDetails = ()=>openModal({
+        ingredients: data.map(el=>el._id)
+    });
 
     const bun = data.find(el => el.type === BUN_NAME);
     const outherComponents = data.filter(el => el.type !== BUN_NAME);
-    const sum = outherComponents.reduce((acc, el) => acc + el.price, bun?.price || 0);
+    const sum = outherComponents.reduce((acc, el) => acc + el.price, (bun?.price || 0)*2);
 
     const blokedItem = ({ type, id, name, price, image }) =>
 
@@ -66,7 +69,11 @@ function BurgerConstructor({ children }) {
                 </Button>
             </div>
 
-            {contentModal.isOpened && children}
+            {contentModal.isOpened &&                    
+                <Modal>
+                    {children}
+                </Modal>                    
+            }           
 
         </section>);
 }

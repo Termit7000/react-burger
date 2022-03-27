@@ -1,7 +1,7 @@
 import React, { forwardRef} from "react";
 import PropTypes from 'prop-types';
 
-import Card from "../Card/Card";
+import IngredientCard from "../IngredientCard/IngredientCard";
 import { useIngredients } from "../../services/ingredient-context";
 
 import styles from './ListIngredients.module.css';
@@ -19,7 +19,7 @@ const ListIngredients = forwardRef(({ name, type }, ref) => {
                 <ul className={`${styles.ingrediens__wrapper} pl-4 pr-4 mb-10`}>
                     {ingredientsByType.map(el =>
                             <li key={el._id} className={`${styles.card_item} mr-6`}>                                
-                                <Card imgSrc={el.image} {...el} />
+                                <IngredientCard imgSrc={el.image} {...el} />
                             </li>
                         )}
                 </ul>}

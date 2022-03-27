@@ -6,7 +6,7 @@ export const useModals = ()=> useContext(ModalContext);
 
 function ModalProvider({children}){
 
-    const [contentModal, setModalOpened] = useState({isOpened: false, modalName: ''});
+    const [contentModal, setModalOpened] = useState({isOpened: false});
     const openModal = (content) => setModalOpened({...content, isOpened: true});
     const closeModal = ()=>setModalOpened({isOpened: false});    
 

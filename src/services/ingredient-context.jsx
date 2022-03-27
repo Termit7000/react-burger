@@ -1,9 +1,11 @@
 import React, { createContext, useContext, useState, useEffect} from "react";
 import PropTypes from 'prop-types';
-import { getIngredients } from "../components/api/api";
+import { getIngredients } from "../utils/api";
 
 const ContextIngredients = createContext();
 export const useIngredients = ()=> useContext(ContextIngredients);
+
+const styles = {textAlign: 'center'};
 
 function IngredientsProvider ({children}) {
     
@@ -23,6 +25,9 @@ function IngredientsProvider ({children}) {
         .catch(setError)
         .finally(()=>setLoading(false));       
     },[]);    
+
+    if (isLoading) return <p className={styles}>Loading...</p>;
+    if (error) return <pre> {JSON.stringify(error, null, 2)}</pre>;
     
     return (
         <ContextIngredients.Provider value={{data, error, isLoading}}>
@@ -32,7 +37,7 @@ function IngredientsProvider ({children}) {
 }
 
 IngredientsProvider.propTypes = {
-    children: PropTypes.arrayOf(PropTypes.element.isRequired).isRequired
+    children: PropTypes.element.isRequired
 }
 
 export default IngredientsProvider;
