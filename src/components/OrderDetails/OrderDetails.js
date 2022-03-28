@@ -1,41 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import PropTypes from 'prop-types';
 
 import styles from './OrderDetails.module.css';
-import { useModals } from "../../services/modal-context";
-import { createOrder } from "../../utils/api";
 
-function OrderCard() {
-
-    const [orderId, setOrderID] = useState(null);
-
-    const { contentModal } = useModals();
-    const { ingredients } = contentModal;
-
-    const [error, setError] = useState(null);
-    const [isLoading, setLoading] = useState(true);
-
-    useEffect(() => {
-
-        createOrder({ ingredients })
-            .then((dataFetch) => {
-
-                if (!dataFetch.success) {
-                
-                    return Promise.reject("Запрос к данным неуспешен");
-                }              
-                
-                setOrderID(dataFetch?.order.number || 'Заказ не найден');
-            })
-            .catch(setError)
-            .finally(() => setLoading(false));
-
-    }, [ingredients]);
+function OrderDetails({ orderId=0, error='', isLoading = false }) {
 
     if (isLoading) return <p className={`${styles.order__id} text text_type_main-default mt-30 mb-30 ml-4`}>Обработка заказа...</p>;
     
     if (error) return <pre className="mt-30 mb-30"> {JSON.stringify(error, null, 2)}</pre>;
-
+    
     return (
         <div className={styles.order}>
             <p className={`${styles.order__id} text text_type_digits-large mt-30`} >{orderId}</p>
@@ -46,8 +19,10 @@ function OrderCard() {
         </div>);
 }
 
-OrderCard.propTypes = {
-    orderId: PropTypes.string
+OrderDetails.propTypes = {
+    orderId: PropTypes.number,
+    error: PropTypes.string,
+    isLoading: PropTypes.bool
 };
 
-export default OrderCard;
+export default OrderDetails;

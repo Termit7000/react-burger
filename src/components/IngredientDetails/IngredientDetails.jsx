@@ -1,17 +1,15 @@
 import React, { useMemo } from "react";
+import PropTypes from 'prop-types';
 
-import { useIngredients } from "../../services/ingredient-context";
-import { useModals } from "../../services/modal-context";
+import { useIngredients } from "../../contexts/ingredient-context";
 
 import styles from './IngredientDetails.module.css';
 
-function IngredientDetails() {
+function IngredientDetails({ingredientID}) {
 
-    const { data } = useIngredients();
-    const { contentModal } = useModals();
-    const { ingredientID } = contentModal;
+    const { ingredients } = useIngredients();
 
-    const currentIngredient = useMemo(() => data.find(el => el._id === ingredientID), [ingredientID, data]);
+    const currentIngredient = useMemo(() => ingredients.find(el => el._id === ingredientID), [ingredientID, ingredients]);
 
     if (!currentIngredient) {
         return (
@@ -46,6 +44,10 @@ function IngredientDetails() {
                     </ul>
         </div>
     );
+}
+
+IngredientDetails.propTypes = {
+    ingredientID: PropTypes.string.isRequired
 }
 
 export default IngredientDetails;

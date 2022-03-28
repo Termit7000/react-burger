@@ -3,20 +3,15 @@ import PropTypes from 'prop-types';
 
 import { Button, ConstructorElement, CurrencyIcon, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
-import { useModals } from '../../services/modal-context';
-import Modal from '../Modal/Modal';
+import styles from './BurgerConstructor.module.css';
 
 import data from '../../utils/testOrder.json';
 
-import styles from './BurgerConstructor.module.css';
-
 const BUN_NAME = 'bun';
 
-function BurgerConstructor({ children }) {
+function BurgerConstructor({ createOrderHandler }) {
  
-    const { contentModal, openModal } = useModals();
-
-    const openOrderDetails = ()=>openModal({
+    const openOrderDetails = ()=>createOrderHandler({
         ingredients: data.map(el=>el._id)
     });
 
@@ -68,18 +63,13 @@ function BurgerConstructor({ children }) {
                     Оформить заказ
                 </Button>
             </div>
-
-            {contentModal.isOpened &&                    
-                <Modal>
-                    {children}
-                </Modal>                    
-            }           
+        
 
         </section>);
 }
 
 BurgerConstructor.propTypes = {
-    children: PropTypes.element.isRequired
+    createOrderHandler: PropTypes.func.isRequired
 }
 
 export default BurgerConstructor;

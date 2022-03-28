@@ -2,14 +2,12 @@ import React from "react";
 import PropTypes from 'prop-types';
 
 import { Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useModals } from "../../services/modal-context";
 
 import styles from './IngredientCard.module.css';
 
-function Card({_id, imgSrc, price, name, count}) {
+function Card({handleOpenDetail, _id, imgSrc, price, name, count}) {
 
-    const { openModal } = useModals();
-    const openCard = () => openModal({ingredientID: _id});
+    const openCard = () => handleOpenDetail({ingredientID: _id});
 
     return (
         <div className={styles.card} onClick={openCard}>
