@@ -3,12 +3,18 @@ import PropTypes from 'prop-types';
 
 import styles from './OrderDetails.module.css';
 
-function OrderDetails({ orderId=0, error='', isLoading = false }) {
+function OrderDetails({ orderId = 0, isFaild = false, errorText = '', isLoading = false }) {
 
     if (isLoading) return <p className={`${styles.order__id} text text_type_main-default mt-30 mb-30 ml-4`}>Обработка заказа...</p>;
-    
-    if (error) return <pre className="mt-30 mb-30"> {JSON.stringify(error, null, 2)}</pre>;
-    
+    if (isFaild) return (
+
+        <div className={styles.order}>
+            <p className={`mt-30 mb-15 text text_type_main-large`} >Ошибка создания заказа:</p>
+            <pre className={`${styles.order__error} mt-4 mb-30 text text_type_main-default`}> {errorText}</pre>
+        </div>
+
+    );
+
     return (
         <div className={styles.order}>
             <p className={`${styles.order__id} text text_type_digits-large mt-30`} >{orderId}</p>

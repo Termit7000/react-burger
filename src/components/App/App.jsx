@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 
 import AppHeader from '../AppHeader/AppHeader';
 import BurgerIngredients from '../BurgerIngredients/BurgerIngredients';
@@ -9,49 +10,50 @@ import IngredientDetails from '../IngredientDetails/IngredientDetails';
 import IngredientCard from "../IngredientCard/IngredientCard";
 import Modal from '../Modal/Modal';
 
-import { createOrder, getIngredients } from '../../utils/api';
-import { useFetch } from "../../hooks/fetch-data";
-
 import styles from './App.module.css';
+import { getIngredientsItems, getOrderNumber } from '../../services/actions';
 
 function App() {
 
-  const [modalIngredient, setModalIngredient] = useState({ isOpened: false });  
+  const {
+    requestInProgress,
+    requestFailed,
+    errorText,
+    ingredients } = useSelector(store => store.ingredients);
 
+  const {
+    orderRequestInProgress,
+    orderRequestFailed,
+    orderErrorText,
+    orderId } = useSelector(store => store.order);
+
+  const dispatch = useDispatch();
+
+  //Получение списка ингредиентов 
+  useEffect(() => dispatch(getIngredientsItems()), [dispatch]);
+
+  const [modalIngredient, setModalIngredient] = useState({ isOpened: false });
   const closeModalIngredient = () => setModalIngredient({ isOpened: false });
   const openModalIngredient = (content) => setModalIngredient({ ...content, isOpened: true });
 
-  const [modalOrder, setModalOrder] = useState({ isOpened: false });  
+  const [orderIsOpened, setModalOrder] = useState(false);
 
   const openOrder = ({ ingredients }) => {
 
-    setModalOrder({ isLoading: true, isOpened: true });
-
-    createOrder({ ingredients })
-      .then((dataFetch) => {
-
-        if (!dataFetch.success) {
-          return Promise.reject({ error: JSON.stringify(dataFetch) });          
-        }
-        
-        setModalOrder({ orderId: dataFetch?.order.number, isOpened: true });
-       
-      })
-      .catch(error=>setModalOrder({ error, isOpened:true, isLoading:false }));
+    setModalOrder(true);
+    dispatch(getOrderNumber({ingredients}));    
 
   };
-  const closeModalOrder = () => setModalOrder({ isOpened: false });
+  const closeModalOrder = () => setModalOrder(false);
 
-  const { data, error, isLoading } = useFetch(getIngredients);  
-  
-  if (isLoading) return <p>Loading...</p>;
-  if (error) return <pre> {JSON.stringify(error)} </pre>;
+  if (requestInProgress) return <p>Loading...</p>;
+  if (requestFailed) return <pre> {JSON.stringify(errorText)} </pre>;
 
   return (
     <>
       <AppHeader />
 
-      <IngredientsProvider ingredients={data.map(el => ({ ...el, count: 0 }))}>
+      <IngredientsProvider ingredients={ingredients.map(el => ({ ...el, count: 0 }))}>
         <div className={styles.content}>
           <div className='mr-10'>
 
@@ -67,18 +69,16 @@ function App() {
           <div className='ml-7'>
 
             <BurgerConstructor createOrderHandler={openOrder} />
-            {modalOrder.isOpened &&
+
+            {orderIsOpened &&
 
               <Modal handleClose={closeModalOrder}>
-                <OrderDetails {...modalOrder} />
+                <OrderDetails orderId={orderId}  isLoading = {orderRequestInProgress} isFaild = {orderRequestFailed} errorText = {orderErrorText} />
               </Modal>
-
             }
-
           </div>
         </div>
       </IngredientsProvider>
-
     </>
   );
 }

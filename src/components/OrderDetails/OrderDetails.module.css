@@ -22,3 +22,7 @@
 .order__caption {
     color: var(--color-secondary-text);
 }
+
+.order__error {    
+    white-space: pre-wrap;
+}

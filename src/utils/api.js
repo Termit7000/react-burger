@@ -9,7 +9,7 @@ export function createOrder({ ingredients }) {
 
     return fetchRequest(URL_SEVICE_ORDER, {
         method: 'POST',
-        body: JSON.stringify({ ingredients })
+        body: JSON.stringify(ingredients)
     });
 }
 
@@ -24,10 +24,8 @@ function fetchRequest(urlService, { method, body = undefined }) {
     })
         .then(response => {
 
-            if (response.ok) {
-                return response.json();
-            }
+            if (response.ok) return response.json();
 
-            return Promise.reject(`Не удалось выполнить запрос к серверу ${response.statusText}`);
+            return response.text().then(text => Promise.reject(text));
         });
 }
