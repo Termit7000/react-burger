@@ -23,11 +23,17 @@ export const getIngredientsItems = () => dispatch => {
         .catch(error => dispatch({ type: GET_INGREDIENTS_FAILED, errorText: error }));
 }
 
+
+/**
+ * Создание заказа
+ */
 export const getOrderNumber = () => ( dispatch, getState ) => {
 
     dispatch({ type: GET_ORDER_REQUEST });
 
-    const ingredients = getState().order.ingredients.map(el=>el._id);
+    const store = getState().order;
+
+    const ingredients = [...store.ingredients.map(el=>el._id), store.bun, store.bun];
 
     createOrder({ ingredients })
         .then((dataFetch) => {
@@ -37,3 +43,4 @@ export const getOrderNumber = () => ( dispatch, getState ) => {
             dispatch({ type: GET_ORDER_FAILED, errorText: error });
         });
 }
+

@@ -10,11 +10,8 @@ const BUN_NAME = 'bun';
 
 function BurgerConstructor({ createOrderHandler }) {
 
-    const { ingredients } = useSelector(state=>state.order);
-
-    const bun = ingredients.find(el => el.type === BUN_NAME);
-    const outherComponents = ingredients.filter(el => el.type !== BUN_NAME);
-    const sum = outherComponents.reduce((acc, el) => acc + el.price, (bun?.price || 0)*2);
+    const { ingredients, bun } = useSelector(state=>state.order);
+    const sum = ingredients.reduce((acc, el) => acc + el.price, (bun?.price || 0)*2);
 
     const blokedItem = ({ type, id, name, price, image }) =>
 
@@ -34,7 +31,7 @@ function BurgerConstructor({ createOrderHandler }) {
             {bun && blokedItem({ ...bun, type: 'top' })}
             <ul className={`${styles.components__items} mt-4 mb-4 mr-1 custom-scroll`}>
                 {
-                    outherComponents
+                    [...ingredients]
                         .map(el =>
                             <li className={`${styles.burger_item} pr-2 mb-4`} key={el._id}>
                                 <div className={styles.drag_icon}>

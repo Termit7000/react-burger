@@ -12,7 +12,9 @@ const initialState = {
     orderRequestFailed: false,
     orderErrorText: '',
     orderId: 0,
-    ingredients: [...testdata],
+    
+    ingredients: [...testdata].filter(el=>el.type!=='bun'),
+    bun: [...testdata].filter(el=>el.type === 'bun')[0],
 
     isOrderOpened: false
 };
