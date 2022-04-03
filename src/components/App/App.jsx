@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import AppHeader from '../AppHeader/AppHeader';
 import BurgerIngredients from '../BurgerIngredients/BurgerIngredients';
-import IngredientsProvider from '../../contexts/ingredient-context';
+
 import BurgerConstructor from '../BurgerConstructor/BurgerConstructor';
 import OrderDetails from '../OrderDetails/OrderDetails';
 import IngredientDetails from '../IngredientDetails/IngredientDetails';
@@ -18,8 +18,7 @@ function App() {
   const {
     requestInProgress,
     requestFailed,
-    errorText,
-    ingredients } = useSelector(store => store.ingredients);
+    errorText} = useSelector(store => store.ingredients);
 
   const {
     orderRequestInProgress,
@@ -53,11 +52,10 @@ function App() {
     <>
       <AppHeader />
 
-      <IngredientsProvider ingredients={ingredients.map(el => ({ ...el, count: 0 }))}>
         <div className={styles.content}>
           <div className='mr-10'>
 
-            <BurgerIngredients card={(props) => <IngredientCard handleOpenDetail={openModalIngredient} {...props} />} />
+            <BurgerIngredients card={(props) => <IngredientCard clickHandler={openModalIngredient} {...props} />} />
             {modalIngredient?.isOpened &&
 
               <Modal handleClose={closeModalIngredient}>
@@ -77,8 +75,7 @@ function App() {
               </Modal>
             }
           </div>
-        </div>
-      </IngredientsProvider>
+        </div>      
     </>
   );
 }

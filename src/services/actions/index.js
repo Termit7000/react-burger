@@ -19,7 +19,7 @@ export const getIngredientsItems = () => dispatch => {
         .catch(error => dispatch({ type: GET_INGREDIENTS_FAILED, errorText: error }));
 }
 
-export const getOrderNumber = (ingredients) => dispatch => {
+export const getOrderNumber = ({ingredients}) => dispatch => {
 
     dispatch({ type: GET_ORDER_REQUEST });
 

@@ -9,7 +9,7 @@ export function createOrder({ ingredients }) {
 
     return fetchRequest(URL_SEVICE_ORDER, {
         method: 'POST',
-        body: JSON.stringify(ingredients)
+        body: JSON.stringify({ingredients})
     });
 }
 

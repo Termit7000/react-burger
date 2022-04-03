@@ -8,7 +8,7 @@ const initialState = {
     requestInProgress: false,
     requestFailed: false,
     errorText: '',
-    ingredients: []
+    items: []
 };
 
 export const ingredientsReducer = (state = initialState, action) => {
@@ -22,7 +22,11 @@ export const ingredientsReducer = (state = initialState, action) => {
             return { ...state, requestInProgress: false, requestFailed: true, errorText: action.errorText };
 
         case GET_INGREDIENTS_SUCCESS: 
-            return { ...state, requestInProgress: false, requestFailed: false, ingredients: action.ingredients };
+            return { 
+                ...state, 
+                requestInProgress: false, 
+                requestFailed: false, 
+                items: action.ingredients.map(el => ({ ...el, count: 0 })) };
         
         default:
             return state

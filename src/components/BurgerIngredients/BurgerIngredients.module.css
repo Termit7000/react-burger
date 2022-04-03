@@ -22,17 +22,3 @@
 .content::-webkit-scrollbar {
 	width: 8px;
 }
-
-.ingredients {
-    max-width: 600px;    
-}
-
-.ingrediens__wrapper {
-    list-style: none;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);        
-}
-
-.card_item:nth-child(even) {
-    margin-right: 0;
-}

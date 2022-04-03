@@ -1,18 +1,18 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import PropTypes from 'prop-types';
 
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 
+import ListItems from "./ListItems";
+
 import styles from './BurgerIngredients.module.css';
-import { useIngredients } from "../../contexts/ingredient-context";
+
 
 const BUN_NAME = 'bun';
 const SAUSE_NAME = 'sauce';
 const MAIN_NAME = 'main';
 
 function BurgerIngredients({card}) {    
-
-    const { ingredients } = useIngredients();    
 
     const [currentTab, setTab] = useState(BUN_NAME);
 
@@ -62,27 +62,6 @@ function BurgerIngredients({card}) {
         setTab(minElement.name);
     }
 
-    function listItems({ name, type, ref }) {
-
-        const ingredientsByType = ingredients.filter(el => el.type === type);
-
-        return (
-            <article className={styles.ingredients}>
-                <p ref={ref} className="mb-6 text text_type_main-medium">{name}</p>
-
-                {ingredients &&
-                    <ul className={`${styles.ingrediens__wrapper} pl-4 pr-4 mb-10`}>
-                        {ingredientsByType.map(el =>
-                            <li key={el._id} className={`${styles.card_item} mr-6`}>
-  
-                                 {card( { imgSrc: el.image, ...el})}
-                                
-                            </li>
-                        )}
-                    </ul>}
-            </article>)
-    }
-
     return (
 
         <section className='page__section'>
@@ -107,9 +86,11 @@ function BurgerIngredients({card}) {
             </ul>
 
             <ul ref={containerRef} onScroll={onScroll} className={`${styles.content} mt-10 custom-scroll`}>
-                    {listItems({ref:bunRef, name: 'Булки', type:BUN_NAME})}
-                    {listItems({ref:sauseRef, name: 'Соусы', type:SAUSE_NAME})}
-                    {listItems({ref:mainRef, name: 'Начинки', type:MAIN_NAME})}
+
+                    <ListItems name='Булки' type = {BUN_NAME} ref = {bunRef} card = {card}/>
+                    <ListItems name='Соусы' type = {SAUSE_NAME} ref = {sauseRef} card = {card}/>
+                    <ListItems name='Начинки' type = {MAIN_NAME} ref = {mainRef} card = {card}/>
+                   
             </ul>
         </section>
     );
@@ -120,3 +101,12 @@ BurgerIngredients.propTypes = {
 }
 
 export default BurgerIngredients;
+
+
+/*
+
+ {listItems({ref:bunRef, name: 'Булки', type:BUN_NAME})}
+                    {listItems({ref:sauseRef, name: 'Соусы', type:SAUSE_NAME})}
+                    {listItems({ref:mainRef, name: 'Начинки', type:MAIN_NAME})}
+
+*/

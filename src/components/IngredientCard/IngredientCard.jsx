@@ -5,12 +5,12 @@ import { Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-c
 
 import styles from './IngredientCard.module.css';
 
-function Card({handleOpenDetail, _id, imgSrc, price, name, count}) {
+function Card({clickHandler, _id, imgSrc, price, name, count}) {
 
-    const openCard = () => handleOpenDetail({ingredientID: _id});
+    const handleClick = () => clickHandler({ingredientID: _id});
 
     return (
-        <div className={styles.card} onClick={openCard}>
+        <div className={styles.card} onClick={handleClick}>
             <img className={`${styles.img} mb-1`} src={imgSrc} alt={name} />
             <div className={styles.price} >
                 <p className="text text_type_digits-default mr-2"> {price}</p>

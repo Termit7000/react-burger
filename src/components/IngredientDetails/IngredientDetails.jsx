@@ -1,15 +1,14 @@
 import React, { useMemo } from "react";
 import PropTypes from 'prop-types';
 
-import { useIngredients } from "../../contexts/ingredient-context";
-
 import styles from './IngredientDetails.module.css';
+import { useSelector } from "react-redux";
 
 function IngredientDetails({ingredientID}) {
 
-    const { ingredients } = useIngredients();
+    const { items } = useSelector(store=>store.ingredients);
 
-    const currentIngredient = useMemo(() => ingredients.find(el => el._id === ingredientID), [ingredientID, ingredients]);
+    const currentIngredient = useMemo(() => items.find(el => el._id === ingredientID), [ingredientID, items]);
 
     if (!currentIngredient) {
         return (
