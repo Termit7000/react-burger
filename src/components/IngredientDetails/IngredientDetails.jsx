@@ -1,18 +1,17 @@
 import React, { useMemo } from "react";
-import PropTypes from 'prop-types';
 
 import styles from './IngredientDetails.module.css';
 import { useSelector } from "react-redux";
 
-function IngredientDetails({ingredientID}) {
+function IngredientDetails() {
 
-    const { items } = useSelector(store=>store.ingredients);
+    const { items, ingredientId } = useSelector(store=>store.ingredients);
 
-    const currentIngredient = useMemo(() => items.find(el => el._id === ingredientID), [ingredientID, items]);
+    const currentIngredient = useMemo(() => items.find(el => el._id === ingredientId), [ingredientId, items]);
 
     if (!currentIngredient) {
         return (
-            <p className="mt-30 mb-30 text text_type_main-small">Не удалось получить информацию по ингредиенту с id: {ingredientID}</p>
+            <p className="mt-30 mb-30 text text_type_main-small">Не удалось получить информацию по ингредиенту с id: {ingredientId}</p>
         );
     }
 
@@ -45,8 +44,5 @@ function IngredientDetails({ingredientID}) {
     );
 }
 
-IngredientDetails.propTypes = {
-    ingredientID: PropTypes.string.isRequired
-}
 
 export default IngredientDetails;

@@ -4,9 +4,13 @@ export const GET_INGREDIENTS_REQUEST = 'GET_INGREDIENTS_REQUEST';
 export const GET_INGREDIENTS_SUCCESS = 'GET_INGREDIENTS_SUCCESS';
 export const GET_INGREDIENTS_FAILED = 'GET_INGREDIENTS_FAILED';
 
+export const OPEN_INGREDIENT_DETAILS = 'OPEN_INGREDIENT_DETAILS';
+export const CLOSE_INGREDIENT_DETAILS = 'CLOSE_INGREDIENT_DETAILS';
+
 export const GET_ORDER_REQUEST = 'GET_ORDER_REQUEST';
 export const GET_ORDER_SUCCESS = 'GET_ORDER_SUCCESS';
 export const GET_ORDER_FAILED = 'GET_ORDER_FAILED';
+export const CLOSE_MODAL_ORDER = 'CLOSE_MODAL_ORDER';
 
 export const getIngredientsItems = () => dispatch => {
 
@@ -19,9 +23,11 @@ export const getIngredientsItems = () => dispatch => {
         .catch(error => dispatch({ type: GET_INGREDIENTS_FAILED, errorText: error }));
 }
 
-export const getOrderNumber = ({ingredients}) => dispatch => {
+export const getOrderNumber = () => ( dispatch, getState ) => {
 
     dispatch({ type: GET_ORDER_REQUEST });
+
+    const ingredients = getState().order.ingredients.map(el=>el._id);
 
     createOrder({ ingredients })
         .then((dataFetch) => {

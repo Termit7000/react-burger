@@ -7,7 +7,7 @@ import styles from './IngredientCard.module.css';
 
 function Card({clickHandler, _id, imgSrc, price, name, count}) {
 
-    const handleClick = () => clickHandler({ingredientID: _id});
+    const handleClick = () => clickHandler({ingredientId: _id});
 
     return (
         <div className={styles.card} onClick={handleClick}>
@@ -25,6 +25,7 @@ function Card({clickHandler, _id, imgSrc, price, name, count}) {
 }
 
 Card.propTypes = {
+    clickHandler: PropTypes.func,
     _id: PropTypes.string.isRequired,
     imgSrc: PropTypes.string.isRequired,
     price: PropTypes.number.isRequired,

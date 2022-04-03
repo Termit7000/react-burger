@@ -4,19 +4,16 @@ import PropTypes from 'prop-types';
 import { Button, ConstructorElement, CurrencyIcon, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import styles from './BurgerConstructor.module.css';
-
-import data from '../../utils/testOrder.json';
+import { useSelector } from 'react-redux';
 
 const BUN_NAME = 'bun';
 
 function BurgerConstructor({ createOrderHandler }) {
- 
-    const openOrderDetails = ()=>createOrderHandler({
-        ingredients: data.map(el=>el._id)
-    });
 
-    const bun = data.find(el => el.type === BUN_NAME);
-    const outherComponents = data.filter(el => el.type !== BUN_NAME);
+    const { ingredients } = useSelector(state=>state.order);
+
+    const bun = ingredients.find(el => el.type === BUN_NAME);
+    const outherComponents = ingredients.filter(el => el.type !== BUN_NAME);
     const sum = outherComponents.reduce((acc, el) => acc + el.price, (bun?.price || 0)*2);
 
     const blokedItem = ({ type, id, name, price, image }) =>
@@ -59,7 +56,7 @@ function BurgerConstructor({ createOrderHandler }) {
                     <CurrencyIcon type="primary" />
                 </div>
 
-                <Button type="primary" size="large" onClick={openOrderDetails}>
+                <Button type="primary" size="large" onClick={createOrderHandler}>
                     Оформить заказ
                 </Button>
             </div>

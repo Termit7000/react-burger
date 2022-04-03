@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import AppHeader from '../AppHeader/AppHeader';
@@ -11,39 +11,37 @@ import IngredientCard from "../IngredientCard/IngredientCard";
 import Modal from '../Modal/Modal';
 
 import styles from './App.module.css';
-import { getIngredientsItems, getOrderNumber } from '../../services/actions';
+import { CLOSE_INGREDIENT_DETAILS, getIngredientsItems, getOrderNumber, OPEN_INGREDIENT_DETAILS, CLOSE_MODAL_ORDER } from '../../services/actions';
 
 function App() {
 
   const {
     requestInProgress,
     requestFailed,
-    errorText} = useSelector(store => store.ingredients);
+    errorText,
+    isDatailsOpen} = useSelector(store => store.ingredients);
 
   const {
     orderRequestInProgress,
     orderRequestFailed,
     orderErrorText,
-    orderId } = useSelector(store => store.order);
+    orderId,    
+    isOrderOpened } = useSelector(store => store.order);
 
   const dispatch = useDispatch();
 
   //Получение списка ингредиентов 
   useEffect(() => dispatch(getIngredientsItems()), [dispatch]);
 
-  const [modalIngredient, setModalIngredient] = useState({ isOpened: false });
-  const closeModalIngredient = () => setModalIngredient({ isOpened: false });
-  const openModalIngredient = (content) => setModalIngredient({ ...content, isOpened: true });
+  //Модальное окно деталей ингредиента
+  const closeModalIngredient = () => dispatch({type: CLOSE_INGREDIENT_DETAILS});
+  const openModalIngredient = useCallback ( ({ingredientId}) => dispatch({type: OPEN_INGREDIENT_DETAILS, ingredientId}), [dispatch]);
 
-  const [orderIsOpened, setModalOrder] = useState(false);
+  const cardIngredient = useCallback ((props) => <IngredientCard clickHandler={openModalIngredient} {...props} />, [openModalIngredient]);
 
-  const openOrder = ({ ingredients }) => {
-
-    setModalOrder(true);
-    dispatch(getOrderNumber({ingredients}));    
-
-  };
-  const closeModalOrder = () => setModalOrder(false);
+  //МОДАЛЬНОЕ ОКНО ЗАКАЗА
+  const openOrder = () => dispatch(getOrderNumber());
+  const closeModalOrder = () => dispatch({type: CLOSE_MODAL_ORDER});  
 
   if (requestInProgress) return <p>Loading...</p>;
   if (requestFailed) return <pre> {JSON.stringify(errorText)} </pre>;
@@ -54,21 +52,19 @@ function App() {
 
         <div className={styles.content}>
           <div className='mr-10'>
+            <BurgerIngredients card={cardIngredient} />
 
-            <BurgerIngredients card={(props) => <IngredientCard clickHandler={openModalIngredient} {...props} />} />
-            {modalIngredient?.isOpened &&
-
+            {isDatailsOpen &&
               <Modal handleClose={closeModalIngredient}>
-                <IngredientDetails {...modalIngredient} />
-              </Modal>
-            }
+                <IngredientDetails/>
+              </Modal>}
           </div>
 
           <div className='ml-7'>
 
             <BurgerConstructor createOrderHandler={openOrder} />
 
-            {orderIsOpened &&
+            {isOrderOpened &&
 
               <Modal handleClose={closeModalOrder}>
                 <OrderDetails orderId={orderId}  isLoading = {orderRequestInProgress} isFaild = {orderRequestFailed} errorText = {orderErrorText} />
