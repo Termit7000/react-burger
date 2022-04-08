@@ -1,6 +1,6 @@
 import { combineReducers } from "redux";
 import { ingredientsReducer } from "./ingredients.js";
-import { orderReducer } from "./burgerConstructor.js";
+import { orderReducer } from "./order.js";
 
 const rootReducer = combineReducers({
     ingredients: ingredientsReducer,
@@ -8,4 +8,4 @@ const rootReducer = combineReducers({
 });
 
 
-export default rootReducer;
+export default rootReducer; 

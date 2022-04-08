@@ -5,16 +5,11 @@ import {
     CLOSE_MODAL_ORDER
 } from "../actions";
 
-import testdata from '../../utils/testOrder.json';
-
 const initialState = {
     orderRequestInProgress: false,
     orderRequestFailed: false,
     orderErrorText: '',
     orderId: 0,
-    
-    ingredients: [...testdata].filter(el=>el.type!=='bun'),
-    bun: [...testdata].filter(el=>el.type === 'bun')[0],
 
     isOrderOpened: false
 };

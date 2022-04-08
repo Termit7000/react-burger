@@ -4,6 +4,9 @@ export const GET_INGREDIENTS_REQUEST = 'GET_INGREDIENTS_REQUEST';
 export const GET_INGREDIENTS_SUCCESS = 'GET_INGREDIENTS_SUCCESS';
 export const GET_INGREDIENTS_FAILED = 'GET_INGREDIENTS_FAILED';
 
+export const ADD_INGREDIENT = 'ADD_INGREDIENT';
+export const DELETE_INGREDIENT = 'DELETE_INGREDIENT';
+
 export const OPEN_INGREDIENT_DETAILS = 'OPEN_INGREDIENT_DETAILS';
 export const CLOSE_INGREDIENT_DETAILS = 'CLOSE_INGREDIENT_DETAILS';
 
@@ -31,9 +34,9 @@ export const getOrderNumber = () => ( dispatch, getState ) => {
 
     dispatch({ type: GET_ORDER_REQUEST });
 
-    const store = getState().order;
+    const state = getState().ingredients;
 
-    const ingredients = [...store.ingredients.map(el=>el._id), store.bun, store.bun];
+    const ingredients = [...state.constructor.ingredients.map(el=>el._id), state.constructor.bun, state.constructor.bun];
 
     createOrder({ ingredients })
         .then((dataFetch) => {
