@@ -1,14 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Button, ConstructorElement, CurrencyIcon, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { Button, ConstructorElement, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import styles from './BurgerConstructor.module.css';
 import { useSelector } from 'react-redux';
 import { useDrop } from 'react-dnd';
+import BurgerItem from './BurgerItem';
 
 function BurgerConstructor({ createOrderHandler, dropHandler =f => f, deleteHandler = f=>f}) {
 
+
+    //Перетаскивание ингредиентов
     const [{ isHover }, dropRef] = useDrop({
         accept: 'ingredient',
         drop(itemId) {
@@ -17,14 +20,15 @@ function BurgerConstructor({ createOrderHandler, dropHandler =f => f, deleteHand
         collect: monitor => ({
             isHover: monitor.isOver()
         })
-    });
+    }, []);
 
     const onDropHandler = (itemId) => dropHandler(itemId);
-    
+
+    //Состав конструктора
     const items_all = useSelector(state=>state.ingredients.items);
     const { ingredients, bun } = useSelector(state => state.ingredients.constructor);
 
-    const itemsBurger = ingredients.map(el=>({...items_all.find(i=>i._id===el.id), key: el.key}));
+    const itemsBurger = ingredients.map(el=>({...items_all.find(i=>i._id===el.id), itemKey: el.itemKey}));
     const bunBurger = bun && items_all.find(el=>el._id===bun);
 
     const sum = itemsBurger.reduce((acc, el) => acc + el.price, (bunBurger?.price || 0) * 2);
@@ -49,16 +53,11 @@ function BurgerConstructor({ createOrderHandler, dropHandler =f => f, deleteHand
                 {
                     [...itemsBurger]
                         .map(el =>
-                            <li className={`${styles.burger_item} pr-2 mb-4`} key={el.key}>
-                                <div className={styles.drag_icon}>
-                                    <DragIcon type="primary" />
-                                </div>
-                                <ConstructorElement
-                                    text={el.name}
-                                    price={el.price}
-                                    thumbnail={el.image}
-                                    handleClose={()=>deleteHandler({id: el._id, key: el.key})}
-                                />
+                            <li className= {`pr-2 mb-4`} key={el.itemKey}>
+
+                                <BurgerItem {...{...el, itemKey:el.itemKey, id:el._id, deleteHandler}}  />
+
+
                             </li>)}
             </ul>
 

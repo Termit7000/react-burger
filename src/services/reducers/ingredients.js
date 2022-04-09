@@ -7,7 +7,8 @@ import {
     ADD_INGREDIENT,
     DELETE_INGREDIENT,
     OPEN_INGREDIENT_DETAILS,
-    CLOSE_INGREDIENT_DETAILS
+    CLOSE_INGREDIENT_DETAILS,
+    MOVE_INGREDIENTS_CONSTRUCTOR
 } from "../actions"
 
 const initialState = {
@@ -51,29 +52,46 @@ export const ingredientsReducer = (state = initialState, action) => {
 
         case ADD_INGREDIENT: {
 
-            const item = state.items.find(el=>el._id === action.id);
+            const item = state.items.find(el => el._id === action.id);
             if (!item) return state;
 
-            const newState = {...state};
+            const newState = { ...state };
 
-            if (item.type === 'bun') {               
+            if (item.type === 'bun') {
                 newState.constructor.bun = item._id;
-                newState.items = newState.items.map(el=>el.type==='bun' ? {...el, count:0} : el);
+                newState.items = newState.items.map(el => el.type === 'bun' ? { ...el, count: 0 } : el);
             } else {
-                newState.constructor.ingredients.push({key: item._id + (new Date()).getTime(),  id: item._id});
+                newState.constructor.ingredients.push({ itemKey: item._id + (new Date()).getTime(), id: item._id });
             }
 
             newState.items = [...newState.items.map(el => el._id === action.id ? { ...el, count: ++el.count } : el)];
 
-           return newState;
+            return newState;
         }
 
         case DELETE_INGREDIENT: {
-                        
-            const newState = {...state};
-            newState.items = [...state.items.map(el=>el._id===action.id ? {...el, count: --el.count} : el)];
-            newState.constructor.ingredients = [...newState.constructor.ingredients.filter(el=>el.key!==action.key)];            
-            
+
+            const newState = { ...state };
+            newState.items = [...state.items.map(el => el._id === action.id ? { ...el, count: --el.count } : el)];
+            newState.constructor.ingredients = [...newState.constructor.ingredients.filter(el => el.itemKey !== action.itemKey)];
+
+            return newState;
+        }
+
+        case MOVE_INGREDIENTS_CONSTRUCTOR: {
+
+            const newState = { ...state };
+            let items = newState.constructor.ingredients;
+
+
+            const dragItem = items.find(el => el.itemKey === action.dragId);
+            items = [...items].filter(el=>el.itemKey !== action.dragId);
+
+            const hoverIndex = items.findIndex(el => el.itemKey === action.hoverId);
+
+            items.splice(hoverIndex, 0, dragItem);
+            newState.constructor.ingredients = items;
+
             return newState;
         }
 

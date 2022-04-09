@@ -50,8 +50,8 @@ function App() {
   if (requestFailed) return <pre> {JSON.stringify(errorText)} </pre>;
 
 
-  const dropHandler = ({id}) => dispatch({type: ADD_INGREDIENT, id});
-  const deleteHandler = ({id, key}) => dispatch({type: DELETE_INGREDIENT, id, key});  
+  const dropHandler = ({id, itemKey}) => dispatch({type: ADD_INGREDIENT, id});
+  const deleteHandler = ({id, itemKey}) => dispatch({type: DELETE_INGREDIENT, id, itemKey});  
 
   return (
     <>
