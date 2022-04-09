@@ -1,4 +1,4 @@
-import testdata from '../../utils/testOrder.json';
+
 
 import {
     GET_INGREDIENTS_REQUEST,
@@ -17,8 +17,8 @@ const initialState = {
     items: [],
 
     constructor: {
-        ingredients: [...testdata].filter(el => el.type !== 'bun'),
-        bun: [...testdata].filter(el => el.type === 'bun')[0],
+        ingredients: [],
+        bun: null,
     },
 
     isDatailsOpen: false,
@@ -56,11 +56,11 @@ export const ingredientsReducer = (state = initialState, action) => {
 
             const newState = {...state};
 
-            if (item.type === 'bun') {
+            if (item.type === 'bun') {               
+                newState.constructor.bun = item._id;
                 newState.items = newState.items.map(el=>el.type==='bun' ? {...el, count:0} : el);
-                newState.constructor.bun = item;
             } else {
-                newState.constructor.ingredients.push(item);
+                newState.constructor.ingredients.push({key: item._id + (new Date()).getTime(),  id: item._id});
             }
 
             newState.items = [...newState.items.map(el => el._id === action.id ? { ...el, count: ++el.count } : el)];
@@ -72,8 +72,7 @@ export const ingredientsReducer = (state = initialState, action) => {
                         
             const newState = {...state};
             newState.items = [...state.items.map(el=>el._id===action.id ? {...el, count: --el.count} : el)];
-            newState.constructor.ingredients = [...newState.constructor.ingredients.filter(el=>el._id!==action.id)];
-            
+            newState.constructor.ingredients = [...newState.constructor.ingredients.filter(el=>el.key!==action.key)];            
             
             return newState;
         }

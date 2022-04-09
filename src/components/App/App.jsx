@@ -51,7 +51,7 @@ function App() {
 
 
   const dropHandler = ({id}) => dispatch({type: ADD_INGREDIENT, id});
-  const deleteHandler = id => dispatch({type: DELETE_INGREDIENT, id});  
+  const deleteHandler = ({id, key}) => dispatch({type: DELETE_INGREDIENT, id, key});  
 
   return (
     <>
