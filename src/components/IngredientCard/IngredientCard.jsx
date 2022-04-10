@@ -2,17 +2,26 @@ import React from "react";
 import PropTypes from 'prop-types';
 
 import { Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useModals } from "../../services/modal-context";
 
-import styles from './Card.module.css';
+import styles from './IngredientCard.module.css';
+import { useDrag } from "react-dnd";
 
-function Card({_id, imgSrc, price, name, count}) {
+function Card({clickHandler, _id, imgSrc, price, name, count}) {
 
-    const { openModal } = useModals();
-    const openCard = () => openModal({ingredientID: _id});
+
+    const [{opacity}, dragRef] = useDrag({
+        type: 'ingredient',
+        item: {id: _id},
+        collect: monitor=> (
+            {opacity: monitor.isDragging() ? .5 : 1}
+        )
+    });
+
+    const handleClick = () => clickHandler({ingredientId: _id});
 
     return (
-        <div className={styles.card} onClick={openCard}>
+
+        <div style={{opacity}} draggable ref={dragRef} className={styles.card} onClick={handleClick}>
             <img className={`${styles.img} mb-1`} src={imgSrc} alt={name} />
             <div className={styles.price} >
                 <p className="text text_type_digits-default mr-2"> {price}</p>
@@ -27,6 +36,7 @@ function Card({_id, imgSrc, price, name, count}) {
 }
 
 Card.propTypes = {
+    clickHandler: PropTypes.func,
     _id: PropTypes.string.isRequired,
     imgSrc: PropTypes.string.isRequired,
     price: PropTypes.number.isRequired,

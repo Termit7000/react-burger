@@ -1,21 +1,17 @@
 import React, { useMemo } from "react";
 
-import { useIngredients } from "../../services/ingredient-context";
-import { useModals } from "../../services/modal-context";
-
 import styles from './IngredientDetails.module.css';
+import { useSelector } from "react-redux";
 
 function IngredientDetails() {
 
-    const { data } = useIngredients();
-    const { contentModal } = useModals();
-    const { ingredientID } = contentModal;
+    const { items, ingredientId } = useSelector(store=>store.ingredients);
 
-    const currentIngredient = useMemo(() => data.find(el => el._id === ingredientID), [ingredientID, data]);
+    const currentIngredient = useMemo(() => items.find(el => el._id === ingredientId), [ingredientId, items]);
 
     if (!currentIngredient) {
         return (
-            <p className="mt-30 mb-30 text text_type_main-small">Не удалось получить информацию по ингредиенту с id: {ingredientID}</p>
+            <p className="mt-30 mb-30 text text_type_main-small">Не удалось получить информацию по ингредиенту с id: {ingredientId}</p>
         );
     }
 

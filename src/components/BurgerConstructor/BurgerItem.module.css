@@ -1,0 +1,22 @@
+.burger_item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+
+.burger_item:last-child {
+    margin: 0;
+}
+
+.drag_icon {
+    transform: scale(1.1);
+}
+
+
+.currency_icon {
+    transform: scale(1.4);
+    display: flex;
+}
+
+

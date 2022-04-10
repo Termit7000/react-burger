@@ -12,7 +12,7 @@ function LinkButton({ children }) {
 }
 
 LinkButton.propTypes = {
-    children: PropTypes.arrayOf(PropTypes.element.isRequired)
+    children: PropTypes.arrayOf(PropTypes.element.isRequired).isRequired
 };
 
 export default LinkButton;

@@ -3,18 +3,16 @@ import PropTypes from 'prop-types';
 
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import ListIngredients from "../ListIngredients/ListIngredients";
-import { useModals } from "../../services/modal-context";
+import ListItems from "./ListItems";
 
 import styles from './BurgerIngredients.module.css';
+
 
 const BUN_NAME = 'bun';
 const SAUSE_NAME = 'sauce';
 const MAIN_NAME = 'main';
 
-function BurgerIngredients({ children }) {
-
-    const { contentModal } = useModals();       
+function BurgerIngredients({card}) {    
 
     const [currentTab, setTab] = useState(BUN_NAME);
 
@@ -66,7 +64,6 @@ function BurgerIngredients({ children }) {
 
     return (
 
-
         <section className='page__section'>
             <p className="mt-10 mb-5 text text_type_main-large">Соберите бургер</p>
 
@@ -89,19 +86,18 @@ function BurgerIngredients({ children }) {
             </ul>
 
             <ul ref={containerRef} onScroll={onScroll} className={`${styles.content} mt-10 custom-scroll`}>
-                <ListIngredients ref={bunRef} name={'Булки'} type={BUN_NAME} />
-                <ListIngredients ref={sauseRef} name={'Соусы'} type={SAUSE_NAME} />
-                <ListIngredients ref={mainRef} name={'Начинки'} type={MAIN_NAME} />
+
+                    <ListItems name='Булки' type = {BUN_NAME} ref = {bunRef} card = {card}/>
+                    <ListItems name='Соусы' type = {SAUSE_NAME} ref = {sauseRef} card = {card}/>
+                    <ListItems name='Начинки' type = {MAIN_NAME} ref = {mainRef} card = {card}/>
+                   
             </ul>
-
-            {contentModal.isOpened  && children}
-
         </section>
     );
 }
 
 BurgerIngredients.propTypes = {
-    children: PropTypes.element.isRequired
+    card: PropTypes.func.isRequired    
 }
 
 export default BurgerIngredients;

@@ -6,13 +6,11 @@ import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import { MODAL_ROOT_NAME } from "../../utils/constants";
 import ModalOverlay from "../ModalOverlay/ModalOverlay";
-import { useModals } from "../../services/modal-context";
 
 import styles from './Modal.module.css';
 
-function Modal({ children }) {
-
-    const { closeModal } = useModals();
+function Modal({ handleClose,  children }) {
+  
     const refOverlay = useRef();
 
     const modalElement = useMemo(()=>document.getElementById(MODAL_ROOT_NAME), []);
@@ -30,12 +28,12 @@ function Modal({ children }) {
         document.addEventListener('keydown', closeOnEsc);
         return () => document.removeEventListener('keydown', closeOnEsc);
 
-    }, [closeModal]);
+    }, [handleClose]);
 
     return (
         createPortal(
 
-            <ModalOverlay ref={refOverlay} handlerClose={closeModal}>
+            <ModalOverlay ref={refOverlay} handlerClose={handleClose}>
 
                 <div className={styles.modal}>
                     <div className={styles.icon_close} onClick={closeSmooth}>
@@ -51,7 +49,8 @@ function Modal({ children }) {
 }
 
 Modal.propTypes = {
-    children: PropTypes.element.isRequired
+    children: PropTypes.element.isRequired,
+    handleClose: PropTypes.func.isRequired
 }
 
 export default Modal;
