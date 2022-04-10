@@ -14,7 +14,15 @@ import IngredientCard from "../IngredientCard/IngredientCard";
 import Modal from '../Modal/Modal';
 
 import styles from './App.module.css';
-import { CLOSE_INGREDIENT_DETAILS, getIngredientsItems, getOrderNumber, OPEN_INGREDIENT_DETAILS, CLOSE_MODAL_ORDER, ADD_INGREDIENT, DELETE_INGREDIENT} from '../../services/actions';
+import { getIngredientsItems, getOrderNumber, 
+  CLOSE_INGREDIENT_DETAILS, 
+  OPEN_INGREDIENT_DETAILS, 
+  CLOSE_MODAL_ORDER, 
+  
+  INCREASE_INGREDIENT, 
+  ADD_TO_CONSTRUCTOR,
+  DECREASE_INGREDIENT,
+  DELETE_FROM_CONSTRUCTOR   } from '../../services/actions';
 
 function App() {
 
@@ -42,16 +50,30 @@ function App() {
 
   const cardIngredient = useCallback((props) => <IngredientCard clickHandler={openModalIngredient} {...props} />, [openModalIngredient]);
 
+  if (requestInProgress) return <p>Loading...</p>;
+  if (requestFailed) return <pre> {JSON.stringify(errorText)} </pre>;
+
   //МОДАЛЬНОЕ ОКНО ЗАКАЗА
   const openOrder = () => dispatch(getOrderNumber());
   const closeModalOrder = () => dispatch({ type: CLOSE_MODAL_ORDER });
 
-  if (requestInProgress) return <p>Loading...</p>;
-  if (requestFailed) return <pre> {JSON.stringify(errorText)} </pre>;
+  /**
+   * 
+   * @param {Object} id - id ингредиента, itemKey - уникальный ключ элемента в конструкторе
+   * @returns 
+   */
+  const dropHandler = ({ id, itemKey }) => {
 
+    dispatch({ type: INCREASE_INGREDIENT, id });
+    dispatch({ type: ADD_TO_CONSTRUCTOR, ...{ id, itemKey } });
+  };
 
-  const dropHandler = ({id, itemKey}) => dispatch({type: ADD_INGREDIENT, id});
-  const deleteHandler = ({id, itemKey}) => dispatch({type: DELETE_INGREDIENT, id, itemKey});  
+  const deleteHandler = ({ id, itemKey }) => {
+
+    dispatch({ type: DECREASE_INGREDIENT, id });
+    dispatch({ type: DELETE_FROM_CONSTRUCTOR, ...{ id, itemKey } });
+  }
+
 
   return (
     <>
@@ -71,7 +93,7 @@ function App() {
 
           <div className='ml-7'>
 
-            <BurgerConstructor createOrderHandler={openOrder} dropHandler = {dropHandler}  deleteHandler = {deleteHandler}/>
+            <BurgerConstructor createOrderHandler={openOrder} dropHandler={dropHandler} deleteHandler={deleteHandler} />
 
             {isOrderOpened &&
 

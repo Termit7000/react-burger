@@ -1,11 +1,13 @@
-
-
 import {
     GET_INGREDIENTS_REQUEST,
     GET_INGREDIENTS_SUCCESS,
     GET_INGREDIENTS_FAILED,
-    ADD_INGREDIENT,
-    DELETE_INGREDIENT,
+
+    INCREASE_INGREDIENT,
+    DECREASE_INGREDIENT,
+    ADD_TO_CONSTRUCTOR,
+    DELETE_FROM_CONSTRUCTOR,
+
     OPEN_INGREDIENT_DETAILS,
     CLOSE_INGREDIENT_DETAILS,
     MOVE_INGREDIENTS_CONSTRUCTOR
@@ -50,49 +52,76 @@ export const ingredientsReducer = (state = initialState, action) => {
         case CLOSE_INGREDIENT_DETAILS:
             return { ...state, isDatailsOpen: false, ingredientId: '' };
 
-        case ADD_INGREDIENT: {
+
+        //Увеличить счетчик ингредиента
+        case INCREASE_INGREDIENT: {
+
+            const items = [...state.items].map(el=>{
+
+                //Сбросить счетчики у дргих булочек
+                if (el.type==='bun' && el._id!==action.id) {
+                    return {...el, count:0};
+                }
+
+                return el._id===action.id ? {...el, count: ++el.count} : el;
+            });
+
+            return {...state, items};
+        }
+
+        //уменьшить счетчик ингридиента, булочка не можем быть уменьшена
+        case DECREASE_INGREDIENT: {
+
+            return {...state, items: state.items.map(el=>{
+                return el._id===action.id ? {...el, count: --el.count} : el;
+            })}
+        }
+
+        case ADD_TO_CONSTRUCTOR: {
 
             const item = state.items.find(el => el._id === action.id);
             if (!item) return state;
 
-            const newState = { ...state };
+            const {constructor} = state;
 
             if (item.type === 'bun') {
-                newState.constructor.bun = item._id;
-                newState.items = newState.items.map(el => el.type === 'bun' ? { ...el, count: 0 } : el);
-            } else {
-                newState.constructor.ingredients.push({ itemKey: item._id + (new Date()).getTime(), id: item._id });
+                constructor.bun = item._id;
             }
 
-            newState.items = [...newState.items.map(el => el._id === action.id ? { ...el, count: ++el.count } : el)];
+            else {
+                constructor.ingredients.push({ itemKey: item._id + Math.random(), id: item._id });
+            }
 
-            return newState;
+            return {...state, constructor};
+
         }
 
-        case DELETE_INGREDIENT: {
+        //удалить ингредиент из конструктора, булочка не может быть удалена
+        case DELETE_FROM_CONSTRUCTOR: {
+            
+            const {constructor} = state;
+            constructor.ingredients = constructor.ingredients.filter(el => el.itemKey !== action.itemKey);
 
-            const newState = { ...state };
-            newState.items = [...state.items.map(el => el._id === action.id ? { ...el, count: --el.count } : el)];
-            newState.constructor.ingredients = [...newState.constructor.ingredients.filter(el => el.itemKey !== action.itemKey)];
-
-            return newState;
+            return {...state, constructor};
         }
 
         case MOVE_INGREDIENTS_CONSTRUCTOR: {
 
-            const newState = { ...state };
-            let items = newState.constructor.ingredients;
+            const items = state.constructor.ingredients;
 
+            const dragIndex = items.findIndex(el => el.itemKey === action.dragId);
+            const dragItem = items[dragIndex];
 
-            const dragItem = items.find(el => el.itemKey === action.dragId);
-            items = [...items].filter(el=>el.itemKey !== action.dragId);
+            items.splice(dragIndex,1);
 
             const hoverIndex = items.findIndex(el => el.itemKey === action.hoverId);
 
-            items.splice(hoverIndex, 0, dragItem);
-            newState.constructor.ingredients = items;
+            const isMoveUp = dragIndex>hoverIndex;
 
-            return newState;
+            items.splice(hoverIndex+(isMoveUp ? 0 : 1), 0, dragItem);
+
+            const constructor = {...state.constructor, ingredients: items};
+            return {...state, constructor};          
         }
 
         default:

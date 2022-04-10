@@ -28,14 +28,14 @@ function BurgerItem({ itemKey, id, name, price, image, deleteHandler = f => f })
     const [, drop] = useDrop({
         accept: 'constructor',
         hover(dragItem) {
+            
             if (!ref.current) {
                 return;
             }
-
+            
             if (dragItem.itemKey===itemKey) {
                 return;
             }
-
             dispatch({type: MOVE_INGREDIENTS_CONSTRUCTOR, dragId: dragItem.itemKey, hoverId: itemKey});            
         }
     },[]);
