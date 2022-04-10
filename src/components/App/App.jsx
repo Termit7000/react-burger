@@ -14,15 +14,16 @@ import IngredientCard from "../IngredientCard/IngredientCard";
 import Modal from '../Modal/Modal';
 
 import styles from './App.module.css';
+
 import { getIngredientsItems, getOrderNumber, 
-  CLOSE_INGREDIENT_DETAILS, 
-  OPEN_INGREDIENT_DETAILS, 
-  CLOSE_MODAL_ORDER, 
-  
-  INCREASE_INGREDIENT, 
-  ADD_TO_CONSTRUCTOR,
-  DECREASE_INGREDIENT,
-  DELETE_FROM_CONSTRUCTOR   } from '../../services/actions';
+
+  closeIngredientDetails,
+  openIngredientDetails,
+  closeModalOrder,
+  increaseIngredient,
+  addToConstructor,
+  decreaseIngredient,
+  deleteFromConstructor} from '../../services/actions';
 
 function App() {
 
@@ -45,8 +46,8 @@ function App() {
   useEffect(() => dispatch(getIngredientsItems()), [dispatch]);
 
   //Модальное окно деталей ингредиента
-  const closeModalIngredient = () => dispatch({ type: CLOSE_INGREDIENT_DETAILS });
-  const openModalIngredient = useCallback(({ ingredientId }) => dispatch({ type: OPEN_INGREDIENT_DETAILS, ingredientId }), [dispatch]);
+  const closeModalIngredient = () => dispatch(closeIngredientDetails());
+  const openModalIngredient = useCallback(({ ingredientId }) => dispatch(openIngredientDetails(ingredientId)), [dispatch]);
 
   const cardIngredient = useCallback((props) => <IngredientCard clickHandler={openModalIngredient} {...props} />, [openModalIngredient]);
 
@@ -55,7 +56,7 @@ function App() {
 
   //МОДАЛЬНОЕ ОКНО ЗАКАЗА
   const openOrder = () => dispatch(getOrderNumber());
-  const closeModalOrder = () => dispatch({ type: CLOSE_MODAL_ORDER });
+  const closeOrder = () => dispatch(closeModalOrder());
 
   /**
    * 
@@ -64,14 +65,14 @@ function App() {
    */
   const dropHandler = ({ id, itemKey }) => {
 
-    dispatch({ type: INCREASE_INGREDIENT, id });
-    dispatch({ type: ADD_TO_CONSTRUCTOR, ...{ id, itemKey } });
+    dispatch(increaseIngredient({id}));
+    dispatch(addToConstructor({id,itemKey}));
   };
 
   const deleteHandler = ({ id, itemKey }) => {
 
-    dispatch({ type: DECREASE_INGREDIENT, id });
-    dispatch({ type: DELETE_FROM_CONSTRUCTOR, ...{ id, itemKey } });
+    dispatch(decreaseIngredient({id}));
+    dispatch(deleteFromConstructor({id,itemKey}));
   }
 
 
@@ -97,7 +98,7 @@ function App() {
 
             {isOrderOpened &&
 
-              <Modal handleClose={closeModalOrder}>
+              <Modal handleClose={closeOrder}>
                 <OrderDetails orderId={orderId} isLoading={orderRequestInProgress} isFaild={orderRequestFailed} errorText={orderErrorText} />
               </Modal>
             }

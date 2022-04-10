@@ -7,7 +7,7 @@ import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burg
 
 import styles from './BurgerItem.module.css';
 
-import {MOVE_INGREDIENTS_CONSTRUCTOR} from '../../services/actions/index.js';
+import {moveConstructorElement} from '../../services/actions/index.js';
 
 
 function BurgerItem({ itemKey, id, name, price, image, deleteHandler = f => f }) {
@@ -36,7 +36,7 @@ function BurgerItem({ itemKey, id, name, price, image, deleteHandler = f => f })
             if (dragItem.itemKey===itemKey) {
                 return;
             }
-            dispatch({type: MOVE_INGREDIENTS_CONSTRUCTOR, dragId: dragItem.itemKey, hoverId: itemKey});            
+            dispatch(moveConstructorElement({fromId: dragItem.itemKey, toId: itemKey}));   
         }
     },[]);
 
@@ -59,8 +59,8 @@ function BurgerItem({ itemKey, id, name, price, image, deleteHandler = f => f })
 
 
 BurgerItem.propTypes = {
-
     itemKey: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
     price: PropTypes.number.isRequired,
     image: PropTypes.string.isRequired,

@@ -101,12 +101,3 @@ BurgerIngredients.propTypes = {
 }
 
 export default BurgerIngredients;
-
-
-/*
-
- {listItems({ref:bunRef, name: 'Булки', type:BUN_NAME})}
-                    {listItems({ref:sauseRef, name: 'Соусы', type:SAUSE_NAME})}
-                    {listItems({ref:mainRef, name: 'Начинки', type:MAIN_NAME})}
-
-*/

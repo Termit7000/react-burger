@@ -10,7 +10,6 @@ import BurgerItem from './BurgerItem';
 
 function BurgerConstructor({ createOrderHandler, dropHandler =f => f, deleteHandler = f=>f}) {
 
-
     //Перетаскивание ингредиентов
     const [{ isHover }, dropRef] = useDrop({
         accept: 'ingredient',
@@ -69,7 +68,7 @@ function BurgerConstructor({ createOrderHandler, dropHandler =f => f, deleteHand
                     <CurrencyIcon type="primary" />
                 </div>
 
-                <Button type="primary" size="large" onClick={createOrderHandler}>
+                <Button disabled={!sum} type="primary" size="large" onClick={createOrderHandler}>
                     Оформить заказ
                 </Button>
             </div>

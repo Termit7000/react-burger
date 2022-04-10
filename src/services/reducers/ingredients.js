@@ -5,8 +5,10 @@ import {
 
     INCREASE_INGREDIENT,
     DECREASE_INGREDIENT,
+    CLEAR_ALL_INGREDIENTS,
     ADD_TO_CONSTRUCTOR,
     DELETE_FROM_CONSTRUCTOR,
+    DELETE_ALL_FROM_CONSTRUCTOR,
 
     OPEN_INGREDIENT_DETAILS,
     CLOSE_INGREDIENT_DETAILS,
@@ -56,10 +58,12 @@ export const ingredientsReducer = (state = initialState, action) => {
         //Увеличить счетчик ингредиента
         case INCREASE_INGREDIENT: {
 
-            const items = [...state.items].map(el=>{
+            const isBun = state.items.find(el=>el._id===action.id).type === 'bun';
 
+            const items = [...state.items].map(el=>{
+                
                 //Сбросить счетчики у дргих булочек
-                if (el.type==='bun' && el._id!==action.id) {
+                if (isBun && el._id!==action.id) {                    
                     return {...el, count:0};
                 }
 
@@ -109,12 +113,12 @@ export const ingredientsReducer = (state = initialState, action) => {
 
             const items = state.constructor.ingredients;
 
-            const dragIndex = items.findIndex(el => el.itemKey === action.dragId);
+            const dragIndex = items.findIndex(el => el.itemKey === action.fromId);
             const dragItem = items[dragIndex];
 
             items.splice(dragIndex,1);
 
-            const hoverIndex = items.findIndex(el => el.itemKey === action.hoverId);
+            const hoverIndex = items.findIndex(el => el.itemKey === action.toId);
 
             const isMoveUp = dragIndex>hoverIndex;
 
@@ -123,6 +127,12 @@ export const ingredientsReducer = (state = initialState, action) => {
             const constructor = {...state.constructor, ingredients: items};
             return {...state, constructor};          
         }
+
+        case CLEAR_ALL_INGREDIENTS: 
+            return {...state, items: state.items.map(el=>({...el, count:0}))};
+       
+        case DELETE_ALL_FROM_CONSTRUCTOR:
+            return {...state, constructor: {ingredients:[], bun: null}};
 
         default:
             return state

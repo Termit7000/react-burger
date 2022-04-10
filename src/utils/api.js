@@ -1,13 +1,14 @@
-import { URL_SERVICE_INGREDIENTS, URL_SEVICE_ORDER } from "./constants";
+import { BASE_URL,  URL_SERVICE_INGREDIENTS, URL_SEVICE_ORDER } from "./constants";
+
 
 
 export function getIngredients() {
-    return fetchRequest(URL_SERVICE_INGREDIENTS, { method: 'GET' });
+    return fetchRequest(BASE_URL + URL_SERVICE_INGREDIENTS, { method: 'GET' });
 }
 
 export function createOrder({ ingredients }) {
 
-    return fetchRequest(URL_SEVICE_ORDER, {
+    return fetchRequest(BASE_URL + URL_SEVICE_ORDER, {
         method: 'POST',
         body: JSON.stringify({ingredients})
     });

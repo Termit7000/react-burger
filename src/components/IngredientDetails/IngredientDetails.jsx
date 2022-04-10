@@ -44,5 +44,4 @@ function IngredientDetails() {
     );
 }
 
-
 export default IngredientDetails;

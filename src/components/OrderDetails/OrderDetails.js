@@ -27,7 +27,8 @@ function OrderDetails({ orderId = 0, isFaild = false, errorText = '', isLoading 
 
 OrderDetails.propTypes = {
     orderId: PropTypes.number,
-    error: PropTypes.string,
+    isFaild: PropTypes.bool,
+    errorText: PropTypes.string,    
     isLoading: PropTypes.bool
 };
 
