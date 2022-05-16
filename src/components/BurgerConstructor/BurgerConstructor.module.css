@@ -13,6 +13,12 @@
     
 }
 
+.emptyConstructor {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .components__items {
     list-style: none;    
     padding: 0;    

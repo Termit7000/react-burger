@@ -25,10 +25,12 @@ function BurgerConstructor({ createOrderHandler, dropHandler =f => f, deleteHand
 
     //Состав конструктора
     const items_all = useSelector(state=>state.ingredients.items);
+    
     const { ingredients, bun } = useSelector(state => state.ingredients.constructor);
-
     const itemsBurger = ingredients.map(el=>({...items_all.find(i=>i._id===el.id), itemKey: el.itemKey}));
     const bunBurger = bun && items_all.find(el=>el._id===bun);
+
+    const isConstructorEmpty = itemsBurger.length === 0 && !bunBurger;
 
     const sum = itemsBurger.reduce((acc, el) => acc + el.price, (bunBurger?.price || 0) * 2);
 
@@ -46,8 +48,12 @@ function BurgerConstructor({ createOrderHandler, dropHandler =f => f, deleteHand
         </div>;
 
     return (
-        <section ref={dropRef} className={`${styles.components} page__section mt-25 ${isHover && styles.isHover}  `}  >
-            {bun && blokedItem({ ...bunBurger, type: 'top' })}
+        <section ref={dropRef} className={`${styles.components} page__section mt-25 ${isHover && styles.isHover} ${isConstructorEmpty && styles.emptyConstructor} `}  > 
+
+        {isConstructorEmpty 
+         ? <p className={styles.emptyConstructor__title}>Перетащите сюда ингредиенты</p>
+         : <>
+           {bun && blokedItem({ ...bunBurger, type: 'top' })}
             <ul className={`${styles.components__items} mt-4 mb-4 mr-1 custom-scroll`}>
                 {
                     [...itemsBurger]
@@ -72,7 +78,8 @@ function BurgerConstructor({ createOrderHandler, dropHandler =f => f, deleteHand
                     Оформить заказ
                 </Button>
             </div>
-
+            </>
+        }
 
         </section>);
 }
