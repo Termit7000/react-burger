@@ -19,6 +19,11 @@
     align-items: center;
 }
 
+.emptyConstructor__title {
+    margin: 0;
+    padding: 0;
+}
+
 .components__items {
     list-style: none;    
     padding: 0;    
