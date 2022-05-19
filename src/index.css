@@ -18,6 +18,12 @@ code {
   box-sizing: border-box;
 }
 
+.link {
+  text-decoration: none;
+  color: var(--colors-interface-accent);
+}
+
 :root{
   --color-secondary-text: #8585AD;
+  
 }

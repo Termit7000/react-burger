@@ -4,17 +4,18 @@ import { useSelector, useDispatch } from 'react-redux';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 
-import BurgerIngredients from '../components/BurgerIngredients/BurgerIngredients';
+import BurgerIngredients from '../../components/BurgerIngredients/BurgerIngredients';
 
-import BurgerConstructor from '../components/BurgerConstructor/BurgerConstructor';
-import OrderDetails from '../components/OrderDetails/OrderDetails';
-import IngredientDetails from '../components/IngredientDetails/IngredientDetails';
-import IngredientCard from "../components/IngredientCard/IngredientCard";
-import Modal from '../components/Modal/Modal';
+import BurgerConstructor from '../../components/BurgerConstructor/BurgerConstructor';
+import OrderDetails from '../../components/OrderDetails/OrderDetails';
+import IngredientDetails from '../../components/IngredientDetails/IngredientDetails';
+import IngredientCard from "../../components/IngredientCard/IngredientCard";
+import Modal from '../../components/Modal/Modal';
 
 import styles from './main-page.module.css';
 
-import { getIngredientsItems, getOrderNumber, 
+import {
+  getIngredientsItems, getOrderNumber,
 
   closeIngredientDetails,
   openIngredientDetails,
@@ -22,7 +23,8 @@ import { getIngredientsItems, getOrderNumber,
   increaseIngredient,
   addToConstructor,
   decreaseIngredient,
-  deleteFromConstructor} from '../services/actions';
+  deleteFromConstructor
+} from '../../services/actions';
 
 function MainPage() {
 
@@ -64,43 +66,43 @@ function MainPage() {
    */
   const dropHandler = ({ id, itemKey }) => {
 
-    dispatch(increaseIngredient({id}));
-    dispatch(addToConstructor({id,itemKey}));
+    dispatch(increaseIngredient({ id }));
+    dispatch(addToConstructor({ id, itemKey }));
   };
 
   const deleteHandler = ({ id, itemKey }) => {
 
-    dispatch(decreaseIngredient({id}));
-    dispatch(deleteFromConstructor({id,itemKey}));
+    dispatch(decreaseIngredient({ id }));
+    dispatch(deleteFromConstructor({ id, itemKey }));
   }
 
   return (
-    
-      <DndProvider backend={HTML5Backend}>
 
-        <div className={styles.content}>
-          <div className='mr-10'>
-            <BurgerIngredients card={cardIngredient} />
+    <DndProvider backend={HTML5Backend}>
 
-            {isDatailsOpen &&
-              <Modal handleClose={closeModalIngredient}>
-                <IngredientDetails />
-              </Modal>}
-          </div>
+      <div className={styles.content}>
+        <div className='mr-10'>
+          <BurgerIngredients card={cardIngredient} />
 
-          <div className='ml-7'>
-
-            <BurgerConstructor createOrderHandler={openOrder} dropHandler={dropHandler} deleteHandler={deleteHandler} />
-
-            {isOrderOpened &&
-
-              <Modal handleClose={closeOrder}>
-                <OrderDetails orderId={orderId} isLoading={orderRequestInProgress} isFaild={orderRequestFailed} errorText={orderErrorText} />
-              </Modal>
-            }
-          </div>
+          {isDatailsOpen &&
+            <Modal handleClose={closeModalIngredient}>
+              <IngredientDetails />
+            </Modal>}
         </div>
-      </DndProvider>    
+
+        <div className='ml-7'>
+
+          <BurgerConstructor createOrderHandler={openOrder} dropHandler={dropHandler} deleteHandler={deleteHandler} />
+
+          {isOrderOpened &&
+
+            <Modal handleClose={closeOrder}>
+              <OrderDetails orderId={orderId} isLoading={orderRequestInProgress} isFaild={orderRequestFailed} errorText={orderErrorText} />
+            </Modal>
+          }
+        </div>
+      </div>
+    </DndProvider>
   );
 }
 

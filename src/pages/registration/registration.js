@@ -1,26 +1,30 @@
+import React  from "react";
 import { Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
-import React from "react";
 
 import RegForm from "../../components/RegForm/RegForm";
 import useInputsHandler from "../../hooks/useInputsHandler";
 
 const addInfo = [{
-    title: 'Вы новый пользователь?',
-    link: { to: '/register', text: 'Зарегистрироваться' }
-}
-    , {
-    title: 'Забыли пароль?',
-    link: { to: '/forgot-password', text: 'Восстановить пароль' }
+    title: 'Уже зарегистрированы?',
+    link: { to: '/login', text: 'Войти' }
 }];
 
-const TITLE = 'Вход';
-const TITLE_SUBMIT = 'Вход';
+const TITLE = 'Регистрация';
+const TITLE_SUBMIT = 'Зарегистрироваться';
 
-export default function SignIn() {
+export default function Registration() {
 
-    const { inputValues, handleChangeInput, isLoginValid } = useInputsHandler();
+    const {inputValues, handleChangeInput, isLoginValid} = useInputsHandler();
 
     const inputsElem = [
+
+        <Input type={'text'}
+            placeholder={'Имя'}
+            onChange={handleChangeInput}
+            value={inputValues.userName || ''}
+            name={'userName'}
+            size={'default'} />,
+
         <Input type={'email'}
             placeholder={'E-mail'}
             onChange={handleChangeInput}

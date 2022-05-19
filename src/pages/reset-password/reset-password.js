@@ -7,37 +7,35 @@ import useInputsHandler from "../../hooks/useInputsHandler";
 const addInfo = [{
     title: 'Вы новый пользователь?',
     link: { to: '/register', text: 'Зарегистрироваться' }
-}
-    , {
+},
+{
     title: 'Забыли пароль?',
     link: { to: '/forgot-password', text: 'Восстановить пароль' }
 }];
 
-const TITLE = 'Вход';
-const TITLE_SUBMIT = 'Вход';
+const TITLE = 'Восстановление пароля';
+const TITLE_SUBMIT = 'Сохранить';
 
-export default function SignIn() {
+export default function ResetPassword() {
 
-    const { inputValues, handleChangeInput, isLoginValid } = useInputsHandler();
+    const { inputValues, handleChangeInput } = useInputsHandler();
 
     const inputsElem = [
-        <Input type={'email'}
-            placeholder={'E-mail'}
-            onChange={handleChangeInput}
-            value={inputValues.login || ''}
-            name={'login'}
-            error={!isLoginValid}
-            size={'default'} />,
-
         <PasswordInput
             onChange={handleChangeInput}
             value={inputValues.password || ''}
             name={'password'}
-        />];
+        />,
+        <Input type={'text'}
+            placeholder={'Введите код из письма'}
+            onChange={handleChangeInput}
+            value={inputValues.resetCode || ''}
+            name={'resetCode'}
+            size={'default'} />];
 
     return (
 
-        <RegForm title={TITLE} submitButtonTitle={TITLE_SUBMIT} submitHandler={f => f} inputs={inputsElem} isFormValid={isLoginValid} addInfo={addInfo} />
+        <RegForm title={TITLE} submitButtonTitle={TITLE_SUBMIT} submitHandler={f => f} inputs={inputsElem} isFormValid={true} addInfo={addInfo} />
 
     );
 }
