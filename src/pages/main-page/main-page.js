@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { memo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { DndProvider } from 'react-dnd';
@@ -8,22 +8,12 @@ import BurgerIngredients from '../../components/BurgerIngredients/BurgerIngredie
 
 import BurgerConstructor from '../../components/BurgerConstructor/BurgerConstructor';
 import OrderDetails from '../../components/OrderDetails/OrderDetails';
-import IngredientDetails from '../../components/IngredientDetails/IngredientDetails';
-import IngredientCard from "../../components/IngredientCard/IngredientCard";
 import Modal from '../../components/Modal/Modal';
 
 import styles from './main-page.module.css';
 
-import {
-  getIngredientsItems, getOrderNumber,
-
-  closeIngredientDetails,
-  openIngredientDetails,
-  closeModalOrder,
-  increaseIngredient,
-  addToConstructor,
-  decreaseIngredient,
-  deleteFromConstructor
+import {  
+  closeModalOrder
 } from '../../services/actions';
 
 function MainPage() {
@@ -31,8 +21,7 @@ function MainPage() {
   const {
     requestInProgress,
     requestFailed,
-    errorText,
-    isDatailsOpen } = useSelector(store => store.ingredients);
+    errorText} = useSelector(store => store.ingredients);
 
   const {
     orderRequestInProgress,
@@ -43,38 +32,11 @@ function MainPage() {
 
   const dispatch = useDispatch();
 
-  //Получение списка ингредиентов 
-  useEffect(() => dispatch(getIngredientsItems()), [dispatch]);
-
-  //Модальное окно деталей ингредиента
-  const closeModalIngredient = () => dispatch(closeIngredientDetails());
-  const openModalIngredient = useCallback(({ ingredientId }) => dispatch(openIngredientDetails(ingredientId)), [dispatch]);
-
-  const cardIngredient = useCallback((props) => <IngredientCard clickHandler={openModalIngredient} {...props} />, [openModalIngredient]);
-
   if (requestInProgress) return <p>Loading...</p>;
   if (requestFailed) return <pre> {JSON.stringify(errorText)} </pre>;
 
   //МОДАЛЬНОЕ ОКНО ЗАКАЗА
-  const openOrder = () => dispatch(getOrderNumber());
   const closeOrder = () => dispatch(closeModalOrder());
-
-  /**
-   * 
-   * @param {Object} id - id ингредиента, itemKey - уникальный ключ элемента в конструкторе
-   * @returns 
-   */
-  const dropHandler = ({ id, itemKey }) => {
-
-    dispatch(increaseIngredient({ id }));
-    dispatch(addToConstructor({ id, itemKey }));
-  };
-
-  const deleteHandler = ({ id, itemKey }) => {
-
-    dispatch(decreaseIngredient({ id }));
-    dispatch(deleteFromConstructor({ id, itemKey }));
-  }
 
   return (
 
@@ -82,17 +44,12 @@ function MainPage() {
 
       <div className={styles.content}>
         <div className='mr-10'>
-          <BurgerIngredients card={cardIngredient} />
-
-          {isDatailsOpen &&
-            <Modal handleClose={closeModalIngredient}>
-              <IngredientDetails />
-            </Modal>}
+           <BurgerIngredients/>
         </div>
 
         <div className='ml-7'>
 
-          <BurgerConstructor createOrderHandler={openOrder} dropHandler={dropHandler} deleteHandler={deleteHandler} />
+          <BurgerConstructor />
 
           {isOrderOpened &&
 
@@ -106,4 +63,4 @@ function MainPage() {
   );
 }
 
-export default MainPage;
+export default memo(MainPage);

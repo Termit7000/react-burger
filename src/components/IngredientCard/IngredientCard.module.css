@@ -29,3 +29,10 @@
 .description {
     text-align: center;
 }
+
+.link {    
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    color: inherit;
+}

@@ -15,9 +15,6 @@ export const DELETE_ALL_FROM_CONSTRUCTOR = 'DELETE_ALL_FROM_CONSTRUCTOR';
 
 export const MOVE_INGREDIENTS_CONSTRUCTOR = 'MOVE_INGREDIENTS_CONSTRUCTOR';
 
-export const OPEN_INGREDIENT_DETAILS = 'OPEN_INGREDIENT_DETAILS';
-export const CLOSE_INGREDIENT_DETAILS = 'CLOSE_INGREDIENT_DETAILS';
-
 export const GET_ORDER_REQUEST = 'GET_ORDER_REQUEST';
 export const GET_ORDER_SUCCESS = 'GET_ORDER_SUCCESS';
 export const GET_ORDER_FAILED = 'GET_ORDER_FAILED';
@@ -60,14 +57,6 @@ export const getOrderNumber = () => ( dispatch, getState ) => {
 
 
 //ACTION CREATORS
-
-export function closeIngredientDetails() {
-    return { type: CLOSE_INGREDIENT_DETAILS }; 
-}
-
-export function openIngredientDetails(ingredientId) {
-    return { type: OPEN_INGREDIENT_DETAILS, ingredientId }
-}
 
 export function closeModalOrder() {
     return { type: CLOSE_MODAL_ORDER };

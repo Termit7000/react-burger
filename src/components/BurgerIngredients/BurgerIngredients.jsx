@@ -1,5 +1,4 @@
-import React, { useRef, useState } from "react";
-import PropTypes from 'prop-types';
+import React, { memo, useRef, useState } from "react";
 
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 
@@ -7,12 +6,11 @@ import ListItems from "./ListItems";
 
 import styles from './BurgerIngredients.module.css';
 
-
 const BUN_NAME = 'bun';
 const SAUSE_NAME = 'sauce';
 const MAIN_NAME = 'main';
 
-function BurgerIngredients({card}) {    
+function BurgerIngredients() {    
 
     const [currentTab, setTab] = useState(BUN_NAME);
 
@@ -87,17 +85,13 @@ function BurgerIngredients({card}) {
 
             <ul ref={containerRef} onScroll={onScroll} className={`${styles.content} mt-10 custom-scroll`}>
 
-                    <ListItems name='Булки' type = {BUN_NAME} ref = {bunRef} card = {card}/>
-                    <ListItems name='Соусы' type = {SAUSE_NAME} ref = {sauseRef} card = {card}/>
-                    <ListItems name='Начинки' type = {MAIN_NAME} ref = {mainRef} card = {card}/>
+                    <ListItems name='Булки' type = {BUN_NAME} ref = {bunRef}/>
+                    <ListItems name='Соусы' type = {SAUSE_NAME} ref = {sauseRef}/>
+                    <ListItems name='Начинки' type = {MAIN_NAME} ref = {mainRef}/>
                    
             </ul>
         </section>
     );
 }
 
-BurgerIngredients.propTypes = {
-    card: PropTypes.func.isRequired    
-}
-
-export default BurgerIngredients;
+export default memo(BurgerIngredients);

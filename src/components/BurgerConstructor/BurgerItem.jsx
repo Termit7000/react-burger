@@ -7,43 +7,48 @@ import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burg
 
 import styles from './BurgerItem.module.css';
 
-import {moveConstructorElement} from '../../services/actions/index.js';
+import { decreaseIngredient, deleteFromConstructor, moveConstructorElement } from '../../services/actions/index.js';
 
 
-function BurgerItem({ itemKey, id, name, price, image, deleteHandler = f => f }) {
+function BurgerItem({ itemKey, id, name, price, image }) {
 
     const dispatch = useDispatch();
 
     const ref = useRef();
 
+    const removeIngredient = () => {
+        dispatch(decreaseIngredient({ id }));
+        dispatch(deleteFromConstructor({ id, itemKey }));
+    };
+
     //Сортировка элементов бургера
     const [{ opacity }, dragRef] = useDrag({
         type: 'constructor',
-        item: {itemKey, id},
+        item: { itemKey, id },
         collect: monitor => ({
             opacity: monitor.isDragging() ? 0 : 1
         })
-    },[]);
+    }, []);
 
     const [, drop] = useDrop({
         accept: 'constructor',
         hover(dragItem) {
-            
+
             if (!ref.current) {
                 return;
             }
-            
-            if (dragItem.itemKey===itemKey) {
+
+            if (dragItem.itemKey === itemKey) {
                 return;
             }
-            dispatch(moveConstructorElement({fromId: dragItem.itemKey, toId: itemKey}));   
+            dispatch(moveConstructorElement({ fromId: dragItem.itemKey, toId: itemKey }));
         }
-    },[]);
+    }, []);
 
     drop(dragRef(ref));
 
     return (
-        <div draggable ref={ref} className={`${styles.burger_item}`}  style={{opacity}}>
+        <div draggable ref={ref} className={`${styles.burger_item}`} style={{ opacity }}>
             <div className={styles.drag_icon}>
                 <DragIcon type="primary" />
             </div>
@@ -51,7 +56,7 @@ function BurgerItem({ itemKey, id, name, price, image, deleteHandler = f => f })
                 text={name}
                 price={price}
                 thumbnail={image}
-                handleClose={() => deleteHandler({ id, itemKey })}
+                handleClose={removeIngredient}
             />
         </div>
     );
@@ -64,7 +69,6 @@ BurgerItem.propTypes = {
     id: PropTypes.string.isRequired,
     price: PropTypes.number.isRequired,
     image: PropTypes.string.isRequired,
-    deleteHandler: PropTypes.func
 }
 
 export default BurgerItem;

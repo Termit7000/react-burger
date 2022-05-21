@@ -10,8 +10,6 @@ import {
     DELETE_FROM_CONSTRUCTOR,
     DELETE_ALL_FROM_CONSTRUCTOR,
 
-    OPEN_INGREDIENT_DETAILS,
-    CLOSE_INGREDIENT_DETAILS,
     MOVE_INGREDIENTS_CONSTRUCTOR
 } from "../actions"
 
@@ -24,10 +22,7 @@ const initialState = {
     constructor: {
         ingredients: [],
         bun: null,
-    },
-
-    isDatailsOpen: false,
-    ingredientId: ''
+    }
 };
 
 export const ingredientsReducer = (state = initialState, action) => {
@@ -47,13 +42,6 @@ export const ingredientsReducer = (state = initialState, action) => {
                 requestFailed: false,
                 items: action.ingredients.map(el => ({ ...el, count: 0 }))
             };
-
-        case OPEN_INGREDIENT_DETAILS:
-            return { ...state, isDatailsOpen: true, ingredientId: action.ingredientId };
-
-        case CLOSE_INGREDIENT_DETAILS:
-            return { ...state, isDatailsOpen: false, ingredientId: '' };
-
 
         //Увеличить счетчик ингредиента
         case INCREASE_INGREDIENT: {
@@ -109,6 +97,7 @@ export const ingredientsReducer = (state = initialState, action) => {
             return {...state, constructor};
         }
 
+        //DRAG And PROP
         case MOVE_INGREDIENTS_CONSTRUCTOR: {
 
             const items = state.constructor.ingredients;
