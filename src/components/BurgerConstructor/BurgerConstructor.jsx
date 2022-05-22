@@ -7,15 +7,19 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useDrop } from 'react-dnd';
 import BurgerItem from './BurgerItem';
 import { addToConstructor, getOrderNumber, increaseIngredient } from '../../services/actions';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 function BurgerConstructor() {
 
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const location = useLocation();
     
     //Перетаскивание ингредиентов
     const [{ isHover }, dropRef] = useDrop({
         accept: 'ingredient',
         drop(itemId) {
+            
             dispatch(increaseIngredient(itemId)); //увеличть счетчик ингридиента
             dispatch(addToConstructor(itemId)); //добавить ингридиент в конструктор
         },
@@ -24,7 +28,12 @@ function BurgerConstructor() {
         })
     }, []);
 
-    const openOrder = () => dispatch(getOrderNumber()) ;
+    const openOrder = () => {
+
+        dispatch(getOrderNumber());
+        navigate('/order',{state:  {background: location}});       
+    
+    } ;
 
     //Состав конструктора
     const items_all = useSelector(state=>state.ingredients.items);
@@ -61,11 +70,9 @@ function BurgerConstructor() {
                 {
                     [...itemsBurger]
                         .map(el =>
+
                             <li className= {`pr-2 mb-4`} key={el.itemKey}>
-
                                 <BurgerItem {...{...el, itemKey:el.itemKey, id:el._id}}  />
-
-
                             </li>)}
             </ul>
 

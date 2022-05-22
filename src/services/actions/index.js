@@ -18,7 +18,6 @@ export const MOVE_INGREDIENTS_CONSTRUCTOR = 'MOVE_INGREDIENTS_CONSTRUCTOR';
 export const GET_ORDER_REQUEST = 'GET_ORDER_REQUEST';
 export const GET_ORDER_SUCCESS = 'GET_ORDER_SUCCESS';
 export const GET_ORDER_FAILED = 'GET_ORDER_FAILED';
-export const CLOSE_MODAL_ORDER = 'CLOSE_MODAL_ORDER';
 
 export const getIngredientsItems = () => dispatch => {
 
@@ -57,10 +56,6 @@ export const getOrderNumber = () => ( dispatch, getState ) => {
 
 
 //ACTION CREATORS
-
-export function closeModalOrder() {
-    return { type: CLOSE_MODAL_ORDER };
-}
 
 export function increaseIngredient({id}) {
     return { type: INCREASE_INGREDIENT, id };

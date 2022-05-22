@@ -9,7 +9,8 @@ import ModalOverlay from "../ModalOverlay/ModalOverlay";
 
 import styles from './Modal.module.css';
 
-function Modal({ handleClose,  children }) {
+
+function Modal({ handlerClose, children }) {
   
     const refOverlay = useRef();
 
@@ -28,12 +29,12 @@ function Modal({ handleClose,  children }) {
         document.addEventListener('keydown', closeOnEsc);
         return () => document.removeEventListener('keydown', closeOnEsc);
 
-    }, [handleClose]);
+    }, []);
 
     return (
         createPortal(
 
-            <ModalOverlay ref={refOverlay} handlerClose={handleClose}>
+            <ModalOverlay ref={refOverlay} handlerClose={handlerClose}>
 
                 <div className={styles.modal}>
                     <div className={styles.icon_close} onClick={closeSmooth}>
@@ -50,7 +51,7 @@ function Modal({ handleClose,  children }) {
 
 Modal.propTypes = {
     children: PropTypes.element.isRequired,
-    handleClose: PropTypes.func.isRequired
+    handlerClose: PropTypes.func.isRequired
 }
 
 export default Modal;
