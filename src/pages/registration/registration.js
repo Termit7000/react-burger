@@ -1,8 +1,11 @@
 import React  from "react";
 import { Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
+import { useDispatch, useSelector } from "react-redux";
+import { Navigate } from "react-router-dom";
 
 import RegForm from "../../components/RegForm/RegForm";
 import useInputsHandler from "../../hooks/useInputsHandler";
+import { registerNewUser } from "../../services/actions";
 
 const addInfo = [{
     title: 'Уже зарегистрированы?',
@@ -15,6 +18,25 @@ const TITLE_SUBMIT = 'Зарегистрироваться';
 export default function Registration() {
 
     const {inputValues, handleChangeInput, isLoginValid} = useInputsHandler();
+    const { isAuthChecked, authInProgress, isError, error } = useSelector(state=>state.auth);
+
+    const dispatch = useDispatch();
+    
+    const submitHandler =() => {
+        dispatch(registerNewUser({email: inputValues.login, name: inputValues.userName, password: inputValues.password}));
+    }
+
+    if (isAuthChecked) {
+        return (<Navigate to='/' replace={true}/>);
+    }
+
+    if (authInProgress) {
+        return (<p>Авторизация...</p>);
+    }
+
+    if (isError) {
+        return (<p>`Ошибка авторизации: ${error}`</p>);
+    }    
 
     const inputsElem = [
 
@@ -40,8 +62,6 @@ export default function Registration() {
         />];
 
     return (
-
-        <RegForm title={TITLE} submitButtonTitle={TITLE_SUBMIT} submitHandler={f => f} inputs={inputsElem} isFormValid={isLoginValid} addInfo={addInfo} />
-
+        <RegForm title={TITLE} submitButtonTitle={TITLE_SUBMIT} submitHandler={submitHandler} inputs={inputsElem} isFormValid={isLoginValid} addInfo={addInfo} />
     );
 }

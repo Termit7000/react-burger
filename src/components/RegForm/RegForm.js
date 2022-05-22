@@ -9,7 +9,7 @@ import styles from './RegForm.module.css';
 function RegForm({ title, submitButtonTitle, submitHandler, inputs, isFormValid, addInfo }) {
 
     const handleSubmit = (e) => {
-        e.preventDefault();
+        e.preventDefault();        
         submitHandler();
     }
 
@@ -28,7 +28,7 @@ function RegForm({ title, submitButtonTitle, submitHandler, inputs, isFormValid,
 
                 </fieldset>
 
-                <Button disabled={!isFormValid} type="primary" size="medium" onClick={handleSubmit}>
+                <Button disabled={!isFormValid} type="primary" size="medium">
                     {submitButtonTitle}
                 </Button>
 

@@ -5,15 +5,18 @@ export default function useInputsHandler() {
 
     const [inputValues, setInputValue] = useState({});
     const [isLoginValid, setLoginEmailValidation] = useState(false);
-
-    const handleChangeInput = e => {
-        const { name, value } = e.target;
-        setInputValue({ ...inputValues, [name]: value });
-
+    
+    const setValue = (name,value) => {
         if (name === 'login') {
-            setLoginEmailValidation(value && validateEmail(value))
+            setLoginEmailValidation(validateEmail(value));
         };
+        setInputValue({...inputValues,  [name]: value })
     };
 
-    return {inputValues,handleChangeInput, isLoginValid};
+    const handleChangeInput = e => {
+        const {name, value} = e.target;
+        setValue(name, value);
+    };
+
+    return {inputValues,handleChangeInput, isLoginValid, setValue};
 }

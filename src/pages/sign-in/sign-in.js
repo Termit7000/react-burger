@@ -1,8 +1,9 @@
+import React, { useEffect } from "react";
 import { Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
-import React from "react";
 
 import RegForm from "../../components/RegForm/RegForm";
 import useInputsHandler from "../../hooks/useInputsHandler";
+import { useSelector } from "react-redux";
 
 const addInfo = [{
     title: 'Вы новый пользователь?',
@@ -18,7 +19,15 @@ const TITLE_SUBMIT = 'Вход';
 
 export default function SignIn() {
 
-    const { inputValues, handleChangeInput, isLoginValid } = useInputsHandler();
+    const { isAuthChecked, user, accessToken, refreshToken } = useSelector(state => state.auth);
+    const { inputValues, handleChangeInput, isLoginValid, setValue } = useInputsHandler();
+
+    useEffect(() => {
+        if (user) {
+            setValue('login', user.email);
+        }
+    }, [user]);
+
 
     const inputsElem = [
         <Input type={'email'}

@@ -14,7 +14,8 @@ import IngredientDetails from '../IngredientDetails/IngredientDetails';
 import Modal from '../Modal/Modal';
 import OrderDetails from '../OrderDetails/OrderDetails';
 
-import { getIngredientsItems } from '../../services/actions';
+import { getIngredientsItems, restoreSavedUserData } from '../../services/actions';
+import { getUserData } from '../../utils/utils';
 
 function App() {
 
@@ -24,7 +25,14 @@ function App() {
   const closeModal = useCallback(() => navigate(-1), [navigate]);
 
   //Получение списка ингредиентов 
-  useEffect(() => dispatch(getIngredientsItems()), [dispatch]);
+  useEffect(() => {
+
+    dispatch(getIngredientsItems());
+
+    const auth = getUserData();    
+    dispatch(restoreSavedUserData(auth));
+
+  }, [dispatch]);
 
   const location = useLocation();
   const background = location.state?.background;
@@ -51,7 +59,7 @@ function App() {
 
           <Route path='/order' element={
             <Modal handlerClose={closeModal}>
-              <OrderDetails/>
+              <OrderDetails />
             </Modal>
           }
           />

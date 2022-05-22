@@ -1,5 +1,18 @@
-import { createOrder, getIngredients } from "../../utils/api";
+import { createOrder, getIngredients, fetchRegister } from "../../utils/api";
+import { saveUserData } from "../../utils/utils";
 
+//Авторизация
+export const REGISTER_REQUEST = 'REGISTER_REQUEST';
+export const REGISTER_FAILED = 'REGISTER_FAILED';
+export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
+export const AUTH_INIT = 'AUTH_INIT';
+
+//Заказ
+export const GET_ORDER_REQUEST = 'GET_ORDER_REQUEST';
+export const GET_ORDER_SUCCESS = 'GET_ORDER_SUCCESS';
+export const GET_ORDER_FAILED = 'GET_ORDER_FAILED';
+
+//Игредиенты 
 export const GET_INGREDIENTS_REQUEST = 'GET_INGREDIENTS_REQUEST';
 export const GET_INGREDIENTS_SUCCESS = 'GET_INGREDIENTS_SUCCESS';
 export const GET_INGREDIENTS_FAILED = 'GET_INGREDIENTS_FAILED';
@@ -15,10 +28,6 @@ export const DELETE_ALL_FROM_CONSTRUCTOR = 'DELETE_ALL_FROM_CONSTRUCTOR';
 
 export const MOVE_INGREDIENTS_CONSTRUCTOR = 'MOVE_INGREDIENTS_CONSTRUCTOR';
 
-export const GET_ORDER_REQUEST = 'GET_ORDER_REQUEST';
-export const GET_ORDER_SUCCESS = 'GET_ORDER_SUCCESS';
-export const GET_ORDER_FAILED = 'GET_ORDER_FAILED';
-
 export const getIngredientsItems = () => dispatch => {
 
     dispatch({ type: GET_INGREDIENTS_REQUEST })
@@ -33,7 +42,7 @@ export const getIngredientsItems = () => dispatch => {
 /**
  * Создание заказа
  */
-export const getOrderNumber = () => ( dispatch, getState ) => {
+ export const getOrderNumber = () => ( dispatch, getState ) => {
 
     dispatch({ type: GET_ORDER_REQUEST });
 
@@ -55,6 +64,30 @@ export const getOrderNumber = () => ( dispatch, getState ) => {
 }
 
 
+//РЕГИСТРАЦИЯ и АВТОРИЗАЦИЯ
+
+export const registerNewUser = (form)=>dispatch=> {
+    
+    dispatch({type: REGISTER_REQUEST});
+    
+    fetchRegister(form)
+        .then(res=>{
+            if (res.success) {
+                
+                const auth = {
+                    user: {email: res.user.email, name: res.user.name},
+                    accessToken: res.accessToken.split('Bearer ')[1],
+                    refreshToken: res.refreshToken };
+
+                dispatch({type: REGISTER_SUCCESS, ...auth});
+                saveUserData(auth);
+            }
+        })
+        .catch(error=>{
+            dispatch({type: REGISTER_FAILED, error});
+        });
+}
+
 //ACTION CREATORS
 
 export function increaseIngredient({id}) {
@@ -75,4 +108,8 @@ export function deleteFromConstructor({id, itemKey}) {
 
 export function moveConstructorElement({fromId, toId}) {
     return {type: MOVE_INGREDIENTS_CONSTRUCTOR,...{fromId, toId}};
+}
+
+export function restoreSavedUserData(auth) {
+    return {type: AUTH_INIT, payload: auth};
 }
