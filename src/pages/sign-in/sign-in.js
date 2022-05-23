@@ -1,9 +1,12 @@
-import React, { useEffect } from "react";
+import React from "react";
+import { Navigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+
 import { Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import RegForm from "../../components/RegForm/RegForm";
 import useInputsHandler from "../../hooks/useInputsHandler";
-import { useSelector } from "react-redux";
+import { signIn } from "../../services/actions";
 
 const addInfo = [{
     title: 'Вы новый пользователь?',
@@ -19,16 +22,16 @@ const TITLE_SUBMIT = 'Вход';
 
 export default function SignIn() {
 
-    const { isAuthChecked, user, accessToken, refreshToken } = useSelector(state => state.auth);
-    const { inputValues, handleChangeInput, isLoginValid, setValue } = useInputsHandler();
+    const { isAuthChecked, isError, error, authInProgress } = useSelector(state => state.auth);
+    const { inputValues, handleChangeInput, isLoginValid } = useInputsHandler();
+    const dispatch = useDispatch();
 
-    useEffect(() => {
-        if (user) {
-            setValue('login', user.email);
-        }
-    }, [user]);
+    if (isAuthChecked) return <Navigate to='/' replace={true}/>
 
+    if (authInProgress) return (<p className="text text_type_main-default">Авторизация пользователя...</p>);
 
+    const submitHandler = ()=> dispatch(signIn({ email: inputValues.login, password: inputValues.password }));
+ 
     const inputsElem = [
         <Input type={'email'}
             placeholder={'E-mail'}
@@ -46,7 +49,7 @@ export default function SignIn() {
 
     return (
 
-        <RegForm title={TITLE} submitButtonTitle={TITLE_SUBMIT} submitHandler={f => f} inputs={inputsElem} isFormValid={isLoginValid} addInfo={addInfo} />
+        <RegForm title={TITLE} isError={isError} error={error} submitButtonTitle={TITLE_SUBMIT} submitHandler={submitHandler} inputs={inputsElem} isFormValid={isLoginValid} addInfo={addInfo} />
 
     );
 }

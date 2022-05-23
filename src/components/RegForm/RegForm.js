@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 import styles from './RegForm.module.css';
 
-function RegForm({ title, submitButtonTitle, submitHandler, inputs, isFormValid, addInfo }) {
+function RegForm({ title, isError, error, submitButtonTitle, submitHandler, inputs, isFormValid, addInfo }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();        
@@ -15,6 +15,9 @@ function RegForm({ title, submitButtonTitle, submitHandler, inputs, isFormValid,
 
     return (
         <section aria-label="login-form" className={styles.container}>
+
+            {isError && <p>`Ошибка авторизации: ${error}`</p>}
+
             <form name="loginForm" className={styles.form} onSubmit={handleSubmit}>
                 <h2 className={`text text_type_main-medium`}> {title} </h2>
 
@@ -53,6 +56,8 @@ const addInfoShape = PropTypes.arrayOf(PropTypes.shape({
 
 RegForm.propTypes = {
     title: PropTypes.string.isRequired,
+    isError: PropTypes.bool,
+    error: PropTypes.string,
     submitButtonTitle: PropTypes.string.isRequired,
     submitHandler: PropTypes.func,
     isFormValid: PropTypes.bool,
@@ -61,6 +66,8 @@ RegForm.propTypes = {
 };
 
 RegForm.defaultProps = {
+    isError: false,
+    error: '',
     isFormValid: false,
     addInfo: []
 }

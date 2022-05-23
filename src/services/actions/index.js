@@ -1,10 +1,9 @@
-import { createOrder, getIngredients, fetchRegister } from "../../utils/api";
+import { createOrder, getIngredients, fetchRegister, fetchSignIn, fetchRefreshToken } from "../../utils/api";
 
 //Авторизация
-export const REGISTER_REQUEST = 'REGISTER_REQUEST';
-export const REGISTER_FAILED = 'REGISTER_FAILED';
-export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
-export const AUTH_INIT = 'AUTH_INIT';
+export const AUTH_REQUEST = 'REGISTER_REQUEST';
+export const AUTH_FAILED = 'REGISTER_FAILED';
+export const AUTH_SUCCESS = 'REGISTER_SUCCESS';
 
 //Заказ
 export const GET_ORDER_REQUEST = 'GET_ORDER_REQUEST';
@@ -65,26 +64,54 @@ export const getIngredientsItems = () => dispatch => {
 
 //РЕГИСТРАЦИЯ и АВТОРИЗАЦИЯ
 
-export const registerNewUser = (form)=>dispatch=> {
+export const registerNewUser = form=>dispatch=> {
     
-    dispatch({type: REGISTER_REQUEST});
+    dispatch({type: AUTH_REQUEST});
     
     fetchRegister(form)
         .then(res=>{
-            if (res.success) {
                 
                 const auth = {
                     user: {email: res.user.email, name: res.user.name},
                     accessToken: res.accessToken.split('Bearer ')[1],
                     refreshToken: res.refreshToken };
 
-                dispatch({type: REGISTER_SUCCESS, ...auth});                
-            }
+                dispatch({type: AUTH_SUCCESS, ...auth});                
+
         })
-        .catch(error=>{
-            dispatch({type: REGISTER_FAILED, error});
-        });
+        .catch(error=>dispatch({type: AUTH_FAILED, error}));
 }
+
+//Авторизация
+export const signIn= form=>dispatch=>{
+    
+    dispatch({type: AUTH_REQUEST});
+    return fetchSignIn(form)
+        .then(res=>{
+
+            const auth = {
+                user: {email: res.user.email, name: res.user.name},
+                accessToken: res.accessToken.split('Bearer ')[1],
+                refreshToken: res.refreshToken };
+
+            dispatch({type: AUTH_SUCCESS, ...auth}); 
+
+        })
+        .catch(error=>dispatch({type: AUTH_FAILED, error}));
+};
+
+//Обновление токена
+export const updateToken = refreshToken => dispatch=>{
+    dispatch({type: AUTH_REQUEST});
+    return fetchRefreshToken(refreshToken)
+        .then(res=>{
+
+            //TODO
+
+        })
+        .catch(error=>dispatch({type: AUTH_FAILED, error}));
+
+} 
 
 //ACTION CREATORS
 

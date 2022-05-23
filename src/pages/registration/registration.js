@@ -1,4 +1,4 @@
-import React  from "react";
+import React from "react";
 import { Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
@@ -17,26 +17,22 @@ const TITLE_SUBMIT = 'Зарегистрироваться';
 
 export default function Registration() {
 
-    const {inputValues, handleChangeInput, isLoginValid} = useInputsHandler();
-    const { isAuthChecked, authInProgress, isError, error } = useSelector(state=>state.auth);
+    const { inputValues, handleChangeInput, isLoginValid } = useInputsHandler();
+    const { isAuthChecked, authInProgress, isError, error } = useSelector(state => state.auth);
 
     const dispatch = useDispatch();
-    
-    const submitHandler =() => {
-        dispatch(registerNewUser({email: inputValues.login, name: inputValues.userName, password: inputValues.password}));
+
+    const submitHandler = () => {
+        dispatch(registerNewUser({ email: inputValues.login, name: inputValues.userName, password: inputValues.password }));
     }
 
     if (isAuthChecked) {
-        return (<Navigate to='/' replace={true}/>);
+        return (<Navigate to='/' replace={true} />);
     }
 
     if (authInProgress) {
-        return (<p>Авторизация...</p>);
+        return (<p className="text text_type_main-default">Регистрация нового пользователя...</p>);
     }
-
-    if (isError) {
-        return (<p>`Ошибка авторизации: ${error}`</p>);
-    }    
 
     const inputsElem = [
 
@@ -62,6 +58,14 @@ export default function Registration() {
         />];
 
     return (
-        <RegForm title={TITLE} submitButtonTitle={TITLE_SUBMIT} submitHandler={submitHandler} inputs={inputsElem} isFormValid={isLoginValid} addInfo={addInfo} />
+        <RegForm 
+                title={TITLE} 
+                isError= {isError}
+                error={error} 
+                submitButtonTitle={TITLE_SUBMIT} 
+                submitHandler={submitHandler} 
+                inputs={inputsElem} 
+                isFormValid={isLoginValid} 
+                addInfo={addInfo} />        
     );
 }

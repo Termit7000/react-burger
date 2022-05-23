@@ -46,7 +46,13 @@ export const ingredientsReducer = (state = initialState, action) => {
         //Увеличить счетчик ингредиента
         case INCREASE_INGREDIENT: {
 
-            const isBun = state.items.find(el=>el._id===action.id).type === 'bun';
+            const currentIngredient = state.items.find(el=>el._id===action.id);
+            const isBun = currentIngredient.type === 'bun';
+
+            //Если булочка уже в конструкторе (count>0), сбросить количество
+            if (isBun && currentIngredient.count > 0) {
+                currentIngredient.count = 0;
+            }
 
             const items = [...state.items].map(el=>{
                 

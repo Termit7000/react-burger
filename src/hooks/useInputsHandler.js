@@ -18,5 +18,5 @@ export default function useInputsHandler() {
         setValue(name, value);
     };
 
-    return {inputValues,handleChangeInput, isLoginValid, setValue};
+    return {inputValues,handleChangeInput, isLoginValid};
 }
