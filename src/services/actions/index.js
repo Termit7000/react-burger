@@ -1,5 +1,4 @@
 import { createOrder, getIngredients, fetchRegister } from "../../utils/api";
-import { saveUserData } from "../../utils/utils";
 
 //Авторизация
 export const REGISTER_REQUEST = 'REGISTER_REQUEST';
@@ -79,8 +78,7 @@ export const registerNewUser = (form)=>dispatch=> {
                     accessToken: res.accessToken.split('Bearer ')[1],
                     refreshToken: res.refreshToken };
 
-                dispatch({type: REGISTER_SUCCESS, ...auth});
-                saveUserData(auth);
+                dispatch({type: REGISTER_SUCCESS, ...auth});                
             }
         })
         .catch(error=>{
@@ -108,8 +106,4 @@ export function deleteFromConstructor({id, itemKey}) {
 
 export function moveConstructorElement({fromId, toId}) {
     return {type: MOVE_INGREDIENTS_CONSTRUCTOR,...{fromId, toId}};
-}
-
-export function restoreSavedUserData(auth) {
-    return {type: AUTH_INIT, payload: auth};
 }

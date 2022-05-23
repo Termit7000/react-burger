@@ -1,5 +1,3 @@
-import { KEY_USER_DATA } from "./constants";
-
 /**
  * 
  * @param {String} email - текст для проверки 
@@ -26,13 +24,4 @@ export function parse(jwt) {
 }
 
 
-export function saveUserData(obj) {
-    window.localStorage.setItem(KEY_USER_DATA, JSON.stringify(obj));
-}
-
-export function getUserData() {
-
-    const userData = window.localStorage.getItem(KEY_USER_DATA);
-    return JSON.parse(userData);
-}
 

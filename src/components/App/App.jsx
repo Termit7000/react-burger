@@ -14,8 +14,7 @@ import IngredientDetails from '../IngredientDetails/IngredientDetails';
 import Modal from '../Modal/Modal';
 import OrderDetails from '../OrderDetails/OrderDetails';
 
-import { getIngredientsItems, restoreSavedUserData } from '../../services/actions';
-import { getUserData } from '../../utils/utils';
+import { getIngredientsItems } from '../../services/actions';
 
 function App() {
 
@@ -28,9 +27,6 @@ function App() {
   useEffect(() => {
 
     dispatch(getIngredientsItems());
-
-    const auth = getUserData();    
-    dispatch(restoreSavedUserData(auth));
 
   }, [dispatch]);
 
