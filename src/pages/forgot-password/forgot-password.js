@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import { Navigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 
 import { Input } from "@ya.praktikum/react-developer-burger-ui-components";
 
@@ -19,13 +19,15 @@ const TITLE_SUBMIT = 'Восстановить';
 
 export default function ForgotPassword() {
 
+    const location = useLocation();    
+
     const { inputValues, handleChangeInput, isLoginValid } = useInputsHandler();
 
     const {isAuthChecked} = useSelector(state=>state.auth);    
     const [changeRequest, setRequestData] = useState({isError:false, error:'', success: false, inProgress: false});
 
     if (isAuthChecked) return (<Navigate to='/'/>);
-    if (changeRequest.success) return (<Navigate to='/reset-password'/>);
+    if (changeRequest.success) return (<Navigate to='/reset-password' state={{from: location.pathname}}/>);
     if (changeRequest.inProgress) return (<p className={`text text_type_main-medium`}>Проверка email...</p>);
 
     const handleSubmit = ()=> {

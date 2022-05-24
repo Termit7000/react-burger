@@ -1,7 +1,7 @@
 
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import { Navigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 
 import { Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 
@@ -23,6 +23,9 @@ const TITLE_SUBMIT = 'Сохранить';
 
 export default function ResetPassword() {
     
+    const stateLocation = useLocation().state;
+    const isFromForgotPasswordPage = stateLocation?.from === '/forgot-password';
+    
     const { inputValues, handleChangeInput } = useInputsHandler();
     const { isAuthChecked } = useSelector(state => state.auth);
     
@@ -34,7 +37,7 @@ export default function ResetPassword() {
     });
 
     if (isAuthChecked) return <Navigate to='/' replace={true} />;
-    if (request.success) return <Navigate to='/login' replace={true} />;
+    if (request.success || !isFromForgotPasswordPage) return <Navigate to='/login' replace={true} />;
     if (request.inProgress) return <p className={`text text_type_main-medium`}>Установка нового пароля...</p>
 
     const handleSubmit = () => {
