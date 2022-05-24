@@ -16,7 +16,7 @@ function RegForm({ title, isError, error, submitButtonTitle, submitHandler, inpu
     return (
         <section aria-label="login-form" className={styles.container}>
 
-            {isError && <p>`Ошибка авторизации: ${error}`</p>}
+            {isError && <p>`Ошибка: ${error}`</p>}
 
             <form name="loginForm" className={styles.form} onSubmit={handleSubmit}>
                 <h2 className={`text text_type_main-medium`}> {title} </h2>

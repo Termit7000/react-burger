@@ -1,4 +1,11 @@
-import { BASE_URL,  URL_SERVICE_INGREDIENTS, URL_SEVICE_ORDER, URL_REGISTER, URL_SIGN_IN, URL_REFRESH_TOKEN } from "./constants";
+import { 
+    BASE_URL,  
+    URL_SERVICE_INGREDIENTS, 
+    URL_SEVICE_ORDER, 
+    URL_REGISTER, 
+    URL_SIGN_IN, 
+    URL_REFRESH_TOKEN, 
+    URL_FORGOT_PASSWORD } from "./constants";
 
 export function getIngredients() {
     return fetchRequest(BASE_URL + URL_SERVICE_INGREDIENTS, { method: 'GET' });
@@ -27,6 +34,15 @@ export function fetchSignIn(form) {
         method: 'POST',        
         body: JSON.stringify(form)
     });
+}
+
+//Восстановление пароля
+export function fetchForgotPassword(form) {
+    return fetchRequest(BASE_URL + URL_FORGOT_PASSWORD, {
+        method: 'POST',        
+        body: JSON.stringify(form)
+    });
+
 }
 
 //Обновление токена

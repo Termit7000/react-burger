@@ -1,5 +1,7 @@
-import { Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
+
 import React from "react";
+
+import { Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import RegForm from "../../components/RegForm/RegForm";
 import useInputsHandler from "../../hooks/useInputsHandler";
