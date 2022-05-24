@@ -98,7 +98,7 @@ export const signIn= form=>dispatch=>{
 
         })
         .catch(error=>dispatch({type: AUTH_FAILED, error}));
-};
+}
 
 //Обновление токена
 export const updateToken = refreshToken => dispatch=>{
@@ -110,7 +110,6 @@ export const updateToken = refreshToken => dispatch=>{
 
         })
         .catch(error=>dispatch({type: AUTH_FAILED, error}));
-
 } 
 
 //ACTION CREATORS

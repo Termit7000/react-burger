@@ -6,6 +6,7 @@ export const URL_REGISTER = '/auth/register';
 export const URL_SIGN_IN = '/auth/login';
 export const URL_REFRESH_TOKEN = '/auth/token';
 export const URL_FORGOT_PASSWORD = '/password-reset';
+export const URL_RESET_PASSWORD = '/password-reset/reset';
 
 export const MODAL_ROOT_NAME  = 'modal';
 export const KEY_USER_DATA = 'userRefreshToken';

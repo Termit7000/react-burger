@@ -5,7 +5,8 @@ import {
     URL_REGISTER, 
     URL_SIGN_IN, 
     URL_REFRESH_TOKEN, 
-    URL_FORGOT_PASSWORD } from "./constants";
+    URL_FORGOT_PASSWORD, 
+    URL_RESET_PASSWORD} from "./constants";
 
 export function getIngredients() {
     return fetchRequest(BASE_URL + URL_SERVICE_INGREDIENTS, { method: 'GET' });
@@ -42,7 +43,14 @@ export function fetchForgotPassword(form) {
         method: 'POST',        
         body: JSON.stringify(form)
     });
+}
 
+//Сброс пароля
+export function fetchResetPassword(form) {
+    return fetchRequest(BASE_URL + URL_RESET_PASSWORD, {
+        method: 'POST',        
+        body: JSON.stringify(form)
+    });
 }
 
 //Обновление токена
