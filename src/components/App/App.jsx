@@ -15,6 +15,7 @@ import Modal from '../Modal/Modal';
 import OrderDetails from '../OrderDetails/OrderDetails';
 
 import { getIngredientsItems } from '../../services/actions';
+import { NotFound } from '../../pages/not-found/not-fond';
 
 function App() {
 
@@ -32,7 +33,7 @@ function App() {
 
   const location = useLocation();
   const background = location.state?.background;
-  
+
   return (
     <>
       <AppHeader />
@@ -43,6 +44,7 @@ function App() {
         <Route path='/forgot-password' element={<ForgotPassword />} />
         <Route path='/reset-password' element={<ResetPassword />} />
         <Route path='/ingredients/:id' element={<IngredientDetails />} />
+        <Route path='*' element={<NotFound/>} />
       </Routes>
 
       {background &&
@@ -57,6 +59,7 @@ function App() {
             <Modal handlerClose={closeModal}>
               <OrderDetails />
             </Modal>
+
           }
           />
         </Routes>
