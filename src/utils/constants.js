@@ -10,3 +10,11 @@ export const URL_RESET_PASSWORD = '/password-reset/reset';
 
 export const MODAL_ROOT_NAME  = 'modal';
 export const KEY_USER_DATA = 'userRefreshToken';
+
+export const PAGE_HOME = '/';
+export const PAGE_LOGIN = '/login';
+export const PAGE_REGISTER = '/register';
+export const PAGE_FORGOT_PASSWORD = '/forgot-password';
+export const PAGE_RESET_PASSWORD = '/reset-password';
+export const PAGE_ORDER = '/order';
+export const PAGE_INGREDIENT_DETAILS = '/ingredients';

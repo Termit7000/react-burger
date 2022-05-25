@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import styles from './OrderDetails.module.css';
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { createOrder  } from "../../services/actions";
 
 function OrderDetails() {
 
@@ -11,6 +12,9 @@ function OrderDetails() {
         orderErrorText,
         orderId
     } = useSelector(store => store.order);
+
+    const dispatch = useDispatch();
+    useEffect(()=> dispatch(createOrder()),[dispatch]);
 
     if (orderRequestInProgress) return <p className={`${styles.order__id} text text_type_main-default mt-30 mb-30 ml-4`}>Обработка заказа...</p>;
     if (orderRequestFailed) return (

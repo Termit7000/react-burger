@@ -12,7 +12,7 @@ export function getIngredients() {
     return fetchRequest(BASE_URL + URL_SERVICE_INGREDIENTS, { method: 'GET' });
 }
 
-export function createOrder({ ingredients }) {
+export function fetchCreateOrder({ ingredients }) {
 
     return fetchRequest(BASE_URL + URL_SEVICE_ORDER, {
         method: 'POST',

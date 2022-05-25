@@ -6,6 +6,7 @@ import { Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-c
 import styles from './IngredientCard.module.css';
 import { useDrag } from "react-dnd";
 import { Link, useLocation } from "react-router-dom";
+import { PAGE_INGREDIENT_DETAILS } from "../../utils/constants";
 
 function Card({ _id, imgSrc, price, name, count }) {
 
@@ -22,7 +23,7 @@ function Card({ _id, imgSrc, price, name, count }) {
     return (
 
         <div style={{ opacity }} draggable ref={dragRef} className={styles.card}>
-            <Link className={styles.link} to={`/ingredients/${_id}`} 
+            <Link className={styles.link} to={`${PAGE_INGREDIENT_DETAILS}/${_id}`} 
                 state={ {background: location} }
            >
                 <img className={`${styles.img} mb-1`} src={imgSrc} alt={name} />

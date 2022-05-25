@@ -6,10 +6,11 @@ import { Navigate } from "react-router-dom";
 import RegForm from "../../components/RegForm/RegForm";
 import useInputsHandler from "../../hooks/useInputsHandler";
 import { registerNewUser } from "../../services/actions";
+import { PAGE_HOME, PAGE_LOGIN } from "../../utils/constants";
 
 const addInfo = [{
     title: 'Уже зарегистрированы?',
-    link: { to: '/login', text: 'Войти' }
+    link: { to: PAGE_LOGIN, text: 'Войти' }
 }];
 
 const TITLE = 'Регистрация';
@@ -27,7 +28,7 @@ export default function Registration() {
     }
 
     if (isAuthChecked) {
-        return (<Navigate to='/' replace={true} />);
+        return (<Navigate to={PAGE_HOME} replace={true} />);
     }
 
     if (authInProgress) {

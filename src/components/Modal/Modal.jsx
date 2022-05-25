@@ -11,9 +11,9 @@ import styles from './Modal.module.css';
 
 
 function Modal({ handlerClose, children }) {
-  
-    const refOverlay = useRef();
 
+    
+    const refOverlay = useRef();
     const modalElement = useMemo(()=>document.getElementById(MODAL_ROOT_NAME), []);
 
     const closeSmooth = ()=> refOverlay.current.closeSmooth();

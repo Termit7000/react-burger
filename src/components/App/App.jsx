@@ -17,6 +17,17 @@ import OrderDetails from '../OrderDetails/OrderDetails';
 import { getIngredientsItems } from '../../services/actions';
 import { NotFound } from '../../pages/not-found/not-fond';
 
+import {
+  PAGE_FORGOT_PASSWORD,
+  PAGE_HOME,
+  PAGE_INGREDIENT_DETAILS,
+  PAGE_LOGIN,
+  PAGE_ORDER,
+  PAGE_REGISTER,
+  PAGE_RESET_PASSWORD
+} from '../../utils/constants';
+import ProtectRout from '../ProtectRout/Protect-rout';
+
 function App() {
 
   const dispatch = useDispatch();
@@ -38,30 +49,36 @@ function App() {
     <>
       <AppHeader />
       <Routes location={background || location}>
-        <Route path='/' element={<MainPage />} />
-        <Route path='/login' element={<SignIn />} />
-        <Route path='/register' element={<Registration />} />
-        <Route path='/forgot-password' element={<ForgotPassword />} />
-        <Route path='/reset-password' element={<ResetPassword />} />
-        <Route path='/ingredients/:id' element={<IngredientDetails />} />
-        <Route path='*' element={<NotFound/>} />
+        <Route path={PAGE_HOME} element={<MainPage />} />
+        <Route path={PAGE_LOGIN} element={<SignIn />} />
+        <Route path={PAGE_REGISTER} element={<Registration />} />
+        <Route path={PAGE_FORGOT_PASSWORD} element={<ForgotPassword />} />
+        <Route path={PAGE_RESET_PASSWORD} element={<ResetPassword />} />
+        <Route path={`${PAGE_INGREDIENT_DETAILS}/:id`} element={<IngredientDetails />} />
+        <Route path='*' element={<NotFound />} />
       </Routes>
 
       {background &&
         <Routes>
-          <Route path='/ingredients/:id' element={
+          <Route path={`${PAGE_INGREDIENT_DETAILS}/:id`} element={
             <Modal handlerClose={closeModal}>
               <IngredientDetails />
             </Modal>
           } />
 
-          <Route path='/order' element={
-            <Modal handlerClose={closeModal}>
-              <OrderDetails />
-            </Modal>
 
-          }
-          />
+          <Route path={PAGE_ORDER} element={
+
+            <ProtectRout>
+
+              <Modal handlerClose={closeModal}>
+                <OrderDetails />
+              </Modal>
+
+
+            </ProtectRout>
+
+          } />
         </Routes>
       }
     </>

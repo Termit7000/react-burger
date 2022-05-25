@@ -7,11 +7,12 @@ import { Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import RegForm from "../../components/RegForm/RegForm";
 import useInputsHandler from "../../hooks/useInputsHandler";
 import { fetchForgotPassword } from "../../utils/api";
+import { PAGE_HOME, PAGE_LOGIN, PAGE_RESET_PASSWORD } from "../../utils/constants";
 
 
 const addInfo = [{
     title: 'Вспомнили пароль?',
-    link: { to: '/login', text: 'Войти' }    
+    link: { to: PAGE_LOGIN, text: 'Войти' }    
 }];
 
 const TITLE = 'Восстановление пароля';
@@ -26,8 +27,8 @@ export default function ForgotPassword() {
     const {isAuthChecked} = useSelector(state=>state.auth);    
     const [changeRequest, setRequestData] = useState({isError:false, error:'', success: false, inProgress: false});
 
-    if (isAuthChecked) return (<Navigate to='/'/>);
-    if (changeRequest.success) return (<Navigate to='/reset-password' state={{from: location.pathname}}/>);
+    if (isAuthChecked) return (<Navigate to={PAGE_HOME}/>);
+    if (changeRequest.success) return (<Navigate to={PAGE_RESET_PASSWORD} state={{from: location.pathname}}/>);
     if (changeRequest.inProgress) return (<p className={`text text_type_main-medium`}>Проверка email...</p>);
 
     const handleSubmit = ()=> {

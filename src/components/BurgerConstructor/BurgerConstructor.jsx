@@ -6,8 +6,9 @@ import styles from './BurgerConstructor.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { useDrop } from 'react-dnd';
 import BurgerItem from './BurgerItem';
-import { addToConstructor, getOrderNumber, increaseIngredient } from '../../services/actions';
+import { addToConstructor, increaseIngredient } from '../../services/actions';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { PAGE_ORDER } from '../../utils/constants';
 
 function BurgerConstructor() {
 
@@ -28,12 +29,7 @@ function BurgerConstructor() {
         })
     }, []);
 
-    const openOrder = () => {
-
-        dispatch(getOrderNumber());
-        navigate('/order',{state:  {background: location}});       
-    
-    } ;
+    const openOrder = () => navigate(PAGE_ORDER,{state:  {background: location}});
 
     //Состав конструктора
     const items_all = useSelector(state=>state.ingredients.items);

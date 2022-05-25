@@ -1,4 +1,9 @@
-import { createOrder, getIngredients, fetchRegister, fetchSignIn, fetchRefreshToken } from "../../utils/api";
+import { 
+    fetchCreateOrder, 
+    getIngredients, 
+    fetchRegister, 
+    fetchSignIn, 
+    fetchRefreshToken } from "../../utils/api";
 
 //Авторизация
 export const AUTH_REQUEST = 'REGISTER_REQUEST';
@@ -40,7 +45,7 @@ export const getIngredientsItems = () => dispatch => {
 /**
  * Создание заказа
  */
- export const getOrderNumber = () => ( dispatch, getState ) => {
+ export const createOrder = () => ( dispatch, getState ) => {
 
     dispatch({ type: GET_ORDER_REQUEST });
 
@@ -48,7 +53,7 @@ export const getIngredientsItems = () => dispatch => {
 
     const ingredients = [...state.constructor.ingredients.map(el=>el.id), state.constructor.bun, state.constructor.bun];
 
-    createOrder({ ingredients })
+    fetchCreateOrder({ ingredients })
         .then((dataFetch) => {
             dispatch({ type: GET_ORDER_SUCCESS, orderId: dataFetch?.order.number || 0 });                    
         })
