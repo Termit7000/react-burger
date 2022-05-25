@@ -1,5 +1,10 @@
 import { KEY_USER_DATA } from "../../utils/constants";
-import { AUTH_FAILED, AUTH_REQUEST, AUTH_SUCCESS } from "../actions"
+import { parseToken } from "../../utils/utils";
+import { 
+    AUTH_FAILED, 
+    AUTH_REQUEST, 
+    AUTH_SUCCESS, 
+    AUTH_SET_NEW_TOKEN } from "../actions"
 
 
 const initialState = {
@@ -12,8 +17,19 @@ const initialState = {
         name: '',
     },
     accessToken: '',
+    expiration: 0,
     refreshToken: '',
 }
+
+const getExpirationTokenDate = token => {
+
+    const expToken = parseToken(token)?.exp || 0;    
+
+    const d = new Date();
+    d.setTime( (new Date()).getTime() + expToken * 1000) ;
+    return d.getTime();
+
+};
 
 const saveUserData = value => window.localStorage.setItem(KEY_USER_DATA, value);
 const getUserData = ()=> window.localStorage.getItem(KEY_USER_DATA) || '';  
@@ -43,9 +59,22 @@ export const authReducer = (state = initialState, action) => {
                 refreshToken: action.refreshToken
             };
 
+            //Дата истечения токена                   
+            userData.expiration = getExpirationTokenDate(action.accessToken);
+
             saveUserData(action.refreshToken);
 
             return { ...state, ...userData };
+        }
+
+        case AUTH_SET_NEW_TOKEN: {
+
+            const {accessToken, refreshToken} = action;
+            const expiration = getExpirationTokenDate(accessToken);
+            
+            saveUserData(refreshToken);
+
+            return {...state, accessToken, refreshToken, expiration};
         }
 
         default: return state

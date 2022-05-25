@@ -19,7 +19,10 @@ export const validateEmail = email => {
  * @param {String} jwt 
  * @returns Объект из переданного токена
  */
-export function parse(jwt) {
+export function parseToken(jwt) {
+
+    if (!jwt) return null;
+
     return JSON.parse(window.atob(jwt.split('.')[1]));
 }
 

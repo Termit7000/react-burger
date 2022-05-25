@@ -12,11 +12,12 @@ export function getIngredients() {
     return fetchRequest(BASE_URL + URL_SERVICE_INGREDIENTS, { method: 'GET' });
 }
 
-export function fetchCreateOrder({ ingredients }) {
+export function fetchCreateOrder({ ingredientsIds, accessToken }) {
 
     return fetchRequest(BASE_URL + URL_SEVICE_ORDER, {
         method: 'POST',
-        body: JSON.stringify({ingredients})
+        body: JSON.stringify({ingredients: ingredientsIds}),
+        accessToken
     });
 }
 
@@ -62,13 +63,19 @@ export function fetchRefreshToken(refreshToken) {
 }
 //СЕРВИСНЫЕ ФУНКЦИИ
 
-function fetchRequest(urlService, { method, body = undefined }) {
+function fetchRequest(urlService, { method, body = undefined, accessToken='' }) {
 
+    const headers = {
+        'Content-Type': 'application/json'
+    };
+
+    if (accessToken) {
+        headers.Authorization = `Bearer ${accessToken}`
+    }
+    
     return fetch(urlService, {
         method,
-        headers: {
-            'Content-Type': 'application/json'
-        },
+        headers,
         body
     })
         .then(response => {

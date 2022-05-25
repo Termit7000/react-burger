@@ -30,7 +30,7 @@ export default function SignIn() {
 
     const pageFrom = location.state?.from || PAGE_HOME;
     
-    if (isAuthChecked ) return <Navigate to={pageFrom} />;
+    if (isAuthChecked ) return <Navigate to={pageFrom} replace={true}/>;
     if (authInProgress) return (<p className="text text_type_main-default">Авторизация пользователя...</p>);
 
     const submitHandler = ()=> dispatch(signIn({ email: inputValues.login, password: inputValues.password }));

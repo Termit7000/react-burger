@@ -14,7 +14,10 @@ function OrderDetails() {
     } = useSelector(store => store.order);
 
     const dispatch = useDispatch();
-    useEffect(()=> dispatch(createOrder()),[dispatch]);
+
+    useEffect(()=> {
+        window.history.replaceState({}, document.title);        
+        dispatch(createOrder())},[dispatch]);    
 
     if (orderRequestInProgress) return <p className={`${styles.order__id} text text_type_main-default mt-30 mb-30 ml-4`}>Обработка заказа...</p>;
     if (orderRequestFailed) return (

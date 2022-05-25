@@ -1,14 +1,18 @@
-import { 
-    fetchCreateOrder, 
-    getIngredients, 
-    fetchRegister, 
-    fetchSignIn, 
-    fetchRefreshToken } from "../../utils/api";
+import {
+    fetchCreateOrder,
+    getIngredients,
+    fetchRegister,
+    fetchSignIn,
+    fetchRefreshToken
+} from "../../utils/api";
+
 
 //Авторизация
 export const AUTH_REQUEST = 'REGISTER_REQUEST';
 export const AUTH_FAILED = 'REGISTER_FAILED';
 export const AUTH_SUCCESS = 'REGISTER_SUCCESS';
+
+export const AUTH_SET_NEW_TOKEN = 'SET_NEW_TOKEN';
 
 //Заказ
 export const GET_ORDER_REQUEST = 'GET_ORDER_REQUEST';
@@ -45,96 +49,110 @@ export const getIngredientsItems = () => dispatch => {
 /**
  * Создание заказа
  */
- export const createOrder = () => ( dispatch, getState ) => {
+export const createOrder = () => (dispatch, getState) => {
 
     dispatch({ type: GET_ORDER_REQUEST });
 
-    const state = getState().ingredients;
+    const { ingredients, auth } = getState();
 
-    const ingredients = [...state.constructor.ingredients.map(el=>el.id), state.constructor.bun, state.constructor.bun];
+    const ingredientsIds = [...ingredients.constructor.ingredients.map(el => el.id),
+    ingredients.constructor.bun,
+    ingredients.constructor.bun];
 
-    fetchCreateOrder({ ingredients })
+    const { accessToken, refreshToken, expiration } = auth;
+
+    const getOrder = accessToken => fetchCreateOrder({ ingredientsIds, accessToken })
         .then((dataFetch) => {
-            dispatch({ type: GET_ORDER_SUCCESS, orderId: dataFetch?.order.number || 0 });                    
+            dispatch({ type: GET_ORDER_SUCCESS, orderId: dataFetch?.order.number || 0 });
         })
-        .then (()=>{
-            dispatch({type: DELETE_ALL_FROM_CONSTRUCTOR});
-            dispatch({type: CLEAR_ALL_INGREDIENTS});
+        .then(() => {
+            dispatch({ type: DELETE_ALL_FROM_CONSTRUCTOR });
+            dispatch({ type: CLEAR_ALL_INGREDIENTS });
         })
         .catch(error => {
             dispatch({ type: GET_ORDER_FAILED, errorText: error });
         });
+
+    if ((new Date() - new Date(expiration)) > 0) { //обновить токен
+
+       return fetchRefreshToken(refreshToken)
+            .then(res=>{
+
+                const auth = {
+                    accessToken: res.accessToken.split('Bearer ')[1],
+                    refreshToken: res.refreshToken
+                };                
+
+                dispatch({type: AUTH_SET_NEW_TOKEN, ...auth});
+
+                return auth.accessToken;
+            })
+            .then(getOrder)
+            .catch(error=>dispatch({ type: GET_ORDER_FAILED, errorText: error }));
+    } ;
+
+    return getOrder(accessToken);
 }
 
 
 //РЕГИСТРАЦИЯ и АВТОРИЗАЦИЯ
 
-export const registerNewUser = form=>dispatch=> {
-    
-    dispatch({type: AUTH_REQUEST});
-    
-    fetchRegister(form)
-        .then(res=>{
-                
-                const auth = {
-                    user: {email: res.user.email, name: res.user.name},
-                    accessToken: res.accessToken.split('Bearer ')[1],
-                    refreshToken: res.refreshToken };
+export const registerNewUser = form => dispatch => {
 
-                dispatch({type: AUTH_SUCCESS, ...auth});                
+    dispatch({ type: AUTH_REQUEST });
+
+    fetchRegister(form)
+        .then(res => {
+
+            const auth = {
+                user: { email: res.user.email, name: res.user.name },
+                accessToken: res.accessToken.split('Bearer ')[1],
+                refreshToken: res.refreshToken
+            };
+
+            dispatch({ type: AUTH_SUCCESS, ...auth });
 
         })
-        .catch(error=>dispatch({type: AUTH_FAILED, error}));
+        .catch(error => dispatch({ type: AUTH_FAILED, error }));
 }
 
 //Авторизация
-export const signIn= form=>dispatch=>{
-    
-    dispatch({type: AUTH_REQUEST});
+export const signIn = form => dispatch => {
+
+    dispatch({ type: AUTH_REQUEST });
     return fetchSignIn(form)
-        .then(res=>{
+        .then(res => {
 
             const auth = {
-                user: {email: res.user.email, name: res.user.name},
+                user: { email: res.user.email, name: res.user.name },
                 accessToken: res.accessToken.split('Bearer ')[1],
-                refreshToken: res.refreshToken };
+                refreshToken: res.refreshToken
+            };
 
-            dispatch({type: AUTH_SUCCESS, ...auth}); 
+            dispatch({ type: AUTH_SUCCESS, ...auth });
 
         })
-        .catch(error=>dispatch({type: AUTH_FAILED, error}));
+        .catch(error => dispatch({ type: AUTH_FAILED, error }));
 }
-
-//Обновление токена
-export const updateToken = refreshToken => dispatch=>{
-    dispatch({type: AUTH_REQUEST});
-    return fetchRefreshToken(refreshToken)
-        .then(res=>{
-
-            //TODO
-
-        })
-        .catch(error=>dispatch({type: AUTH_FAILED, error}));
-} 
 
 //ACTION CREATORS
 
-export function increaseIngredient({id}) {
+export function increaseIngredient({ id }) {
     return { type: INCREASE_INGREDIENT, id };
 }
 
-export function addToConstructor({id, itemKey}) {
+export function addToConstructor({ id, itemKey }) {
     return { type: ADD_TO_CONSTRUCTOR, ...{ id, itemKey } };
 }
 
-export function decreaseIngredient({id}) {
+export function decreaseIngredient({ id }) {
     return { type: DECREASE_INGREDIENT, id };
 }
 
-export function deleteFromConstructor({id, itemKey}) {
+export function deleteFromConstructor({ id, itemKey }) {
     return { type: DELETE_FROM_CONSTRUCTOR, ...{ id, itemKey } };
 }
 
-export function moveConstructorElement({fromId, toId}) {
-    return {type: MOVE_INGREDIENTS_CONSTRUCTOR,...{fromId, toId}};
+export function moveConstructorElement({ fromId, toId }) {
+    return { type: MOVE_INGREDIENTS_CONSTRUCTOR, ...{ fromId, toId } };
 }
