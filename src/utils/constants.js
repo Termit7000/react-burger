@@ -18,3 +18,4 @@ export const PAGE_FORGOT_PASSWORD = '/forgot-password';
 export const PAGE_RESET_PASSWORD = '/reset-password';
 export const PAGE_ORDER = '/order';
 export const PAGE_INGREDIENT_DETAILS = '/ingredients';
+export const PAGE_PROFILE = '/profile';

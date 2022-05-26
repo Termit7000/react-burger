@@ -1,11 +1,17 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
+
 import { Logo } from '@ya.praktikum/react-developer-burger-ui-components';
 import { ListIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { BurgerIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { ProfileIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import LinkButton from '../LinkButton/LinkButton.js';
+
+import { PAGE_HOME, PAGE_PROFILE } from "../../utils/constants.js";
 
 import styles from './AppHeader.module.css';
+
+const getClassNameText = isActive=> `ml-2 text text_type_main-default ${isActive ?  styles.text_primary : styles.text_secondary}`;
+const getTypeIcon = isActive=>isActive ? 'primary' : 'secondary';
 
 export default function AppHeader() {
 
@@ -13,18 +19,28 @@ export default function AppHeader() {
         <header className={`${styles.header}`}>
             <div className={`${styles.container} pt-4 pb-4`} >
 
-
                 <nav className={styles.nav}>
+
                     <div className="mr-2">
-                        <LinkButton>
-                            <BurgerIcon />
-                            <p className={`ml-2 text text_type_main-default ${styles.text_standart}`}>Конструктор</p>
-                        </LinkButton>
+
+                        <NavLink to={PAGE_HOME} className={`${styles.link} pl-5 pr-5 pt-4 pb-4`}>
+                            {({ isActive }) =>
+                                <>
+                                    <BurgerIcon type={getTypeIcon(isActive)} />
+                                    <p className={getClassNameText(isActive)}>Конструктор</p>
+                                </>
+                            }
+                        </NavLink>
                     </div>
-                    <LinkButton>
-                        <ListIcon type="secondary" />
-                        <p className={`ml-2 text text_type_main-default ${styles.text_secondary}`}>Лента заказов</p>
-                    </LinkButton>
+
+                    <NavLink to={PAGE_PROFILE} className={`${styles.link} pl-5 pr-5 pt-4 pb-4`}>
+                        {({ isActive }) =>
+                            <>
+                                <ListIcon type={getTypeIcon(isActive)} />
+                                <p className={getClassNameText(isActive)} >Лента заказов</p>
+                            </>
+                        }
+                    </NavLink>
                 </nav>
 
                 <div className={styles.logo}>
@@ -32,10 +48,13 @@ export default function AppHeader() {
                 </div>
 
                 <div className={styles.profile}>
-                    <LinkButton>
-                        <ProfileIcon type="secondary" />
-                        <p className={`ml-2 text text_type_main-default ${styles.text_secondary}`}>Личный кабинет</p>
-                    </LinkButton>
+                    <NavLink to={PAGE_PROFILE} className={`${styles.link} pl-5 pr-5 pt-4 pb-4`}>
+                        {({ isActive }) =>
+                            <>
+                                <ProfileIcon type={getTypeIcon(isActive)}/>
+                                <p className={getClassNameText(isActive)}>Личный кабинет</p></>
+                        }
+                    </NavLink>
                 </div>
             </div>
         </header>

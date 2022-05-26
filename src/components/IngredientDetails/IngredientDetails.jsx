@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo } from "react";
 
 import styles from './IngredientDetails.module.css';
 import { useSelector } from "react-redux";
@@ -9,6 +9,8 @@ function IngredientDetails() {
     const {id : ingredientId } = useParams();
     const { items } = useSelector(store=>store.ingredients);
     const currentIngredient = useMemo(() => items.find(el => el._id === ingredientId), [ingredientId, items]);
+
+    useEffect(()=>window.history.replaceState({}, document.title),[]);
 
     if (Array.isArray(items) && items.length===0) {       
 
