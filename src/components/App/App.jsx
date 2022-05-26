@@ -23,12 +23,15 @@ import {
   PAGE_INGREDIENT_DETAILS,
   PAGE_LOGIN,
   PAGE_ORDER,
+  PAGE_ORDERS,
   PAGE_PROFILE,
   PAGE_REGISTER,
   PAGE_RESET_PASSWORD
 } from '../../utils/constants';
 import ProtectRout from '../ProtectRout/Protect-rout';
 import Profile from '../../pages/profile/profile';
+import Orders from '../../pages/profile/orders';
+import ProfileForm from '../ProfileForm/ProfileForm';
 
 function App() {
 
@@ -57,7 +60,20 @@ function App() {
         <Route path={PAGE_FORGOT_PASSWORD} element={<ForgotPassword />} />
         <Route path={PAGE_RESET_PASSWORD} element={<ResetPassword />} />
         <Route path={`${PAGE_INGREDIENT_DETAILS}/:id`} element={<IngredientDetails />} />
-        <Route path={PAGE_PROFILE} element={<Profile/>} />
+
+        <Route path={`${PAGE_PROFILE}/*`} element={
+          <ProtectRout>
+            <Routes>
+
+              <Route element={<Profile/>}>
+                <Route index element={<ProfileForm/>} />
+                <Route path={PAGE_ORDERS} element={<Orders/>} />
+              </Route>
+
+            </Routes>
+
+          </ProtectRout>} />
+
         <Route path='*' element={<NotFound />} />
       </Routes>
 

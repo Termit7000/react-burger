@@ -1,14 +1,16 @@
 import React from "react";
 import PropTypes from 'prop-types';
 import { useSelector } from "react-redux";
-import { Navigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 
 import { PAGE_LOGIN } from "../../utils/constants";
 
 function ProtectRout({ children }) {
 
+    const location = useLocation();
+    
     const { isAuthChecked } = useSelector(state => state.auth);
-    if (!isAuthChecked) return <Navigate to={PAGE_LOGIN}/>; 
+    if (!isAuthChecked) return <Navigate to={PAGE_LOGIN} state={{from: location.pathname}}/>; 
 
     return (
         <>

@@ -23,7 +23,7 @@ export default function AppHeader() {
 
                     <div className="mr-2">
 
-                        <NavLink to={PAGE_HOME} className={`${styles.link} pl-5 pr-5 pt-4 pb-4`}>
+                        <NavLink to={PAGE_HOME} className={`${styles.link} pr-5 pt-4 pb-4`}>
                             {({ isActive }) =>
                                 <>
                                     <BurgerIcon type={getTypeIcon(isActive)} />
