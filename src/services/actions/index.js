@@ -11,6 +11,7 @@ import {
 export const AUTH_REQUEST = 'REGISTER_REQUEST';
 export const AUTH_FAILED = 'REGISTER_FAILED';
 export const AUTH_SUCCESS = 'REGISTER_SUCCESS';
+export const AUTH_RESET_ERROR = 'AUTH_RESET_ERROR';
 
 export const AUTH_SET_NEW_TOKEN = 'SET_NEW_TOKEN';
 
@@ -73,25 +74,10 @@ export const createOrder = () => (dispatch, getState) => {
             dispatch({ type: GET_ORDER_FAILED, errorText: error });
         });
 
-    if ((new Date() - new Date(expiration)) > 0) { //обновить токен
+    return getActualAccessToken(dispatch, { accessToken, expiration, refreshToken })
+        .then(getOrder)
+        .catch(error => dispatch({ type: GET_ORDER_FAILED, errorText: error }));
 
-       return fetchRefreshToken(refreshToken)
-            .then(res=>{
-
-                const auth = {
-                    accessToken: res.accessToken.split('Bearer ')[1],
-                    refreshToken: res.refreshToken
-                };                
-
-                dispatch({type: AUTH_SET_NEW_TOKEN, ...auth});
-
-                return auth.accessToken;
-            })
-            .then(getOrder)
-            .catch(error=>dispatch({ type: GET_ORDER_FAILED, errorText: error }));
-    } ;
-
-    return getOrder(accessToken);
 }
 
 
@@ -133,6 +119,38 @@ export const signIn = form => dispatch => {
 
         })
         .catch(error => dispatch({ type: AUTH_FAILED, error }));
+}
+
+export const getUser = () => (dispatch, getState) => {
+    dispatch({ type: AUTH_REQUEST });
+
+    const { auth } = getState();
+    const { accessToken, refreshToken, expiration } = auth;
+
+
+
+}
+
+function getActualAccessToken(dispatch, { accessToken, expiration, refreshToken }) {
+
+    if ((new Date() - new Date(expiration)) < 0) { // токен действует
+
+        return Promise.resolve(accessToken);
+    }
+
+    //обновить токен
+    return fetchRefreshToken(refreshToken)    
+        .then(res => {
+
+            const auth = {
+                accessToken: res.accessToken.split('Bearer ')[1],
+                refreshToken: res.refreshToken
+            };
+
+            dispatch({ type: AUTH_SET_NEW_TOKEN, ...auth });
+
+            return auth.accessToken;
+        })
 }
 
 //ACTION CREATORS

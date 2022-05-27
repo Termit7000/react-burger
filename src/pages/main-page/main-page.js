@@ -24,7 +24,7 @@ function MainPage() {
     <DndProvider backend={HTML5Backend}>
 
       <div className={styles.content}>
-        <div className='mr-10'>
+        <div className='mr-20'>
            <BurgerIngredients/>
         </div>
 

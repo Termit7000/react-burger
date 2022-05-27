@@ -1,5 +1,6 @@
 import React from "react";
 import { NavLink, Outlet } from "react-router-dom";
+import { PAGE_ORDERS } from "../../utils/constants";
 
 import styles from './profile.module.css';
 
@@ -12,16 +13,14 @@ export default function Profile() {
                 <ul className={styles.list}>
                     <li className={styles.list__item}>
                         <NavLink to='' className={styles.link} end>
-                            {({ isActive }) =>
-                                
+                            {({ isActive }) =>                                
                                 <span className={`text text_type_main-medium ${isActive ? styles.text_active : styles.text}`}>Профиль</span>
                             }
-
                         </NavLink>
                     </li>
 
                     <li className={styles.list__item}>
-                        <NavLink to={'orders'} className={styles.link}>
+                        <NavLink to={PAGE_ORDERS} className={styles.link}>
                             {({ isActive }) =>
                                 <p className={`text text_type_main-medium ${isActive ? styles.text_active : styles.text}`}>Заказы</p>
                             }

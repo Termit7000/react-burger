@@ -28,9 +28,10 @@ import {
   PAGE_REGISTER,
   PAGE_RESET_PASSWORD
 } from '../../utils/constants';
+
 import ProtectRout from '../ProtectRout/Protect-rout';
 import Profile from '../../pages/profile/profile';
-import Orders from '../../pages/profile/orders';
+import Orders from '../Orders/orders';
 import ProfileForm from '../ProfileForm/ProfileForm';
 
 function App() {
@@ -53,6 +54,7 @@ function App() {
   return (
     <>
       <AppHeader />
+
       <Routes location={background || location}>
         <Route path={PAGE_HOME} element={<MainPage />} />
         <Route path={PAGE_LOGIN} element={<SignIn />} />
@@ -65,13 +67,12 @@ function App() {
           <ProtectRout>
             <Routes>
 
-              <Route element={<Profile/>}>
-                <Route index element={<ProfileForm/>} />
-                <Route path={PAGE_ORDERS} element={<Orders/>} />
+              <Route element={<Profile />}>
+                <Route index element={<ProfileForm />} />
+                <Route path={PAGE_ORDERS} element={<Orders />} />
               </Route>
 
             </Routes>
-
           </ProtectRout>} />
 
         <Route path='*' element={<NotFound />} />
@@ -93,7 +94,6 @@ function App() {
               <Modal handlerClose={closeModal}>
                 <OrderDetails />
               </Modal>
-
 
             </ProtectRout>
 

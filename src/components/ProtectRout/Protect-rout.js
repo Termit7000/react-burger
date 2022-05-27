@@ -8,9 +8,9 @@ import { PAGE_LOGIN } from "../../utils/constants";
 function ProtectRout({ children }) {
 
     const location = useLocation();
-    
     const { isAuthChecked } = useSelector(state => state.auth);
-    if (!isAuthChecked) return <Navigate to={PAGE_LOGIN} state={{from: location.pathname}}/>; 
+
+    if (!isAuthChecked) return <Navigate to={PAGE_LOGIN} replace={true} state={{from: location}}/>; 
 
     return (
         <>

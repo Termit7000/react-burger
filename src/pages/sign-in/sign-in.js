@@ -28,31 +28,42 @@ export default function SignIn() {
     const dispatch = useDispatch();
     const location = useLocation();
 
-    const pageFrom = location.state?.from || PAGE_HOME;
+    const locationFrom = location.state?.from || location;
     
-    if (isAuthChecked ) return <Navigate to={pageFrom} replace={true}/>;
+    if (isAuthChecked) return <Navigate to={locationFrom.pathname} replace={true} state={{...locationFrom.state}}/>;
+
     if (authInProgress) return (<p className="text text_type_main-default">Авторизация пользователя...</p>);
 
-    const submitHandler = ()=> dispatch(signIn({ email: inputValues.login, password: inputValues.password }));
- 
+    const submitHandler = () => dispatch(signIn({ email: inputValues.login, password: inputValues.password }));
+
     const inputsElem = [
-        <Input type={'email'}
-            placeholder={'E-mail'}
+        <Input type='email'
+            placeholder='E-mail'
             onChange={handleChangeInput}
             value={inputValues.login || ''}
-            name={'login'}
+            name='login'
             error={!isLoginValid}
-            size={'default'} />,
+            size='default' />,
 
         <PasswordInput
             onChange={handleChangeInput}
             value={inputValues.password || ''}
-            name={'password'}
+            name='password'
         />];
 
     return (
 
-        <RegForm title={TITLE} isError={isError} error={error} submitButtonTitle={TITLE_SUBMIT} submitHandler={submitHandler} inputs={inputsElem} isFormValid={isLoginValid} addInfo={addInfo} />
+        <div className="page__section_center">
+            <RegForm
+                title={TITLE}
+                isError={isError}
+                error={error}
+                submitButtonTitle={TITLE_SUBMIT}
+                submitHandler={submitHandler}
+                inputs={inputsElem}
+                isFormValid={isLoginValid}
+                addInfo={addInfo} />
+        </div>
 
     );
 }

@@ -37,36 +37,39 @@ export default function Registration() {
 
     const inputsElem = [
 
-        <Input type={'text'}
-            placeholder={'Имя'}
+        <Input type='text'
+            placeholder='Имя'
             onChange={handleChangeInput}
             value={inputValues.userName || ''}
-            name={'userName'}
-            size={'default'} />,
+            name='userName'
+            size='default' />,
 
-        <Input type={'email'}
-            placeholder={'E-mail'}
+        <Input type='email'
+            placeholder='E-mail'
             onChange={handleChangeInput}
             value={inputValues.login || ''}
-            name={'login'}
+            name='login'
             error={!isLoginValid}
-            size={'default'} />,
+            size='default' />,
 
         <PasswordInput
             onChange={handleChangeInput}
             value={inputValues.password || ''}
-            name={'password'}
+            name='password'
         />];
 
     return (
-        <RegForm 
-                title={TITLE} 
-                isError= {isError}
-                error={error} 
-                submitButtonTitle={TITLE_SUBMIT} 
-                submitHandler={submitHandler} 
-                inputs={inputsElem} 
-                isFormValid={isLoginValid} 
-                addInfo={addInfo} />        
+
+        <div className="page__section_center">
+            <RegForm
+                title={TITLE}
+                isError={isError}
+                error={error}
+                submitButtonTitle={TITLE_SUBMIT}
+                submitHandler={submitHandler}
+                inputs={inputsElem}
+                isFormValid={isLoginValid}
+                addInfo={addInfo} />
+        </div>
     );
 }

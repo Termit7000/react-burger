@@ -57,7 +57,7 @@ export const ingredientsReducer = (state = initialState, action) => {
             const items = [...state.items].map(el=>{
                 
                 //Сбросить счетчики у дргих булочек
-                if (isBun && el._id!==action.id) {                    
+                if (isBun && el._id!==action.id && el.type==='bun') {                    
                     return {...el, count:0};
                 }
 

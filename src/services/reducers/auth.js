@@ -4,7 +4,8 @@ import {
     AUTH_FAILED, 
     AUTH_REQUEST, 
     AUTH_SUCCESS, 
-    AUTH_SET_NEW_TOKEN } from "../actions"
+    AUTH_SET_NEW_TOKEN, 
+    AUTH_RESET_ERROR} from "../actions"
 
 
 const initialState = {
@@ -66,6 +67,9 @@ export const authReducer = (state = initialState, action) => {
 
             return { ...state, ...userData };
         }
+
+        case AUTH_RESET_ERROR: 
+            return {...state, isError: false, error: ''};
 
         case AUTH_SET_NEW_TOKEN: {
 

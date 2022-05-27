@@ -6,7 +6,8 @@ import {
     URL_SIGN_IN, 
     URL_REFRESH_TOKEN, 
     URL_FORGOT_PASSWORD, 
-    URL_RESET_PASSWORD} from "./constants";
+    URL_RESET_PASSWORD,
+    URL_USER_INFO} from "./constants";
 
 export function getIngredients() {
     return fetchRequest(BASE_URL + URL_SERVICE_INGREDIENTS, { method: 'GET' });
@@ -61,6 +62,18 @@ export function fetchRefreshToken(refreshToken) {
         body: JSON.stringify({token: refreshToken})
     });
 }
+
+//Данные пользователя
+export function fetchUser(accessToken) {
+
+    return fetchRequest(BASE_URL + URL_USER_INFO, {
+        method: 'GET',  
+        accessToken              
+    });
+
+}
+
+
 //СЕРВИСНЫЕ ФУНКЦИИ
 
 function fetchRequest(urlService, { method, body = undefined, accessToken='' }) {
