@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
 
 import { Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
@@ -11,21 +11,17 @@ const TITLE_SUBMIT = 'Обновить';
 
 export default function ProfileForm() {
 
-    const { authInProgress, isError, error, user } = useSelector(state => state.auth);
-    const { inputValues, handleChangeInput, isLoginValid } = useInputsHandler();
+    const { user } = useSelector(state => state.auth);
+    const { inputValues, handleChangeInput, isLoginValid } = useInputsHandler({userName: user.name, login: user.email});
 
-    console.log(inputValues.login);
-
-    const submitHandler = () => { };
-
-    if (authInProgress) return (<p className="text text_type_main-default">Авторизация пользователя...</p>);
+    const submitHandler = ()=> {};
 
     const inputsElem = [
 
         <Input type='text'
             placeholder='Имя'
             onChange={handleChangeInput}
-            value={inputValues.userName || user.name || ''}
+            value={inputValues.userName}
             name='userName'
             size='default'
             icon='EditIcon'/>,
@@ -33,7 +29,7 @@ export default function ProfileForm() {
         <Input type='email'
             placeholder='Логин'
             onChange={handleChangeInput}
-            value={inputValues.login || user.email || ''}
+            value={inputValues.login}
             name='login'
             error={!isLoginValid}
             size='default'
@@ -47,9 +43,6 @@ export default function ProfileForm() {
 
     return (
         <RegForm
-            title={TITLE}
-            isError={isError}
-            error={error}
             submitButtonTitle={TITLE_SUBMIT}
             submitHandler={submitHandler}
             inputs={inputsElem}

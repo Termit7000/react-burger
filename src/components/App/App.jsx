@@ -14,7 +14,7 @@ import IngredientDetails from '../IngredientDetails/IngredientDetails';
 import Modal from '../Modal/Modal';
 import OrderDetails from '../OrderDetails/OrderDetails';
 
-import { getIngredientsItems } from '../../services/actions';
+import { getIngredientsItems, getUser } from '../../services/actions';
 import { NotFound } from '../../pages/not-found/not-fond';
 
 import {
@@ -45,6 +45,7 @@ function App() {
   useEffect(() => {
 
     dispatch(getIngredientsItems());
+    dispatch(getUser());
 
   }, [dispatch]);
 

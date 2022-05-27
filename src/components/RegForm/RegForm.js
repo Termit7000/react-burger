@@ -55,7 +55,7 @@ const addInfoShape = PropTypes.arrayOf(PropTypes.shape({
 }));
 
 RegForm.propTypes = {
-    title: PropTypes.string.isRequired,
+    title: PropTypes.string,
     isError: PropTypes.bool,
     error: PropTypes.string,
     submitButtonTitle: PropTypes.string.isRequired,
@@ -66,6 +66,7 @@ RegForm.propTypes = {
 };
 
 RegForm.defaultProps = {
+    title: '',
     isError: false,
     error: '',
     isFormValid: false,

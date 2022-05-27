@@ -3,7 +3,8 @@ import {
     getIngredients,
     fetchRegister,
     fetchSignIn,
-    fetchRefreshToken
+    fetchRefreshToken,
+    fetchUser
 } from "../../utils/api";
 
 
@@ -14,6 +15,8 @@ export const AUTH_SUCCESS = 'REGISTER_SUCCESS';
 export const AUTH_RESET_ERROR = 'AUTH_RESET_ERROR';
 
 export const AUTH_SET_NEW_TOKEN = 'SET_NEW_TOKEN';
+
+export const AUTH_UPDATE_USER_INFO = 'AUTH_UPDATE_USER_INFO';
 
 //Заказ
 export const GET_ORDER_REQUEST = 'GET_ORDER_REQUEST';
@@ -80,9 +83,9 @@ export const createOrder = () => (dispatch, getState) => {
 
 }
 
-
 //РЕГИСТРАЦИЯ и АВТОРИЗАЦИЯ
 
+//Создать нового пользователя
 export const registerNewUser = form => dispatch => {
 
     dispatch({ type: AUTH_REQUEST });
@@ -121,14 +124,24 @@ export const signIn = form => dispatch => {
         .catch(error => dispatch({ type: AUTH_FAILED, error }));
 }
 
+//Получить данные пользователя
 export const getUser = () => (dispatch, getState) => {
     dispatch({ type: AUTH_REQUEST });
 
     const { auth } = getState();
-    const { accessToken, refreshToken, expiration } = auth;
+  
+    return getActualAccessToken(dispatch, auth)
+        .then(fetchUser)
+        .then(res=>{
 
+            const user =  { 
+                email: res.user.email, 
+                name: res.user.name };
+            
+            dispatch({type: AUTH_UPDATE_USER_INFO, user});
 
-
+        })
+        .catch(error => dispatch({ type: AUTH_FAILED, error }));
 }
 
 function getActualAccessToken(dispatch, { accessToken, expiration, refreshToken }) {

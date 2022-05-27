@@ -5,7 +5,8 @@ import {
     AUTH_REQUEST, 
     AUTH_SUCCESS, 
     AUTH_SET_NEW_TOKEN, 
-    AUTH_RESET_ERROR} from "../actions"
+    AUTH_RESET_ERROR,
+    AUTH_UPDATE_USER_INFO} from "../actions"
 
 
 const initialState = {
@@ -80,6 +81,9 @@ export const authReducer = (state = initialState, action) => {
 
             return {...state, accessToken, refreshToken, expiration};
         }
+
+        case AUTH_UPDATE_USER_INFO: 
+            return {...state, user: {...action.user}};
 
         default: return state
     }
