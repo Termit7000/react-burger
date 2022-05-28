@@ -26,6 +26,14 @@
     row-gap: 24px;    
 }
 
+.buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    column-gap: 24px;
+}
+
+
 [class~=input__container],
 [class~=input] {
     width: 100%;

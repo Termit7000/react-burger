@@ -9,6 +9,7 @@ export const URL_FORGOT_PASSWORD = '/password-reset';
 export const URL_RESET_PASSWORD = '/password-reset/reset';
 export const URL_USER_INFO = '/auth/user';
 export const URL_LOGOUT = '/auth/logout';
+export const URL_UPDATE_USER = '/auth/user';
 
 export const MODAL_ROOT_NAME  = 'modal';
 export const KEY_USER_DATA = 'userRefreshToken';

@@ -10,12 +10,12 @@ import styles from './profile.module.css';
 export default function Profile() {
 
     const dispatch = useDispatch();    
-    const {refreshToken,logoutInProgress, isError, error} = useSelector(state=>state.auth);
+    const {refreshToken,logoutInProgress, isError, error} = useSelector(state=>state.auth);    
 
     const handleExit = () => dispatch(logOut(refreshToken));
 
-    if (logoutInProgress) return <p>Logout...</p>;
-    if (isError) return <p>`Что-то пошло не так: ${error}`</p>
+    if (logoutInProgress) return <p  className="text text_type_main-medium">Logout...</p>;
+    if (isError) return <p className="text text_type_main-medium">`Что-то пошло не так: ${error}`</p>
 
     return (
         <section aria-label="profile" className={styles.container}>

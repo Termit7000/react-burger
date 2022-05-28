@@ -5,7 +5,8 @@ import {
     fetchSignIn,
     fetchRefreshToken,
     fetchUser,
-    fetchLogOut
+    fetchLogOut,
+    fetchUpdateUser
 } from "../../utils/api";
 
 //Авторизация
@@ -16,12 +17,17 @@ export const AUTH_RESET_ERROR = 'AUTH_RESET_ERROR';
 
 export const AUTH_SET_NEW_TOKEN = 'AUTH_SET_NEW_TOKEN';
 
-export const AUTH_UPDATE_USER_INFO = 'AUTH_UPDATE_USER_INFO';
+export const AUTH_SET_USER_INFO = 'AUTH_SET_USER_INFO';
 
 //Выход из системы
-export const AUTH_LOGOUT_REQUEST  = 'AUTH_LOGOUT_REQUEST';
+export const AUTH_LOGOUT_REQUEST = 'AUTH_LOGOUT_REQUEST';
 export const AUTH_LOGOUT_SUCCESS = 'AUTH_LOGOUT_SUCCESS';
 export const AUTH_LOGOUT_FAILED = 'AUTH_LOGOUT_FAILED';
+
+//Обновление данных пользователя
+export const AUTH_UPDATE_REQUEST = 'AUTH_UPDATE_REQUEST';
+export const AUTH_UPDATE_SUCCESS = 'AUTH_UPDATE_SUCCESS';
+export const AUTH_UPDATE_FAILED = 'AUTH_UPDATE_FAILED';
 
 //Заказ
 export const GET_ORDER_REQUEST = 'GET_ORDER_REQUEST';
@@ -89,23 +95,25 @@ export const createOrder = () => (dispatch, getState) => {
 
 //РЕГИСТРАЦИЯ и АВТОРИЗАЦИЯ
 
+function dispatchUserInfo(dispatch, { accessToken, refreshToken, user }) {
+
+    dispatch({
+        type: AUTH_SET_NEW_TOKEN,
+        accessToken: accessToken.split('Bearer ')[1],
+        refreshToken
+    });
+
+    dispatch({ type: AUTH_SET_USER_INFO, user });
+    dispatch({ type: AUTH_SUCCESS });
+}
+
 //Создать нового пользователя
 export const registerNewUser = form => dispatch => {
 
     dispatch({ type: AUTH_REQUEST });
 
     fetchRegister(form)
-        .then(res => {
-
-            const auth = {
-                user: { email: res.user.email, name: res.user.name },
-                accessToken: res.accessToken.split('Bearer ')[1],
-                refreshToken: res.refreshToken
-            };
-
-            dispatch({ type: AUTH_SUCCESS, ...auth });
-
-        })
+        .then(res => dispatchUserInfo(dispatch, res))
         .catch(error => dispatch({ type: AUTH_FAILED, error }));
 }
 
@@ -114,43 +122,57 @@ export const signIn = form => dispatch => {
 
     dispatch({ type: AUTH_REQUEST });
     return fetchSignIn(form)
-        .then(res => {
-
-            const auth = {
-                user: { email: res.user.email, name: res.user.name },
-                accessToken: res.accessToken.split('Bearer ')[1],
-                refreshToken: res.refreshToken
-            };
-
-            dispatch({ type: AUTH_SUCCESS, ...auth });
-
-        })
+        .then(res => dispatchUserInfo(dispatch, res))
         .catch(error => dispatch({ type: AUTH_FAILED, error }));
 }
 
 //Получить данные пользователя
 export const getUser = () => (dispatch, getState) => {
+    
+    const { auth } = getState();
+
+    if (!auth.refreshToken) return Promise.resolve('RefreshToken не найден');
+
     dispatch({ type: AUTH_REQUEST });
 
-    const { auth } = getState();
-  
     return getActualAccessToken(dispatch, auth)
         .then(fetchUser)
-        .then(res=>{
+        .then(res => {
 
-            const user =  { 
-                email: res.user.email, 
-                name: res.user.name };
-            
-            dispatch({type: AUTH_UPDATE_USER_INFO, user});
+            const user = {
+                email: res.user.email,
+                name: res.user.name
+            };
 
+            dispatch({ type: AUTH_SET_USER_INFO, user });
+            dispatch({ type: AUTH_SUCCESS});
         })
         .catch(error => {
-            
             dispatch({ type: AUTH_FAILED, error });
-            dispatch({type: AUTH_RESET_ERROR});
+            dispatch({ type: AUTH_RESET_ERROR });
         });
-            
+}
+
+//Обновить данные пользователя
+export const updateUser = form => (dispatch, getState) => {
+
+    dispatch({ type: AUTH_UPDATE_REQUEST });
+
+    const { auth } = getState();
+
+    return getActualAccessToken(dispatch, auth)
+        .then(accessToken => fetchUpdateUser(form, accessToken))
+        .then(res => {
+
+            const user = {
+                email: res.user.email,
+                name: res.user.name
+            };
+
+            dispatch({ type: AUTH_UPDATE_SUCCESS, user });
+
+        })
+        .catch(error => dispatch({ type: AUTH_UPDATE_FAILED, error }));
 }
 
 function getActualAccessToken(dispatch, { accessToken, expiration, refreshToken }) {
@@ -159,13 +181,12 @@ function getActualAccessToken(dispatch, { accessToken, expiration, refreshToken 
         return Promise.reject('Отсутствует refreshToken');
     }
 
-
     if ((new Date() - new Date(expiration)) < 0) { // токен действует
         return Promise.resolve(accessToken);
     }
 
     //обновить токен
-    return fetchRefreshToken(refreshToken)    
+    return fetchRefreshToken(refreshToken)
         .then(res => {
 
             const auth = {
@@ -179,13 +200,13 @@ function getActualAccessToken(dispatch, { accessToken, expiration, refreshToken 
         })
 }
 
-export const logOut=refreshToken=>dispatch=> {
+export const logOut = refreshToken => dispatch => {
 
-    dispatch({type: AUTH_LOGOUT_REQUEST});
+    dispatch({ type: AUTH_LOGOUT_REQUEST });
 
     return fetchLogOut(refreshToken)
-        .then(()=>dispatch({type: AUTH_LOGOUT_SUCCESS}))
-        .catch(error=>dispatch({type: AUTH_LOGOUT_FAILED, error}));    
+        .then(() => dispatch({ type: AUTH_LOGOUT_SUCCESS }))
+        .catch(error => dispatch({ type: AUTH_LOGOUT_FAILED, error }));
 }
 
 //ACTION CREATORS

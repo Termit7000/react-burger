@@ -1,20 +1,38 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
-import { Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
+import { Button, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import RegForm from "../../components/RegForm/RegForm";
 import useInputsHandler from "../../hooks/useInputsHandler";
+import { updateUser } from "../../services/actions";
 
-const TITLE = '';
-const TITLE_SUBMIT = 'Обновить';
+const TITLE_SUBMIT = 'Сохранить';
 
 export default function ProfileForm() {
 
-    const { user } = useSelector(state => state.auth);
-    const { inputValues, handleChangeInput, isLoginValid } = useInputsHandler({userName: user.name, login: user.email});
+    const { user, isErrorUpdate, error, updateInProgress } = useSelector(state => state.auth);
+    const dispatch = useDispatch();
+    const { inputValues, handleChangeInput, isLoginValid, setInputsValue } = useInputsHandler({ userName: user.name, login: user.email });
 
-    const submitHandler = ()=> {};
+    if (updateInProgress) return <p className="text text_type_main-medium">Обновление данных пользователя...</p>
+
+    const isFormValid = Boolean(isLoginValid && inputValues.userName && inputValues.login && inputValues.password);
+
+    const submitHandler = () => {
+
+        dispatch(updateUser({
+            email: inputValues.login,
+            password: inputValues.password,
+            name: inputValues.userName
+        }))
+    };
+
+    const handleCancel = e => {
+        e.preventDefault();
+        setInputsValue({ userName: user.name, login: user.email });
+
+    };
 
     const inputsElem = [
 
@@ -24,7 +42,7 @@ export default function ProfileForm() {
             value={inputValues.userName}
             name='userName'
             size='default'
-            icon='EditIcon'/>,
+            icon='EditIcon' />,
 
         <Input type='email'
             placeholder='Логин'
@@ -41,11 +59,17 @@ export default function ProfileForm() {
             name='password'
         />];
 
+
+    const addButton = <Button onClick={handleCancel}>Отмена</Button>
+
     return (
         <RegForm
+            isError={isErrorUpdate}
+            error={error}
             submitButtonTitle={TITLE_SUBMIT}
             submitHandler={submitHandler}
             inputs={inputsElem}
-            isFormValid={isLoginValid} />
+            isFormValid={isFormValid}
+            addButton={addButton} />
     );
 }

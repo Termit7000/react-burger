@@ -32,8 +32,8 @@ export default function SignIn() {
 
     const { inputValues, handleChangeInput, isLoginValid } = useInputsHandler();
     
-    const locationFrom = location.state.from || location;
-    const pathTo =  location.state.from?.pathname || PAGE_HOME;
+    const locationFrom = location.state?.from || location;
+    const pathTo =  location.state?.from?.pathname || PAGE_HOME;
     
     if (isAuthChecked) return <Navigate to={pathTo} replace={true} state={{...locationFrom.state}}/>;
     

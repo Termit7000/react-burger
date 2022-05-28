@@ -24,5 +24,9 @@ export default function useInputsHandler(defaultState={}) {
         setValue(name, value);
     };
 
-    return {inputValues,handleChangeInput, isLoginValid};
+    const setInputsValue =inputs=> {
+        setInputValue({ ...inputs });
+    };
+
+    return {inputValues,handleChangeInput, isLoginValid, setInputsValue};
 }

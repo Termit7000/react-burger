@@ -6,16 +6,24 @@ import {
     AUTH_SUCCESS, 
     AUTH_SET_NEW_TOKEN, 
     AUTH_RESET_ERROR,
-    AUTH_UPDATE_USER_INFO,
+    AUTH_SET_USER_INFO,
     AUTH_LOGOUT_REQUEST,
     AUTH_LOGOUT_SUCCESS,
-    AUTH_LOGOUT_FAILED} from "../actions"
+    AUTH_LOGOUT_FAILED,
+    AUTH_UPDATE_REQUEST,
+    AUTH_UPDATE_FAILED,
+    AUTH_UPDATE_SUCCESS} from "../actions"
 
 
 const initialState = {
     isAuthChecked: false,
+    
     authInProgress: false,
     logoutInProgress: false,
+    updateInProgress: false,
+
+    isErrorUpdate: false,
+
     isError: false,
     error: '',
     user: {
@@ -37,11 +45,11 @@ const getExpirationTokenDate = token => {
 
 };
 
-const saveUserData = value => window.localStorage.setItem(KEY_USER_DATA, value);
-const getUserData = ()=> window.localStorage.getItem(KEY_USER_DATA) || '';  
-const removeUserData = () => window.localStorage.removeItem(KEY_USER_DATA);
+const saveUserToken = value => window.localStorage.setItem(KEY_USER_DATA, value);
+const getUserToken = ()=> window.localStorage.getItem(KEY_USER_DATA) || '';  
+const removeUserToken = () => window.localStorage.removeItem(KEY_USER_DATA);
 
-const refreshToken = getUserData();
+const refreshToken = getUserToken();
 
 if (refreshToken) {
     initialState.refreshToken = refreshToken; 
@@ -57,21 +65,7 @@ export const authReducer = (state = initialState, action) => {
         case AUTH_FAILED:
             return { ...state, authInProgress: false, isError: true, error: action.error };
         case AUTH_SUCCESS: {
-
-            const userData = {
-                authInProgress: false,
-                isAuthChecked: true,
-                user: { ...action.user },
-                accessToken: action.accessToken,
-                refreshToken: action.refreshToken
-            };
-
-            //Дата истечения токена                   
-            userData.expiration = getExpirationTokenDate(action.accessToken);
-
-            saveUserData(action.refreshToken);
-
-            return { ...state, ...userData };
+            return { ...state, authInProgress: false, isAuthChecked: true };
         }
 
         case AUTH_RESET_ERROR: 
@@ -82,23 +76,30 @@ export const authReducer = (state = initialState, action) => {
             const {accessToken, refreshToken} = action;
             const expiration = getExpirationTokenDate(accessToken);
             
-            saveUserData(refreshToken);
+            saveUserToken(refreshToken);
 
-            return {...state, accessToken, refreshToken, expiration};
-        }
+            return {...state, accessToken, refreshToken, expiration};        }
 
-        case AUTH_UPDATE_USER_INFO: 
-            return {...state, user: {...action.user}, isAuthChecked: true, authInProgress: false};
+        case AUTH_SET_USER_INFO: 
+            return {...state, user: {...action.user}};
 
         case AUTH_LOGOUT_REQUEST: 
             return {...state, logoutInProgress: true};
 
         case AUTH_LOGOUT_SUCCESS: {
-            removeUserData();
+            removeUserToken();
             return {...initialState, refreshToken:''};
         }
         case AUTH_LOGOUT_FAILED: 
             return {...state, logoutInProgress:false, isError: true, error: action.error };
+
+        case AUTH_UPDATE_REQUEST:
+            return {...state, updateInProgress: true};
+        
+        case AUTH_UPDATE_FAILED: 
+            return {...state, updateInProgress: false, isErrorUpdate: true, error: action.error};
+        case AUTH_UPDATE_SUCCESS:
+            return {...state, user: {...action.user}, updateInProgress: false};
 
         default: return state
     }

@@ -6,10 +6,10 @@ import { Link } from "react-router-dom";
 
 import styles from './RegForm.module.css';
 
-function RegForm({ title, isError, error, submitButtonTitle, submitHandler, inputs, isFormValid, addInfo }) {
+function RegForm({ title, isError, error, submitButtonTitle, submitHandler, inputs, isFormValid, addInfo, addButton }) {
 
     const handleSubmit = (e) => {
-        e.preventDefault();        
+        e.preventDefault();
         submitHandler();
     }
 
@@ -31,9 +31,15 @@ function RegForm({ title, isError, error, submitButtonTitle, submitHandler, inpu
 
                 </fieldset>
 
-                <Button disabled={!isFormValid} type="primary" size="medium">
-                    {submitButtonTitle}
-                </Button>
+                <div className={styles.buttons}>
+
+                    {addButton}
+
+                    <Button disabled={!isFormValid} type="primary" size="medium">
+                        {submitButtonTitle}
+                    </Button>                   
+
+                </div>
 
                 {addInfo.map(({ title, link }, index) =>
                     <div className={`${index === 0 ? 'mt-20' : 'mt-4'} ${styles.addActions}`} key={index}>
@@ -42,7 +48,7 @@ function RegForm({ title, isError, error, submitButtonTitle, submitHandler, inpu
                     </div>
                 )}
             </form>
-        </section> 
+        </section>
     );
 }
 
@@ -62,7 +68,8 @@ RegForm.propTypes = {
     submitHandler: PropTypes.func,
     isFormValid: PropTypes.bool,
     inputs: PropTypes.arrayOf(PropTypes.element.isRequired).isRequired,
-    addInfo: PropTypes.oneOfType([PropTypes.array, addInfoShape])
+    addInfo: PropTypes.oneOfType([PropTypes.array, addInfoShape]),
+    addButton: PropTypes.element
 };
 
 RegForm.defaultProps = {
@@ -70,7 +77,8 @@ RegForm.defaultProps = {
     isError: false,
     error: '',
     isFormValid: false,
-    addInfo: []
+    addInfo: [],
+    addButton: null
 }
 
 export default RegForm;
