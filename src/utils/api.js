@@ -7,7 +7,8 @@ import {
     URL_REFRESH_TOKEN, 
     URL_FORGOT_PASSWORD, 
     URL_RESET_PASSWORD,
-    URL_USER_INFO} from "./constants";
+    URL_USER_INFO,
+    URL_LOGOUT} from "./constants";
 
 export function getIngredients() {
     return fetchRequest(BASE_URL + URL_SERVICE_INGREDIENTS, { method: 'GET' });
@@ -70,7 +71,15 @@ export function fetchUser(accessToken) {
         method: 'GET',  
         accessToken              
     });
+}
 
+//LOGOUT
+export function fetchLogOut(refreshToken) {
+    
+    return fetchRequest(BASE_URL + URL_LOGOUT, {
+        method: 'POST',        
+        body: JSON.stringify({token: refreshToken})
+    });
 }
 
 

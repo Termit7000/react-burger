@@ -14,7 +14,7 @@ import IngredientDetails from '../IngredientDetails/IngredientDetails';
 import Modal from '../Modal/Modal';
 import OrderDetails from '../OrderDetails/OrderDetails';
 
-import { getIngredientsItems, getUser } from '../../services/actions';
+import { getIngredientsItems } from '../../services/actions';
 import { NotFound } from '../../pages/not-found/not-fond';
 
 import {
@@ -44,8 +44,7 @@ function App() {
   //Получение списка ингредиентов 
   useEffect(() => {
 
-    dispatch(getIngredientsItems());
-    dispatch(getUser());
+    dispatch(getIngredientsItems());    
 
   }, [dispatch]);
 

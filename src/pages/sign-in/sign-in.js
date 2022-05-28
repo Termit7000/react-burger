@@ -7,6 +7,8 @@ import { Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-co
 import RegForm from "../../components/RegForm/RegForm";
 import useInputsHandler from "../../hooks/useInputsHandler";
 import { signIn } from "../../services/actions";
+
+import styles from './sign-in.module.css';
 import { PAGE_HOME } from "../../utils/constants";
 
 const addInfo = [{
@@ -23,16 +25,19 @@ const TITLE_SUBMIT = 'Вход';
 
 export default function SignIn() {
 
-    const { isAuthChecked, isError, error, authInProgress } = useSelector(state => state.auth);
-    const { inputValues, handleChangeInput, isLoginValid } = useInputsHandler();
     const dispatch = useDispatch();
     const location = useLocation();
 
-    const locationFrom = location.state?.from || location;
-    
-    if (isAuthChecked) return <Navigate to={locationFrom.pathname} replace={true} state={{...locationFrom.state}}/>;
+    const { isAuthChecked, isError, error, authInProgress } = useSelector(state => state.auth);
 
-    if (authInProgress) return (<p className="text text_type_main-default">Авторизация пользователя...</p>);
+    const { inputValues, handleChangeInput, isLoginValid } = useInputsHandler();
+    
+    const locationFrom = location.state.from || location;
+    const pathTo =  location.state.from?.pathname || PAGE_HOME;
+    
+    if (isAuthChecked) return <Navigate to={pathTo} replace={true} state={{...locationFrom.state}}/>;
+    
+    if (authInProgress) return (<p className={`mt-6 text text_type_main-default ${styles.authInProgress}`}>Авторизация пользователя...</p>);
 
     const submitHandler = () => dispatch(signIn({ email: inputValues.login, password: inputValues.password }));
 

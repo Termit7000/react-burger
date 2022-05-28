@@ -6,7 +6,10 @@ import { ListIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { BurgerIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { ProfileIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import { PAGE_HOME, PAGE_PROFILE } from "../../utils/constants.js";
+import { 
+    PAGE_FEED, 
+    PAGE_HOME, 
+    PAGE_PROFILE } from "../../utils/constants.js";
 
 import styles from './AppHeader.module.css';
 
@@ -33,7 +36,7 @@ export default function AppHeader() {
                         </NavLink>
                     </div>
 
-                    <NavLink to={PAGE_PROFILE} className={`${styles.link} pl-5 pr-5 pt-4 pb-4`}>
+                    <NavLink to={PAGE_FEED} className={`${styles.link} pl-5 pr-5 pt-4 pb-4`}>
                         {({ isActive }) =>
                             <>
                                 <ListIcon type={getTypeIcon(isActive)} />

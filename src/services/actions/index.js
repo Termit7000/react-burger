@@ -4,9 +4,9 @@ import {
     fetchRegister,
     fetchSignIn,
     fetchRefreshToken,
-    fetchUser
+    fetchUser,
+    fetchLogOut
 } from "../../utils/api";
-
 
 //Авторизация
 export const AUTH_REQUEST = 'REGISTER_REQUEST';
@@ -14,9 +14,14 @@ export const AUTH_FAILED = 'REGISTER_FAILED';
 export const AUTH_SUCCESS = 'REGISTER_SUCCESS';
 export const AUTH_RESET_ERROR = 'AUTH_RESET_ERROR';
 
-export const AUTH_SET_NEW_TOKEN = 'SET_NEW_TOKEN';
+export const AUTH_SET_NEW_TOKEN = 'AUTH_SET_NEW_TOKEN';
 
 export const AUTH_UPDATE_USER_INFO = 'AUTH_UPDATE_USER_INFO';
+
+//Выход из системы
+export const AUTH_LOGOUT_REQUEST  = 'AUTH_LOGOUT_REQUEST';
+export const AUTH_LOGOUT_SUCCESS = 'AUTH_LOGOUT_SUCCESS';
+export const AUTH_LOGOUT_FAILED = 'AUTH_LOGOUT_FAILED';
 
 //Заказ
 export const GET_ORDER_REQUEST = 'GET_ORDER_REQUEST';
@@ -80,7 +85,6 @@ export const createOrder = () => (dispatch, getState) => {
     return getActualAccessToken(dispatch, { accessToken, expiration, refreshToken })
         .then(getOrder)
         .catch(error => dispatch({ type: GET_ORDER_FAILED, errorText: error }));
-
 }
 
 //РЕГИСТРАЦИЯ и АВТОРИЗАЦИЯ
@@ -141,13 +145,22 @@ export const getUser = () => (dispatch, getState) => {
             dispatch({type: AUTH_UPDATE_USER_INFO, user});
 
         })
-        .catch(error => dispatch({ type: AUTH_FAILED, error }));
+        .catch(error => {
+            
+            dispatch({ type: AUTH_FAILED, error });
+            dispatch({type: AUTH_RESET_ERROR});
+        });
+            
 }
 
 function getActualAccessToken(dispatch, { accessToken, expiration, refreshToken }) {
 
-    if ((new Date() - new Date(expiration)) < 0) { // токен действует
+    if (!refreshToken) {
+        return Promise.reject('Отсутствует refreshToken');
+    }
 
+
+    if ((new Date() - new Date(expiration)) < 0) { // токен действует
         return Promise.resolve(accessToken);
     }
 
@@ -164,6 +177,15 @@ function getActualAccessToken(dispatch, { accessToken, expiration, refreshToken 
 
             return auth.accessToken;
         })
+}
+
+export const logOut=refreshToken=>dispatch=> {
+
+    dispatch({type: AUTH_LOGOUT_REQUEST});
+
+    return fetchLogOut(refreshToken)
+        .then(()=>dispatch({type: AUTH_LOGOUT_SUCCESS}))
+        .catch(error=>dispatch({type: AUTH_LOGOUT_FAILED, error}));    
 }
 
 //ACTION CREATORS

@@ -8,6 +8,7 @@ export const URL_REFRESH_TOKEN = '/auth/token';
 export const URL_FORGOT_PASSWORD = '/password-reset';
 export const URL_RESET_PASSWORD = '/password-reset/reset';
 export const URL_USER_INFO = '/auth/user';
+export const URL_LOGOUT = '/auth/logout';
 
 export const MODAL_ROOT_NAME  = 'modal';
 export const KEY_USER_DATA = 'userRefreshToken';
@@ -21,3 +22,4 @@ export const PAGE_ORDER = '/order';
 export const PAGE_INGREDIENT_DETAILS = '/ingredients';
 export const PAGE_PROFILE = '/profile';
 export const PAGE_ORDERS = 'orders';
+export const PAGE_FEED = 'feed';
