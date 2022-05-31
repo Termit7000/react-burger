@@ -1,26 +1,38 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo } from "react";
 
 import styles from './IngredientDetails.module.css';
 import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 
 function IngredientDetails() {
 
-    const { items, ingredientId } = useSelector(store=>store.ingredients);
-
+    const {id : ingredientId } = useParams();
+    const { items } = useSelector(store=>store.ingredients);
     const currentIngredient = useMemo(() => items.find(el => el._id === ingredientId), [ingredientId, items]);
+
+    useEffect(()=>window.history.replaceState({}, document.title),[]);
+
+    if (Array.isArray(items) && items.length===0) {       
+
+        return (
+            <p className={`${styles.ingredient__loading} mt-30 mb-30 text text_type_main-small`}>Загрузка...</p>
+        );
+    }    
 
     if (!currentIngredient) {
         return (
-            <p className="mt-30 mb-30 text text_type_main-small">Не удалось получить информацию по ингредиенту с id: {ingredientId}</p>
+            <p className={`${styles.ingredient__loading} mt-30 mb-30 text text_type_main-small`}>Не удалось получить информацию по ингредиенту с id: {ingredientId}</p>
         );
     }
 
+    const { calories,proteins,fat,carbohydrates } = currentIngredient;
+
     const nutrients = 
         [
-            { name: 'Калории, ккал', value: currentIngredient.calories },
-            { name: 'Белки, г', value: currentIngredient.proteins },
-            { name: 'Жиры, г', value: currentIngredient.fat },
-            { name: 'Углеводы, ', value: currentIngredient.carbohydrates },
+            { name: 'Калории, ккал', value: calories },
+            { name: 'Белки, г', value: proteins },
+            { name: 'Жиры, г', value: fat },
+            { name: 'Углеводы, ', value: carbohydrates },
         ];
 
     return (

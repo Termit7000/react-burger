@@ -18,6 +18,19 @@ code {
   box-sizing: border-box;
 }
 
-:root{
-  --color-secondary-text: #8585AD;
+.link {
+  text-decoration: none;
+  color: var(--colors-interface-accent);
 }
+
+.page__section_center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+:root{
+  --color-secondary-text: #8585AD;  
+}
+

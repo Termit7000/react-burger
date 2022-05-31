@@ -10,8 +10,6 @@ import {
     DELETE_FROM_CONSTRUCTOR,
     DELETE_ALL_FROM_CONSTRUCTOR,
 
-    OPEN_INGREDIENT_DETAILS,
-    CLOSE_INGREDIENT_DETAILS,
     MOVE_INGREDIENTS_CONSTRUCTOR
 } from "../actions"
 
@@ -24,10 +22,7 @@ const initialState = {
     constructor: {
         ingredients: [],
         bun: null,
-    },
-
-    isDatailsOpen: false,
-    ingredientId: ''
+    }
 };
 
 export const ingredientsReducer = (state = initialState, action) => {
@@ -48,22 +43,21 @@ export const ingredientsReducer = (state = initialState, action) => {
                 items: action.ingredients.map(el => ({ ...el, count: 0 }))
             };
 
-        case OPEN_INGREDIENT_DETAILS:
-            return { ...state, isDatailsOpen: true, ingredientId: action.ingredientId };
-
-        case CLOSE_INGREDIENT_DETAILS:
-            return { ...state, isDatailsOpen: false, ingredientId: '' };
-
-
         //Увеличить счетчик ингредиента
         case INCREASE_INGREDIENT: {
 
-            const isBun = state.items.find(el=>el._id===action.id).type === 'bun';
+            const currentIngredient = state.items.find(el=>el._id===action.id);
+            const isBun = currentIngredient.type === 'bun';
+
+            //Если булочка уже в конструкторе (count>0), сбросить количество
+            if (isBun && currentIngredient.count > 0) {
+                currentIngredient.count = 0;
+            }
 
             const items = [...state.items].map(el=>{
                 
                 //Сбросить счетчики у дргих булочек
-                if (isBun && el._id!==action.id) {                    
+                if (isBun && el._id!==action.id && el.type==='bun') {                    
                     return {...el, count:0};
                 }
 
@@ -109,6 +103,7 @@ export const ingredientsReducer = (state = initialState, action) => {
             return {...state, constructor};
         }
 
+        //DRAG And PROP
         case MOVE_INGREDIENTS_CONSTRUCTOR: {
 
             const items = state.constructor.ingredients;

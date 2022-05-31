@@ -2,10 +2,12 @@ import React, { forwardRef } from "react";
 import { useSelector } from "react-redux";
 import PropTypes from 'prop-types';
 
+import IngredientCard from '../IngredientCard/IngredientCard';
+
 import styles from './ListItems.module.css';
 
 
-const ListItems= forwardRef( ( { name, type, card }, ref ) => {
+const ListItems= forwardRef( ( { name, type }, ref ) => {
 
     const { items } = useSelector(store=>store.ingredients);
 
@@ -20,7 +22,7 @@ const ListItems= forwardRef( ( { name, type, card }, ref ) => {
                     {ingredientsByType.map(el =>
                         <li key={el._id} className={`${styles.card_item} mr-6`}>
 
-                             {card( { imgSrc: el.image, ...el})}
+                            <IngredientCard imgSrc={el.image} {...el} />                             
                             
                         </li>
                     )}
@@ -30,8 +32,7 @@ const ListItems= forwardRef( ( { name, type, card }, ref ) => {
 
 ListItems.propTypes = {
     name: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
-    card: PropTypes.func.isRequired    
+    type: PropTypes.string.isRequired      
 }
 
 export default ListItems;

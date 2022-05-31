@@ -1,110 +1,105 @@
 import React, { useCallback, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 
-import { DndProvider } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
+//pages
+import ForgotPassword from '../../pages/forgot-password/forgot-password';
+import MainPage from '../../pages/main-page/main-page';
+import Registration from '../../pages/registration/registration';
+import ResetPassword from '../../pages/reset-password/reset-password';
+import SignIn from '../../pages/sign-in/sign-in';
 
 import AppHeader from '../AppHeader/AppHeader';
-import BurgerIngredients from '../BurgerIngredients/BurgerIngredients';
-
-import BurgerConstructor from '../BurgerConstructor/BurgerConstructor';
-import OrderDetails from '../OrderDetails/OrderDetails';
 import IngredientDetails from '../IngredientDetails/IngredientDetails';
-import IngredientCard from "../IngredientCard/IngredientCard";
 import Modal from '../Modal/Modal';
+import OrderDetails from '../OrderDetails/OrderDetails';
 
-import styles from './App.module.css';
+import { getIngredientsItems } from "../../services/actions/ingredients";
+import { NotFound } from '../../pages/not-found/not-fond';
 
-import { getIngredientsItems, getOrderNumber, 
+import {
+  PAGE_FORGOT_PASSWORD,
+  PAGE_HOME,
+  PAGE_INGREDIENT_DETAILS,
+  PAGE_LOGIN,
+  PAGE_ORDER,
+  PAGE_ORDERS,
+  PAGE_PROFILE,
+  PAGE_REGISTER,
+  PAGE_RESET_PASSWORD
+} from '../../utils/constants';
 
-  closeIngredientDetails,
-  openIngredientDetails,
-  closeModalOrder,
-  increaseIngredient,
-  addToConstructor,
-  decreaseIngredient,
-  deleteFromConstructor} from '../../services/actions';
+import ProtectRout from '../ProtectRout/Protect-rout';
+import Profile from '../../pages/profile/profile';
+import Orders from '../Orders/orders';
+import ProfileForm from '../ProfileForm/ProfileForm';
 
 function App() {
 
-  const {
-    requestInProgress,
-    requestFailed,
-    errorText,
-    isDatailsOpen } = useSelector(store => store.ingredients);
-
-  const {
-    orderRequestInProgress,
-    orderRequestFailed,
-    orderErrorText,
-    orderId,
-    isOrderOpened } = useSelector(store => store.order);
-
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const closeModal = useCallback(() => navigate(-1), [navigate]);
 
   //Получение списка ингредиентов 
-  useEffect(() => dispatch(getIngredientsItems()), [dispatch]);
+  useEffect(() => {
 
-  //Модальное окно деталей ингредиента
-  const closeModalIngredient = () => dispatch(closeIngredientDetails());
-  const openModalIngredient = useCallback(({ ingredientId }) => dispatch(openIngredientDetails(ingredientId)), [dispatch]);
+    dispatch(getIngredientsItems());    
 
-  const cardIngredient = useCallback((props) => <IngredientCard clickHandler={openModalIngredient} {...props} />, [openModalIngredient]);
+  }, [dispatch]);
 
-  if (requestInProgress) return <p>Loading...</p>;
-  if (requestFailed) return <pre> {JSON.stringify(errorText)} </pre>;
-
-  //МОДАЛЬНОЕ ОКНО ЗАКАЗА
-  const openOrder = () => dispatch(getOrderNumber());
-  const closeOrder = () => dispatch(closeModalOrder());
-
-  /**
-   * 
-   * @param {Object} id - id ингредиента, itemKey - уникальный ключ элемента в конструкторе
-   * @returns 
-   */
-  const dropHandler = ({ id, itemKey }) => {
-
-    dispatch(increaseIngredient({id}));
-    dispatch(addToConstructor({id,itemKey}));
-  };
-
-  const deleteHandler = ({ id, itemKey }) => {
-
-    dispatch(decreaseIngredient({id}));
-    dispatch(deleteFromConstructor({id,itemKey}));
-  }
-
+  const location = useLocation();
+  const background = location.state?.background;
 
   return (
     <>
       <AppHeader />
 
-      <DndProvider backend={HTML5Backend}>
+      <Routes location={background || location}>
+        <Route path={PAGE_HOME} element={<MainPage />} />
+        <Route path={PAGE_LOGIN} element={<SignIn />} />
+        <Route path={PAGE_REGISTER} element={<Registration />} />
+        <Route path={PAGE_FORGOT_PASSWORD} element={<ForgotPassword />} />
+        <Route path={PAGE_RESET_PASSWORD} element={<ResetPassword />} />
+        <Route path={`${PAGE_INGREDIENT_DETAILS}/:id`} element={<IngredientDetails />} />
 
-        <div className={styles.content}>
-          <div className='mr-10'>
-            <BurgerIngredients card={cardIngredient} />
+        <Route path={`${PAGE_PROFILE}/*`} element={
+          <ProtectRout>
+            <Routes>
 
-            {isDatailsOpen &&
-              <Modal handleClose={closeModalIngredient}>
-                <IngredientDetails />
-              </Modal>}
-          </div>
+              <Route element={<Profile />}>
+                <Route index element={<ProfileForm />} />
+                <Route path={PAGE_ORDERS} element={<Orders />} />
+              </Route>
 
-          <div className='ml-7'>
+            </Routes>
+          </ProtectRout>} />
 
-            <BurgerConstructor createOrderHandler={openOrder} dropHandler={dropHandler} deleteHandler={deleteHandler} />
+        <Route path='*' element={<NotFound />} />
+      </Routes>
 
-            {isOrderOpened &&
+      {background &&
+        <Routes>
+          <Route path={`${PAGE_INGREDIENT_DETAILS}/:id`} element={
+            <Modal handlerClose={closeModal}>
+              <IngredientDetails />
+            </Modal>
+          } />
 
-              <Modal handleClose={closeOrder}>
-                <OrderDetails orderId={orderId} isLoading={orderRequestInProgress} isFaild={orderRequestFailed} errorText={orderErrorText} />
+
+          <Route path={PAGE_ORDER} element={
+
+            <ProtectRout>
+
+              <Modal handlerClose={closeModal}>
+                <OrderDetails />
               </Modal>
-            }
-          </div>
-        </div>
-      </DndProvider>
+
+            </ProtectRout>
+
+          } />
+        </Routes>
+      }
     </>
   );
 }

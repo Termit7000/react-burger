@@ -1,0 +1,45 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;    
+    width: 480px;
+}
+
+.form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.fieldset {
+    padding: 0;
+    border: none;
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    row-gap: 24px;    
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    column-gap: 24px;
+}
+
+
+[class~=input__container],
+[class~=input] {
+    width: 100%;
+}
+
+.addActions {
+    display: flex;
+    column-gap: 8px;    
+}

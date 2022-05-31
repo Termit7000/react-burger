@@ -1,5 +1,29 @@
-import { createOrder, getIngredients } from "../../utils/api";
+//Авторизация
+export const AUTH_REQUEST = 'REGISTER_REQUEST';
+export const AUTH_FAILED = 'REGISTER_FAILED';
+export const AUTH_SUCCESS = 'REGISTER_SUCCESS';
+export const AUTH_RESET_ERROR = 'AUTH_RESET_ERROR';
 
+export const AUTH_SET_NEW_TOKEN = 'AUTH_SET_NEW_TOKEN';
+
+export const AUTH_SET_USER_INFO = 'AUTH_SET_USER_INFO';
+
+//Выход из системы
+export const AUTH_LOGOUT_REQUEST = 'AUTH_LOGOUT_REQUEST';
+export const AUTH_LOGOUT_SUCCESS = 'AUTH_LOGOUT_SUCCESS';
+export const AUTH_LOGOUT_FAILED = 'AUTH_LOGOUT_FAILED';
+
+//Обновление данных пользователя
+export const AUTH_UPDATE_REQUEST = 'AUTH_UPDATE_REQUEST';
+export const AUTH_UPDATE_SUCCESS = 'AUTH_UPDATE_SUCCESS';
+export const AUTH_UPDATE_FAILED = 'AUTH_UPDATE_FAILED';
+
+//Заказ
+export const GET_ORDER_REQUEST = 'GET_ORDER_REQUEST';
+export const GET_ORDER_SUCCESS = 'GET_ORDER_SUCCESS';
+export const GET_ORDER_FAILED = 'GET_ORDER_FAILED';
+
+//Игредиенты 
 export const GET_INGREDIENTS_REQUEST = 'GET_INGREDIENTS_REQUEST';
 export const GET_INGREDIENTS_SUCCESS = 'GET_INGREDIENTS_SUCCESS';
 export const GET_INGREDIENTS_FAILED = 'GET_INGREDIENTS_FAILED';
@@ -14,81 +38,3 @@ export const DELETE_FROM_CONSTRUCTOR = 'DELETE_FROM_CONSTRUCTOR';
 export const DELETE_ALL_FROM_CONSTRUCTOR = 'DELETE_ALL_FROM_CONSTRUCTOR';
 
 export const MOVE_INGREDIENTS_CONSTRUCTOR = 'MOVE_INGREDIENTS_CONSTRUCTOR';
-
-export const OPEN_INGREDIENT_DETAILS = 'OPEN_INGREDIENT_DETAILS';
-export const CLOSE_INGREDIENT_DETAILS = 'CLOSE_INGREDIENT_DETAILS';
-
-export const GET_ORDER_REQUEST = 'GET_ORDER_REQUEST';
-export const GET_ORDER_SUCCESS = 'GET_ORDER_SUCCESS';
-export const GET_ORDER_FAILED = 'GET_ORDER_FAILED';
-export const CLOSE_MODAL_ORDER = 'CLOSE_MODAL_ORDER';
-
-export const getIngredientsItems = () => dispatch => {
-
-    dispatch({ type: GET_INGREDIENTS_REQUEST })
-
-    getIngredients()
-        .then((dataFetch) => {
-            dispatch({ type: GET_INGREDIENTS_SUCCESS, ingredients: dataFetch.data });
-        })
-        .catch(error => dispatch({ type: GET_INGREDIENTS_FAILED, errorText: error }));
-}
-
-/**
- * Создание заказа
- */
-export const getOrderNumber = () => ( dispatch, getState ) => {
-
-    dispatch({ type: GET_ORDER_REQUEST });
-
-    const state = getState().ingredients;
-
-    const ingredients = [...state.constructor.ingredients.map(el=>el.id), state.constructor.bun, state.constructor.bun];
-
-    createOrder({ ingredients })
-        .then((dataFetch) => {
-            dispatch({ type: GET_ORDER_SUCCESS, orderId: dataFetch?.order.number || 0 });                    
-        })
-        .then (()=>{
-            dispatch({type: DELETE_ALL_FROM_CONSTRUCTOR});
-            dispatch({type: CLEAR_ALL_INGREDIENTS});
-        })
-        .catch(error => {
-            dispatch({ type: GET_ORDER_FAILED, errorText: error });
-        });
-}
-
-
-//ACTION CREATORS
-
-export function closeIngredientDetails() {
-    return { type: CLOSE_INGREDIENT_DETAILS }; 
-}
-
-export function openIngredientDetails(ingredientId) {
-    return { type: OPEN_INGREDIENT_DETAILS, ingredientId }
-}
-
-export function closeModalOrder() {
-    return { type: CLOSE_MODAL_ORDER };
-}
-
-export function increaseIngredient({id}) {
-    return { type: INCREASE_INGREDIENT, id };
-}
-
-export function addToConstructor({id, itemKey}) {
-    return { type: ADD_TO_CONSTRUCTOR, ...{ id, itemKey } };
-}
-
-export function decreaseIngredient({id}) {
-    return { type: DECREASE_INGREDIENT, id };
-}
-
-export function deleteFromConstructor({id, itemKey}) {
-    return { type: DELETE_FROM_CONSTRUCTOR, ...{ id, itemKey } };
-}
-
-export function moveConstructorElement({fromId, toId}) {
-    return {type: MOVE_INGREDIENTS_CONSTRUCTOR,...{fromId, toId}};
-}

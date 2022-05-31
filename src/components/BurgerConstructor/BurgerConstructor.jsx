@@ -1,27 +1,36 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React  from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useDrop } from 'react-dnd';
 
 import { Button, ConstructorElement, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
-import styles from './BurgerConstructor.module.css';
-import { useSelector } from 'react-redux';
-import { useDrop } from 'react-dnd';
 import BurgerItem from './BurgerItem';
+import { addToConstructor, increaseIngredient } from '../../services/actions/ingredients';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { PAGE_ORDER } from '../../utils/constants';
 
-function BurgerConstructor({ createOrderHandler, dropHandler =f => f, deleteHandler = f=>f}) {
+import styles from './BurgerConstructor.module.css';
 
+function BurgerConstructor() {
+
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const location = useLocation();
+    
     //Перетаскивание ингредиентов
     const [{ isHover }, dropRef] = useDrop({
         accept: 'ingredient',
         drop(itemId) {
-            onDropHandler(itemId);
+            
+            dispatch(increaseIngredient(itemId)); //увеличть счетчик ингридиента
+            dispatch(addToConstructor(itemId)); //добавить ингридиент в конструктор
         },
         collect: monitor => ({
             isHover: monitor.isOver()
         })
     }, []);
 
-    const onDropHandler = (itemId) => dropHandler(itemId);
+    const openOrder = () => navigate(PAGE_ORDER,{state:  {background: location}});
 
     //Состав конструктора
     const items_all = useSelector(state=>state.ingredients.items);
@@ -58,11 +67,9 @@ function BurgerConstructor({ createOrderHandler, dropHandler =f => f, deleteHand
                 {
                     [...itemsBurger]
                         .map(el =>
+
                             <li className= {`pr-2 mb-4`} key={el.itemKey}>
-
-                                <BurgerItem {...{...el, itemKey:el.itemKey, id:el._id, deleteHandler}}  />
-
-
+                                <BurgerItem {...{...el, itemKey:el.itemKey, id:el._id}}  />
                             </li>)}
             </ul>
 
@@ -74,7 +81,7 @@ function BurgerConstructor({ createOrderHandler, dropHandler =f => f, deleteHand
                     <CurrencyIcon type="primary" />
                 </div>
 
-                <Button disabled={!sum} type="primary" size="large" onClick={createOrderHandler}>
+                <Button disabled={!sum} type="primary" size="large" onClick={openOrder}>
                     Оформить заказ
                 </Button>
             </div>
@@ -82,12 +89,6 @@ function BurgerConstructor({ createOrderHandler, dropHandler =f => f, deleteHand
         }
 
         </section>);
-}
-
-BurgerConstructor.propTypes = {
-    createOrderHandler: PropTypes.func.isRequired,
-    dropHandler: PropTypes.func,
-    deleteHandler: PropTypes.func
 }
 
 export default BurgerConstructor;
