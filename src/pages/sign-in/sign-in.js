@@ -6,7 +6,7 @@ import { Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-co
 
 import RegForm from "../../components/RegForm/RegForm";
 import useInputsHandler from "../../hooks/useInputsHandler";
-import { signIn } from "../../services/actions";
+import { signIn } from "../../services/actions/auth";
 
 import styles from './sign-in.module.css';
 import { PAGE_HOME } from "../../utils/constants";

@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 
 import styles from './OrderDetails.module.css';
 import { useDispatch, useSelector } from "react-redux";
-import { createOrder  } from "../../services/actions";
+import { createOrder } from "../../services/actions/order";
 
 function OrderDetails() {
 

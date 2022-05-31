@@ -2,7 +2,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, Outlet } from "react-router-dom";
 
-import { logOut } from "../../services/actions";
+import { logOut } from "../../services/actions/auth";
 import { PAGE_ORDERS } from "../../utils/constants";
 
 import styles from './profile.module.css';
