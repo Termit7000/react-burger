@@ -5,8 +5,9 @@ import { Navigate } from "react-router-dom";
 
 import RegForm from "../../components/RegForm/RegForm";
 import useInputsHandler from "../../hooks/useInputsHandler";
-import { registerNewUser } from "../../services/actions/auth";
+
 import { PAGE_HOME, PAGE_LOGIN } from "../../utils/constants";
+import { registerNewUser } from "../../redux/thunks";
 
 const addInfo = [{
     title: 'Уже зарегистрированы?',

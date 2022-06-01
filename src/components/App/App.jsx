@@ -8,14 +8,7 @@ import MainPage from '../../pages/main-page/main-page';
 import Registration from '../../pages/registration/registration';
 import ResetPassword from '../../pages/reset-password/reset-password';
 import SignIn from '../../pages/sign-in/sign-in';
-
-import AppHeader from '../AppHeader/AppHeader';
-import IngredientDetails from '../IngredientDetails/IngredientDetails';
-import Modal from '../Modal/Modal';
-import OrderDetails from '../OrderDetails/OrderDetails';
-
-import { getIngredientsItems } from "../../services/actions/ingredients";
-import { NotFound } from '../../pages/not-found/not-fond';
+import NotFound from '../../pages/not-found/not-fond';
 
 import {
   PAGE_FORGOT_PASSWORD,
@@ -29,10 +22,17 @@ import {
   PAGE_RESET_PASSWORD
 } from '../../utils/constants';
 
+import AppHeader from '../AppHeader/AppHeader';
+import IngredientDetails from '../IngredientDetails/IngredientDetails';
+import Modal from '../Modal/Modal';
+import OrderDetails from '../OrderDetails/OrderDetails';
+
 import ProtectRout from '../ProtectRout/Protect-rout';
 import Profile from '../../pages/profile/profile';
 import Orders from '../Orders/orders';
 import ProfileForm from '../ProfileForm/ProfileForm';
+
+import { getIngredientsItems } from '../../redux/thunks';
 
 function App() {
 

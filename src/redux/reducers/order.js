@@ -2,7 +2,7 @@ import {
     GET_ORDER_REQUEST,
     GET_ORDER_SUCCESS,
     GET_ORDER_FAILED
-} from "../actions";
+} from "../action-types"
 
 const initialState = {
     orderRequestInProgress: false,

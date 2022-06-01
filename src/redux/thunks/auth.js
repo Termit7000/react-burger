@@ -8,52 +8,50 @@ import {
 } from "../../utils/api";
 
 import { 
-    AUTH_SET_NEW_TOKEN, 
-    AUTH_SET_USER_INFO, 
-    AUTH_SUCCESS, 
-    AUTH_REQUEST, 
-    AUTH_FAILED, 
-    AUTH_RESET_ERROR, 
-    AUTH_UPDATE_REQUEST, 
-    AUTH_UPDATE_SUCCESS, 
-    AUTH_UPDATE_FAILED, 
-    AUTH_LOGOUT_REQUEST, 
-    AUTH_LOGOUT_SUCCESS, 
-    AUTH_LOGOUT_FAILED } from "./index";
+    requestAuth,
+    requestAuthFailed,
+    requestAuthSuccess, 
+    requestAuthUpdate, 
+    requestAuthUpdateSuccess, 
+    reqestAuthUpdateFailed,
+    requestLogOut, 
+    requestLogOutFailed, 
+    requestLogOutSuccess, 
+    resetRequestError, 
+    setToken, 
+    setUserInfo } from "../actions/";
 
 //РЕГИСТРАЦИЯ и АВТОРИЗАЦИЯ
 function dispatchUserInfo(dispatch, { accessToken, refreshToken, user }) {
 
-    dispatch({
-        type: AUTH_SET_NEW_TOKEN,
+    dispatch(setToken({
         accessToken: accessToken.split('Bearer ')[1],
-        refreshToken
-    });
+        refreshToken}));
 
-    dispatch({ type: AUTH_SET_USER_INFO, user });
-    dispatch({ type: AUTH_SUCCESS });
+   dispatch(setUserInfo({user}));
+   dispatch(requestAuthSuccess());
 }
 //Создать нового пользователя
 
 export const registerNewUser = form => dispatch => {
 
-    dispatch({ type: AUTH_REQUEST });
+    dispatch(requestAuth());
 
     fetchRegister(form)
         .then(res => dispatchUserInfo(dispatch, res))
-        .catch(error => dispatch({ type: AUTH_FAILED, error }));
+        .catch(error => dispatch(requestAuthFailed({error})));
 };
-//Авторизация
 
+//Авторизация
 export const signIn = form => dispatch => {
 
-    dispatch({ type: AUTH_REQUEST });
+    dispatch(requestAuth());
     return fetchSignIn(form)
         .then(res => dispatchUserInfo(dispatch, res))
-        .catch(error => dispatch({ type: AUTH_FAILED, error }));
+        .catch(error => dispatch(requestAuthFailed({error})));
 };
-//Получить данные пользователя
 
+//Получить данные пользователя
 export const getUser = () => (dispatch, getState) => {
 
     const { auth } = getState();
@@ -61,7 +59,7 @@ export const getUser = () => (dispatch, getState) => {
     if (!auth.refreshToken)
         return Promise.resolve('RefreshToken не найден');
 
-    dispatch({ type: AUTH_REQUEST });
+    dispatch(requestAuth());
 
     return getActualAccessToken(dispatch, auth)
         .then(fetchUser)
@@ -72,19 +70,19 @@ export const getUser = () => (dispatch, getState) => {
                 name: res.user.name
             };
 
-            dispatch({ type: AUTH_SET_USER_INFO, user });
-            dispatch({ type: AUTH_SUCCESS });
+            dispatch(setUserInfo({user}));
+            dispatch(requestAuthSuccess());
         })
         .catch(error => {
-            dispatch({ type: AUTH_FAILED, error });
-            dispatch({ type: AUTH_RESET_ERROR });
+            dispatch(requestAuthFailed({error}));
+            dispatch(resetRequestError());
         });
 };
-//Обновить данные пользователя
 
+//Обновить данные пользователя
 export const updateUser = form => (dispatch, getState) => {
 
-    dispatch({ type: AUTH_UPDATE_REQUEST });
+    dispatch(requestAuthUpdate());
 
     const { auth } = getState();
 
@@ -97,11 +95,12 @@ export const updateUser = form => (dispatch, getState) => {
                 name: res.user.name
             };
 
-            dispatch({ type: AUTH_UPDATE_SUCCESS, user });
+            dispatch(requestAuthUpdateSuccess({user}));
 
         })
-        .catch(error => dispatch({ type: AUTH_UPDATE_FAILED, error }));
+        .catch(error => dispatch(reqestAuthUpdateFailed({error})));
 };
+
 export function getActualAccessToken(dispatch, { accessToken, expiration, refreshToken }) {
 
     if (!refreshToken) {
@@ -121,7 +120,7 @@ export function getActualAccessToken(dispatch, { accessToken, expiration, refres
                 refreshToken: res.refreshToken
             };
 
-            dispatch({ type: AUTH_SET_NEW_TOKEN, ...auth });
+            dispatch(setToken({...auth}));
 
             return auth.accessToken;
         });
@@ -129,9 +128,9 @@ export function getActualAccessToken(dispatch, { accessToken, expiration, refres
 
 export const logOut = refreshToken => dispatch => {
 
-    dispatch({ type: AUTH_LOGOUT_REQUEST });
+    dispatch(requestLogOut());
 
     return fetchLogOut(refreshToken)
-        .then(() => dispatch({ type: AUTH_LOGOUT_SUCCESS }))
-        .catch(error => dispatch({ type: AUTH_LOGOUT_FAILED, error }));
+        .then(() => dispatch(requestLogOutSuccess()))
+        .catch(error => dispatch(requestLogOutFailed({error})));
 };

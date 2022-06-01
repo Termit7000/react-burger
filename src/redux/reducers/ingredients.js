@@ -11,7 +11,7 @@ import {
     DELETE_ALL_FROM_CONSTRUCTOR,
 
     MOVE_INGREDIENTS_CONSTRUCTOR
-} from "../actions"
+} from "../action-types"
 
 const initialState = {
     requestInProgress: false,

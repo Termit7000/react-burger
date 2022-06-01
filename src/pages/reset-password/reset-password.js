@@ -8,6 +8,7 @@ import { Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-co
 import RegForm from "../../components/RegForm/RegForm";
 import useInputsHandler from "../../hooks/useInputsHandler";
 import { fetchResetPassword } from "../../utils/api";
+
 import {
     PAGE_FORGOT_PASSWORD,
     PAGE_HOME,

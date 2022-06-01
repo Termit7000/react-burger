@@ -1,8 +1,9 @@
 import React, { useEffect, useMemo } from "react";
 
-import styles from './IngredientDetails.module.css';
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+
+import styles from './IngredientDetails.module.css';
 
 function IngredientDetails() {
 

@@ -1,0 +1,19 @@
+//Авторизация
+export const AUTH_REQUEST = 'REGISTER_REQUEST';
+export const AUTH_FAILED = 'REGISTER_FAILED';
+export const AUTH_SUCCESS = 'REGISTER_SUCCESS';
+export const AUTH_RESET_ERROR = 'AUTH_RESET_ERROR';
+
+export const AUTH_SET_NEW_TOKEN = 'AUTH_SET_NEW_TOKEN';
+
+export const AUTH_SET_USER_INFO = 'AUTH_SET_USER_INFO';
+
+//Выход из системы
+export const AUTH_LOGOUT_REQUEST = 'AUTH_LOGOUT_REQUEST';
+export const AUTH_LOGOUT_SUCCESS = 'AUTH_LOGOUT_SUCCESS';
+export const AUTH_LOGOUT_FAILED = 'AUTH_LOGOUT_FAILED';
+
+//Обновление данных пользователя
+export const AUTH_UPDATE_REQUEST = 'AUTH_UPDATE_REQUEST';
+export const AUTH_UPDATE_SUCCESS = 'AUTH_UPDATE_SUCCESS';
+export const AUTH_UPDATE_FAILED = 'AUTH_UPDATE_FAILED';

@@ -6,10 +6,11 @@ import { Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-co
 
 import RegForm from "../../components/RegForm/RegForm";
 import useInputsHandler from "../../hooks/useInputsHandler";
-import { signIn } from "../../services/actions/auth";
+
+import { PAGE_HOME } from "../../utils/constants";
+import { signIn } from "../../redux/thunks";
 
 import styles from './sign-in.module.css';
-import { PAGE_HOME } from "../../utils/constants";
 
 const addInfo = [{
     title: 'Вы новый пользователь?',
@@ -19,6 +20,8 @@ const addInfo = [{
     title: 'Забыли пароль?',
     link: { to: '/forgot-password', text: 'Восстановить пароль' }
 }];
+
+
 
 const TITLE = 'Вход';
 const TITLE_SUBMIT = 'Вход';

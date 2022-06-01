@@ -1,5 +1,3 @@
-import { getIngredients } from "../../utils/api";
-
 import { 
     GET_INGREDIENTS_REQUEST, 
     GET_INGREDIENTS_SUCCESS, 
@@ -9,22 +7,21 @@ import {
     DECREASE_INGREDIENT,
     DELETE_FROM_CONSTRUCTOR,
     MOVE_INGREDIENTS_CONSTRUCTOR
- } from "./index";
-
-
-export const getIngredientsItems = () => dispatch => {
-
-    dispatch({ type: GET_INGREDIENTS_REQUEST });
-
-    getIngredients()
-        .then((dataFetch) => {
-            dispatch({ type: GET_INGREDIENTS_SUCCESS, ingredients: dataFetch.data });
-        })
-        .catch(error => dispatch({ type: GET_INGREDIENTS_FAILED, errorText: error }));
-};
-
+ } from "../action-types";
 
 //ACTION CREATORS
+
+export function requestIngredients(){
+    return {type: GET_INGREDIENTS_REQUEST};
+}
+
+export function requestIngredientsSuccess({ingredients}) {
+    return {type: GET_INGREDIENTS_SUCCESS, ingredients };
+}
+
+export function requestIngredientsFailed({errorText}) {
+    return {type: GET_INGREDIENTS_FAILED, errorText};
+}
 
 export function increaseIngredient({ id }) {
     return { type: INCREASE_INGREDIENT, id };

@@ -1,5 +1,6 @@
 import { KEY_USER_DATA } from "../../utils/constants";
 import { parseToken } from "../../utils/utils";
+
 import { 
     AUTH_FAILED, 
     AUTH_REQUEST, 
@@ -12,7 +13,8 @@ import {
     AUTH_LOGOUT_FAILED,
     AUTH_UPDATE_REQUEST,
     AUTH_UPDATE_FAILED,
-    AUTH_UPDATE_SUCCESS} from "../actions"
+    AUTH_UPDATE_SUCCESS
+} from "../action-types"
 
 
 const initialState = {
@@ -52,8 +54,7 @@ const removeUserToken = () => window.localStorage.removeItem(KEY_USER_DATA);
 const refreshToken = getUserToken();
 
 if (refreshToken) {
-    initialState.refreshToken = refreshToken; 
-    //initialState.isAuthChecked = true;   
+    initialState.refreshToken = refreshToken;     
 }
 
 export const authReducer = (state = initialState, action) => {
@@ -103,5 +104,4 @@ export const authReducer = (state = initialState, action) => {
 
         default: return state
     }
-
 }

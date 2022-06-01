@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useLocation } from "react-router-dom";
 
 import { PAGE_LOGIN } from "../../utils/constants";
-import { getUser } from "../../services/actions/auth";
+import { getUser } from "../../redux/thunks";
 
 function ProtectRout({ children }) {
 
