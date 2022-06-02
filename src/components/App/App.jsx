@@ -11,6 +11,7 @@ import SignIn from '../../pages/sign-in/sign-in';
 import NotFound from '../../pages/not-found/not-fond';
 
 import {
+  PAGE_FEED,
   PAGE_FORGOT_PASSWORD,
   PAGE_HOME,
   PAGE_INGREDIENT_DETAILS,
@@ -33,6 +34,7 @@ import Orders from '../Orders/orders';
 import ProfileForm from '../ProfileForm/ProfileForm';
 
 import { getIngredientsItems } from '../../redux/thunks';
+import { Feed } from '../../pages/feed/feed';
 
 function App() {
 
@@ -61,7 +63,10 @@ function App() {
         <Route path={PAGE_REGISTER} element={<Registration />} />
         <Route path={PAGE_FORGOT_PASSWORD} element={<ForgotPassword />} />
         <Route path={PAGE_RESET_PASSWORD} element={<ResetPassword />} />
-        <Route path={`${PAGE_INGREDIENT_DETAILS}/:id`} element={<IngredientDetails />} />
+
+        <Route path={PAGE_FEED} element={<Feed/>} />
+
+        <Route path={`${PAGE_INGREDIENT_DETAILS}/:id`} element={<IngredientDetails />} />        
 
         <Route path={`${PAGE_PROFILE}/*`} element={
           <ProtectRout>
