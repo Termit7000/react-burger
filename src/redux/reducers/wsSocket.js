@@ -2,7 +2,6 @@
 
 import { getErrorDescriptionByCodeEvent } from "../../utils/utils";
 import { 
-    WS_INIT, 
     WS_ON_CLOSE, 
     WS_ON_ERROR, 
     WS_ON_MESSAGE, 
@@ -21,16 +20,13 @@ export const wsSocketReducer = (state = initialState, action) => {
 
     switch (action.type) {
 
-        case WS_INIT:
-            return { ...initialState };
-
         case WS_ON_OPEN:
-            return { ...state, isOpened: true };
+            return { ...initialState, isOpened: true };
 
         case WS_ON_CLOSE:
             {
                 const closeCode = Number(action.payload.code);
-                if (closeCode!==1000) {
+                if (closeCode!==1000 && closeCode!==1005) {
                     return {...state, isOpened: false, isError: true, errorText: getErrorDescriptionByCodeEvent(closeCode)};
                 }
                 

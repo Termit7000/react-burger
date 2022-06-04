@@ -1,17 +1,28 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import OrderItem from "../../components/OrderItem/OrderItem";
-import { wsInit } from "../../redux/actions";
+import { closeConnection, wsInit } from "../../redux/actions";
 
 import styles from './feed.module.css';
 
 export function Feed() {
 
     const { isOpened, isError, errorText, orders } = useSelector(state => state.wsSocket);
+
+    const ordersDone = useMemo(() =>
+        orders.filter(el => el.status === 'done').slice(0, 9).map(el => el.number), [orders]);
+
+    
+    const ordersPending = useMemo(() =>
+        orders.filter(el => el.status === 'pending').slice(0, 9).map(el => el.number), [orders]);
+
+        console.log(new Set(orders.filter(i=>i.number===16637)));
+    
     const dispatch = useDispatch();
 
     useEffect(() => {
         dispatch(wsInit());
+        return () => dispatch(closeConnection());
     }, [dispatch]);
 
     if (isError) return <p className="text text_type_main-medium">{`Ошибка соединения: ${errorText}`}</p>
@@ -19,18 +30,56 @@ export function Feed() {
 
     return (
 
-        <>
-            <ul className={styles.orders}>
+        <section className={styles.feed} aria-label="Feed orders" >
+            <h2 className='text text_type_main-large mb-5'>Лента заказов</h2>
 
-                {orders && orders.map(item => {
-                    return (
-                        <li className={styles.item} key={item._id}>
-                            <OrderItem {...item} />
-                        </li>);
-                })}
 
-            </ul>
-        </>
+            <div className={styles.orders__wrapper}>
+                <ul className={`${styles.orders} custom-scroll`}>
+
+                    {orders && orders.map(item => {
+                        return (
+                            <li className="mr-2" key={item._id}>
+                                <OrderItem {...item} />
+                            </li>);
+                    })}
+
+                </ul>
+
+                <div className={styles.stats}>
+
+                    <div className={styles.statuses}>
+                        <div className={styles.statuses__item}>
+                            <h3 className="mb-6 text text_type_main-medium">Готовы:</h3>
+                            <ul className={`${styles.ordersNumbers} ${styles.ordersNumbers_success}`}>
+
+                                {ordersDone && ordersDone.map(orderNumber =>
+
+                                    <li key={orderNumber} className={`mb-2 ${styles.ordersNumbers__item}`}>
+                                        <p className="text text_type_digits-default">{orderNumber}</p>
+                                    </li>
+                                )}
+                            </ul>
+                        </div>
+
+                        <div className={styles.statuses__item}>
+                            <h3 className="mb-6 text text_type_main-medium">В работе:</h3>
+                            <ul className={`${styles.ordersNumbers}`}>
+
+                                {ordersPending && ordersPending.map(orderNumber =>
+
+                                    <li key={orderNumber} className={`mb-2 ${styles.ordersNumbers__item}`}>
+                                        <p className="text text_type_digits-default">{orderNumber}</p>
+                                    </li>
+                                )}
+                            </ul>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </section>
     );
 }
 

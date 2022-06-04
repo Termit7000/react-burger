@@ -4,7 +4,7 @@ export function socketMiddleWare(urlSocket, wsActions, isAuth) {
     const { wsInit, wsSendMessage, wsClose, onOpen, onClose, onError, onMessage } = wsActions;
 
     return store => {
-        const { dispatch, getState } = store;
+        const { dispatch } = store;
         let socket = null;
 
         return next => action => {
@@ -31,7 +31,10 @@ export function socketMiddleWare(urlSocket, wsActions, isAuth) {
                 return;
             }
 
-            if (!socket) next(action);
+            if (!socket) {
+                next(action);
+                return;
+            };
 
             switch (type) {
 
@@ -39,14 +42,14 @@ export function socketMiddleWare(urlSocket, wsActions, isAuth) {
 
                     const message = { ...payload };
                     socket.send(JSON.stringify(message));
-                    break;
+                    return;
                 }
 
                 case wsClose: {
 
                     socket.close();
                     socket = null;
-                    break
+                    return;
                 }
 
                 default: next(action);
