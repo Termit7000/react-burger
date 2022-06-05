@@ -35,7 +35,8 @@ import Orders from '../Orders/orders';
 import ProfileForm from '../ProfileForm/ProfileForm';
 
 import { getIngredientsItems } from '../../redux/thunks';
-
+import { closeConnection, wsInit } from '../../redux/actions';
+import OrderInfo from '../OrderInfo/OrderInfo';
 
 function App() {
 
@@ -45,10 +46,12 @@ function App() {
   const closeModal = useCallback(() => navigate(-1), [navigate]);
 
   //Получение списка ингредиентов 
+  useEffect(() => dispatch(getIngredientsItems()), [dispatch]);
+
+  //Лента заказов
   useEffect(() => {
-
-    dispatch(getIngredientsItems());    
-
+    dispatch(wsInit());
+    return () => dispatch(closeConnection());
   }, [dispatch]);
 
   const location = useLocation();
@@ -65,9 +68,11 @@ function App() {
         <Route path={PAGE_FORGOT_PASSWORD} element={<ForgotPassword />} />
         <Route path={PAGE_RESET_PASSWORD} element={<ResetPassword />} />
 
-        <Route path={PAGE_FEED} element={<Feed/>} />
+        <Route path={PAGE_FEED} element={<Feed />} />
 
-        <Route path={`${PAGE_INGREDIENT_DETAILS}/:id`} element={<IngredientDetails />} />        
+        <Route path={`${PAGE_INGREDIENT_DETAILS}/:id`} element={<IngredientDetails />} />
+
+        <Route path={`${PAGE_FEED}/:id`} element={<OrderInfo />} />
 
         <Route path={`${PAGE_PROFILE}/*`} element={
           <ProtectRout>
@@ -104,6 +109,12 @@ function App() {
             </ProtectRout>
 
           } />
+
+          <Route path={`${PAGE_FEED}/:id`} element={
+            <Modal handlerClose={closeModal}>
+              <OrderInfo />
+            </Modal>} />
+
         </Routes>
       }
     </>

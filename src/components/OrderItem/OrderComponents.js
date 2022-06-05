@@ -59,7 +59,6 @@ function OrderComponents({ ingredients }) {
 
 OrderComponents.propTypes = {
     ingredients: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
-
 }
 
 export default OrderComponents;

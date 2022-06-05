@@ -8,14 +8,17 @@
 
     list-style: none; 
 
-    column-count: 2;
+    column-count: 3;
     column-fill: auto;
     column-gap: 12px;
-    height: 154px;    
+      
     max-width: 272px;    
 }
 
-.ordersNumbers__item:nth-of-type(5n) {
+/*
+.ordersNumbers__item:nth-of-type(10n) {
     margin: 0;    
 }
+
+*/
 

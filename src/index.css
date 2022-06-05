@@ -13,8 +13,7 @@ code {
 }
 
 .page__section {  
-  max-width: 600px;  
-  max-height: 912px;
+  max-width: 600px;    
   box-sizing: border-box;
 }
 
