@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, Logo } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import styles from './not-found.module.css';
+import styles from './index.module.css';
 import { useNavigate } from "react-router-dom";
 
 export default function NotFound() {

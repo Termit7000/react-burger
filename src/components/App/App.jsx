@@ -3,12 +3,13 @@ import { useDispatch } from 'react-redux';
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 
 //pages
-import ForgotPassword from '../../pages/forgot-password/forgot-password';
-import MainPage from '../../pages/main-page/main-page';
-import Registration from '../../pages/registration/registration';
-import ResetPassword from '../../pages/reset-password/reset-password';
-import SignIn from '../../pages/sign-in/sign-in';
-import NotFound from '../../pages/not-found/not-fond';
+import ForgotPassword from '../../pages/forgot-password';
+import MainPage from '../../pages/main-page';
+import Registration from '../../pages/registration';
+import ResetPassword from '../../pages/reset-password';
+import SignIn from '../../pages/sign-in';
+import NotFound from '../../pages/not-found';
+import Feed from '../../pages/feed';
 
 import {
   PAGE_FEED,
@@ -29,12 +30,12 @@ import Modal from '../Modal/Modal';
 import OrderDetails from '../OrderDetails/OrderDetails';
 
 import ProtectRout from '../ProtectRout/Protect-rout';
-import Profile from '../../pages/profile/profile';
+import Profile from '../../pages/profile';
 import Orders from '../Orders/orders';
 import ProfileForm from '../ProfileForm/ProfileForm';
 
 import { getIngredientsItems } from '../../redux/thunks';
-import { Feed } from '../../pages/feed/feed';
+
 
 function App() {
 

@@ -1,0 +1,18 @@
+.orders {
+    list-style: none;
+    height: 690px;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    row-gap: 16px;
+    overflow-y: scroll;
+}
+
+.orders::-webkit-scrollbar-thumb {
+    border: none;
+    border-radius: 0;    
+}
+
+.orders::-webkit-scrollbar {
+	width: 8px;
+}

@@ -1,23 +1,23 @@
 import React, { useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import OrderItem from "../../components/OrderItem/OrderItem";
+
 import { closeConnection, wsInit } from "../../redux/actions";
 
-import styles from './feed.module.css';
+import OrdersCard from './ordersCard';
+import StatusItem from "./statusItem";
 
-export function Feed() {
+import styles from './index.module.css';
 
-    const { isOpened, isError, errorText, orders } = useSelector(state => state.wsSocket);
+export default function Feed() {
+
+    const { isOpened, isError, errorText, orders, total, totalToday} = useSelector(state => state.wsSocket);
 
     const ordersDone = useMemo(() =>
         orders.filter(el => el.status === 'done').slice(0, 9).map(el => el.number), [orders]);
 
-    
     const ordersPending = useMemo(() =>
-        orders.filter(el => el.status === 'pending').slice(0, 9).map(el => el.number), [orders]);
+        orders.filter(el => el.status !== 'done').slice(0, 9).map(el => el.number), [orders]);    
 
-        console.log(new Set(orders.filter(i=>i.number===16637)));
-    
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -33,52 +33,24 @@ export function Feed() {
         <section className={styles.feed} aria-label="Feed orders" >
             <h2 className='text text_type_main-large mb-5'>Лента заказов</h2>
 
-
             <div className={styles.orders__wrapper}>
-                <ul className={`${styles.orders} custom-scroll`}>
 
-                    {orders && orders.map(item => {
-                        return (
-                            <li className="mr-2" key={item._id}>
-                                <OrderItem {...item} />
-                            </li>);
-                    })}
-
-                </ul>
+                <OrdersCard/>                
 
                 <div className={styles.stats}>
-
                     <div className={styles.statuses}>
-                        <div className={styles.statuses__item}>
-                            <h3 className="mb-6 text text_type_main-medium">Готовы:</h3>
-                            <ul className={`${styles.ordersNumbers} ${styles.ordersNumbers_success}`}>
-
-                                {ordersDone && ordersDone.map(orderNumber =>
-
-                                    <li key={orderNumber} className={`mb-2 ${styles.ordersNumbers__item}`}>
-                                        <p className="text text_type_digits-default">{orderNumber}</p>
-                                    </li>
-                                )}
-                            </ul>
-                        </div>
-
-                        <div className={styles.statuses__item}>
-                            <h3 className="mb-6 text text_type_main-medium">В работе:</h3>
-                            <ul className={`${styles.ordersNumbers}`}>
-
-                                {ordersPending && ordersPending.map(orderNumber =>
-
-                                    <li key={orderNumber} className={`mb-2 ${styles.ordersNumbers__item}`}>
-                                        <p className="text text_type_digits-default">{orderNumber}</p>
-                                    </li>
-                                )}
-                            </ul>
-                        </div>
-
-
+                        <StatusItem title='Готовы:' ordersData={ordersDone} itemsExtraClass={styles.ordersNumbers_success} />
+                        <StatusItem title='В работе:' ordersData={ordersPending} />
                     </div>
+
+                    <h4 className="mt-15 text text_type_main-medium">Выполнено за все время:</h4>
+                    <p className="text text_type_digits-large">{total}</p>
+
+                    <h4 className="mt-15 text text_type_main-medium">Выполнено за сегодня:</h4>
+                    <p className="text text_type_digits-large">{totalToday}</p>
+
                 </div>
-            </div>
+            </div>            
         </section>
     );
 }
