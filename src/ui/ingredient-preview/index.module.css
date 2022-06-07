@@ -1,0 +1,14 @@
+.components__imgWrapper {
+    border-radius: 100%;    
+    background: linear-gradient(to right, #801AB2, #4C4CFF);
+    padding: 2px;    
+}
+
+.components__img {
+    width: 64px;
+    height: 64px;
+    display: block;
+    object-fit: cover;
+    background-color: var(--background);
+    border-radius: 100px;    
+}

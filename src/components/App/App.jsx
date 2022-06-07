@@ -72,7 +72,11 @@ function App() {
 
         <Route path={`${PAGE_INGREDIENT_DETAILS}/:id`} element={<IngredientDetails />} />
 
-        <Route path={`${PAGE_FEED}/:id`} element={<OrderInfo />} />
+        <Route path={`${PAGE_FEED}/:id`} element={
+          <div className='mt-30'>
+            <OrderInfo />
+          </div>
+        } />
 
         <Route path={`${PAGE_PROFILE}/*`} element={
           <ProtectRout>
@@ -97,24 +101,22 @@ function App() {
             </Modal>
           } />
 
-
           <Route path={PAGE_ORDER} element={
 
             <ProtectRout>
-
               <Modal handlerClose={closeModal}>
                 <OrderDetails />
               </Modal>
-
             </ProtectRout>
 
           } />
 
           <Route path={`${PAGE_FEED}/:id`} element={
             <Modal handlerClose={closeModal}>
-              <OrderInfo />
+              <div className='mt-15 mb-4'>
+                <OrderInfo />
+              </div>
             </Modal>} />
-
         </Routes>
       }
     </>

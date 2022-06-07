@@ -1,0 +1,44 @@
+.orderInfo {
+    margin: 0 auto;    
+    padding: 0;
+    width: 640px;
+}
+
+.orderInfo__number {
+    text-align: center;
+}
+
+.orderInfo__status_done {
+    color: var(--colors-interface-success);
+}
+
+.orderInfo__components {
+    display: grid;
+    grid-template-columns: 64px 1fr 1fr;
+    grid-template-rows: max-content;
+    row-gap: 16px;
+    column-gap: 16px;  
+    align-items: center;  
+    justify-items: start;
+
+    max-height: 366px;
+    overflow-y: scroll;
+}
+.orderInfo__components::-webkit-scrollbar-thumb {
+    border: none;
+    border-radius: 0;    
+}
+
+.orderInfo__components::-webkit-scrollbar {
+	width: 8px;
+}
+
+.orderInfo_currency {
+    justify-self: end;
+    display: flex;    
+}
+
+.orderInfo__total {
+    display: flex;
+    justify-content: space-between;
+}
