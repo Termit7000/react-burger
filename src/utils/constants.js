@@ -25,4 +25,5 @@ export const PAGE_PROFILE = '/profile';
 export const PAGE_FEED = '/feed';
 export const PAGE_ORDERS = 'orders';
 
-export const URL_WS_ORDERS_ALL = 'wss://norma.nomoreparties.space/orders/all';
+export const URL_WS_ORDERS_ALL = 'wss://norma.nomoreparties.space/orders/all'; //Лента заказов (общая)
+export const URL_WS_ORDERS_HISTORY = 'wss://norma.nomoreparties.space/orders'; //История заказов (пользователя)

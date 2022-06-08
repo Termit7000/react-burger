@@ -1,10 +1,10 @@
 
-export function socketMiddleWare(urlSocket, wsActions, isAuth) {
+export function socketMiddleWare(urlSocket, wsActions, isAuth = false) {
 
     const { wsInit, wsSendMessage, wsClose, onOpen, onClose, onError, onMessage } = wsActions;
 
     return store => {
-        const { dispatch } = store;
+        const { dispatch, getState } = store;
         let socket = null;
 
         return next => action => {
@@ -13,47 +13,42 @@ export function socketMiddleWare(urlSocket, wsActions, isAuth) {
 
             if (type === wsInit) {
 
-                socket = new WebSocket(urlSocket);
+                if (isAuth )  {
+                    const { accessToken } = getState().auth;
+                    socket = new WebSocket(`${urlSocket}?token=${accessToken}`);
+                } else {
+                    socket = new WebSocket(urlSocket);
+                }
 
                 socket.onopen = event => dispatch({ type: onOpen, payload: event });
-                socket.onerror = event => dispatch({ type: onError, payload: event});
-                
+                socket.onerror = event => dispatch({ type: onError, payload: event });
+
                 socket.onmessage = event => {
                     const { data } = event;
                     const parsedData = JSON.parse(data);
                     const { success, ...restParsedData } = parsedData;
 
-                    dispatch({type: onMessage, payload: restParsedData } );
+                    dispatch({ type: onMessage, payload: restParsedData });
                 };
 
                 socket.onclose = event => dispatch({ type: onClose, payload: event });
-
-                return;
             }
 
-            if (!socket) {
-                next(action);
-                return;
-            };
+            if (socket) {
 
-            switch (type) {
-
-                case wsSendMessage: {
-
+                if (type === wsSendMessage) {
                     const message = { ...payload };
                     socket.send(JSON.stringify(message));
-                    return;
                 }
 
-                case wsClose: {
-
+                if (type === wsClose) {
                     socket.close();
                     socket = null;
-                    return;
                 }
-
-                default: next(action);
             }
+
+            next(action);
+
         }
     }
 }

@@ -1,6 +1,6 @@
-import React from "react";
-import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useMatch, useParams } from "react-router-dom";
 
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
@@ -8,15 +8,31 @@ import IngredientPreview from "../../ui/ingredient-preview";
 import PassedPeriod from "../../ui/passed-period";
 
 import styles from './OrderInfo.module.css';
+import { PAGE_ORDERS, PAGE_PROFILE } from "../../utils/constants";
+import { 
+    closeConnection, 
+    closeConnection_Auth, 
+    wsInit, 
+    wsInit_Auth } from "../../redux/actions";
 
 //Содержит состав заказа с ингредиентами
 export default function OrderInfo() {
 
-    const { orders, isOpened } = useSelector(state => state.wsSocket);
-    const { items: ingredientsAll } = useSelector(state => state.ingredients);
+    const dispatch = useDispatch();
     const { id } = useParams();
+    const { items: ingredientsAll } = useSelector(state => state.ingredients);
+    const isProfileRoute = !!useMatch(`${PAGE_PROFILE}/${PAGE_ORDERS}/:id`);
 
-    if (!isOpened || orders.length === 0) return (<p>Поиск заказа...</p>);
+    const { orders, isOpened } = useSelector(state => (isProfileRoute) ? state.wsOrdersHistory : state.wsSocket);
+
+    useEffect(()=>{
+
+        dispatch((isProfileRoute) ? wsInit_Auth() : wsInit() );        
+        return () => dispatch((isProfileRoute) ? closeConnection_Auth() : closeConnection());
+
+    },[dispatch, isProfileRoute]);
+    
+    if (orders.length === 0) return (<p>Поиск заказа...</p>);
 
     const currentOrder = orders.find(el => el._id === id);
 
@@ -48,7 +64,7 @@ export default function OrderInfo() {
 
     const doneStyle = (currentOrder.status === 'done') ? styles.orderInfo__status_done : '';
 
-    const ingredientsByGroup = currentOrder.ingredients.reduce((acc, el) => {
+    const ingredientsByGroup = currentOrder.ingredients.filter(i=>i!==null).reduce((acc, el) => {
 
         if (!acc[el]) {
             const ingredient = ingredientsAll.find(i => i._id === el);

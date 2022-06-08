@@ -31,12 +31,13 @@ import OrderDetails from '../OrderDetails/OrderDetails';
 
 import ProtectRout from '../ProtectRout/Protect-rout';
 import Profile from '../../pages/profile';
-import Orders from '../Orders/orders';
+import OrderInfo from '../OrderInfo/OrderInfo';
+import OrdersHistory from '../OrdersHistory';
+
 import ProfileForm from '../ProfileForm/ProfileForm';
 
 import { getIngredientsItems } from '../../redux/thunks';
 import { closeConnection, wsInit } from '../../redux/actions';
-import OrderInfo from '../OrderInfo/OrderInfo';
 
 function App() {
 
@@ -63,14 +64,15 @@ function App() {
 
       <Routes location={background || location}>
         <Route path={PAGE_HOME} element={<MainPage />} />
+
         <Route path={PAGE_LOGIN} element={<SignIn />} />
         <Route path={PAGE_REGISTER} element={<Registration />} />
         <Route path={PAGE_FORGOT_PASSWORD} element={<ForgotPassword />} />
         <Route path={PAGE_RESET_PASSWORD} element={<ResetPassword />} />
 
-        <Route path={PAGE_FEED} element={<Feed />} />
-
         <Route path={`${PAGE_INGREDIENT_DETAILS}/:id`} element={<IngredientDetails />} />
+
+        <Route path={PAGE_FEED} element={<Feed />} />
 
         <Route path={`${PAGE_FEED}/:id`} element={
           <div className='mt-30'>
@@ -78,13 +80,21 @@ function App() {
           </div>
         } />
 
+        <Route path={`${PAGE_PROFILE}/${PAGE_ORDERS}/:id`} element={
+          <ProtectRout>
+            <div className='mt-30'>
+              <OrderInfo />
+            </div>
+          </ProtectRout>
+        } />
+
         <Route path={`${PAGE_PROFILE}/*`} element={
           <ProtectRout>
             <Routes>
 
-              <Route element={<Profile />}>
+              <Route path='*' element={<Profile />}>
                 <Route index element={<ProfileForm />} />
-                <Route path={PAGE_ORDERS} element={<Orders />} />
+                <Route path={`${PAGE_ORDERS}/*`} element={<OrdersHistory />} />
               </Route>
 
             </Routes>
@@ -102,13 +112,11 @@ function App() {
           } />
 
           <Route path={PAGE_ORDER} element={
-
             <ProtectRout>
               <Modal handlerClose={closeModal}>
                 <OrderDetails />
               </Modal>
             </ProtectRout>
-
           } />
 
           <Route path={`${PAGE_FEED}/:id`} element={
@@ -116,7 +124,20 @@ function App() {
               <div className='mt-15 mb-4'>
                 <OrderInfo />
               </div>
-            </Modal>} />
+            </Modal>
+          } />
+
+          <Route path={`${PAGE_PROFILE}/${PAGE_ORDERS}/:id`} element={
+
+            <ProtectRout>
+              <Modal handlerClose={closeModal}>
+                <OrderInfo />
+              </Modal>
+            </ProtectRout>
+
+          } />
+
+
         </Routes>
       }
     </>
@@ -124,3 +145,13 @@ function App() {
 }
 
 export default App;
+
+
+
+/*
+
+
+         
+
+
+*/
