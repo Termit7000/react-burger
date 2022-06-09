@@ -21,7 +21,7 @@ export const wsSocketReducer = (state = initialState, action) => {
     switch (action.type) {
 
         case WS_ON_OPEN:
-            return { ...initialState, isOpened: true };
+            return { ...state, isOpened: true };
 
         case WS_ON_CLOSE:
             {

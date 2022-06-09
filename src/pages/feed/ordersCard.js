@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 
 import OrderItem from "../../components/OrderItem/OrderItem";
+
 import { PAGE_FEED } from "../../utils/constants";
 
 import styles from './ordersCard.module.css';
@@ -19,7 +20,7 @@ function OrdersCard() {
                 return (
                     <li className="mr-2" key={item._id}> 
                         <Link className={styles.link} to={`${PAGE_FEED}/${item._id}`} state={ {background: location }} >
-                            <OrderItem {...{...item, ingredients: item.ingredients.filter(el=>el!==null)}} />
+                            <OrderItem {...{...item, status: '', ingredients: item.ingredients.filter(el=>el!==null)}} />
                         </Link>
                     </li>);
             })}

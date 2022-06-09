@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React from "react";
+import { useSelector } from "react-redux";
 import { useMatch, useParams } from "react-router-dom";
 
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
@@ -9,58 +9,25 @@ import PassedPeriod from "../../ui/passed-period";
 
 import styles from './OrderInfo.module.css';
 import { PAGE_ORDERS, PAGE_PROFILE } from "../../utils/constants";
-import { 
-    closeConnection, 
-    closeConnection_Auth, 
-    wsInit, 
-    wsInit_Auth } from "../../redux/actions";
+import useWsSocket from "../../hooks/useWsSocket";
+import strStatus from "../../utils/utils";
 
 //Содержит состав заказа с ингредиентами
 export default function OrderInfo() {
-
-    const dispatch = useDispatch();
+    
     const { id } = useParams();
     const { items: ingredientsAll } = useSelector(state => state.ingredients);
-    const isProfileRoute = !!useMatch(`${PAGE_PROFILE}/${PAGE_ORDERS}/:id`);
+    const isAuthSocket = !!useMatch(`${PAGE_PROFILE}/${PAGE_ORDERS}/:id`);
 
-    const { orders, isOpened } = useSelector(state => (isProfileRoute) ? state.wsOrdersHistory : state.wsSocket);
+    const { orders } = useSelector(state => (isAuthSocket) ? state.wsOrdersHistory : state.wsSocket);
 
-    useEffect(()=>{
-
-        dispatch((isProfileRoute) ? wsInit_Auth() : wsInit() );        
-        return () => dispatch((isProfileRoute) ? closeConnection_Auth() : closeConnection());
-
-    },[dispatch, isProfileRoute]);
+    useWsSocket({isAuthSocket});    
     
     if (orders.length === 0) return (<p>Поиск заказа...</p>);
 
     const currentOrder = orders.find(el => el._id === id);
 
     if (!currentOrder) return (<p>Заказ не найден</p>);
-
-    let strStatus = '';
-    switch (currentOrder.status) {
-        case 'done':
-            {
-                strStatus = 'Выполнен';
-                break;
-            }
-        case 'pending':
-            {
-                strStatus = 'В работе';
-                break;
-            }
-
-        case 'cancel':
-            {
-                strStatus = 'Отменен';
-                break;
-            }
-        default:
-            {
-                strStatus = '';
-            }
-    }
 
     const doneStyle = (currentOrder.status === 'done') ? styles.orderInfo__status_done : '';
 
@@ -85,7 +52,10 @@ export default function OrderInfo() {
         <section className={styles.orderInfo} aria-label="Состав заказа">
             <p className={`text text_type_main-medium ${styles.orderInfo__number}`}>#{currentOrder.number}</p>
             <p className={`mt-10 mb-3 text text_type_main-medium`}>{currentOrder.name}</p>
-            <p className={`text text_type_main-default ${doneStyle}`}>{strStatus}</p>
+            
+            <p className={`text text_type_main-default ${doneStyle}`}>
+                {strStatus(currentOrder.status)}
+            </p>
 
             <p className={`mt-15 mb-6 text text_type_main-medium`}>Состав:</p>
 
@@ -115,5 +85,3 @@ export default function OrderInfo() {
         </section>
     );
 }
-
-

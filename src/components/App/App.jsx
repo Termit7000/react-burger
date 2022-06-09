@@ -37,7 +37,6 @@ import OrdersHistory from '../OrdersHistory';
 import ProfileForm from '../ProfileForm/ProfileForm';
 
 import { getIngredientsItems } from '../../redux/thunks';
-import { closeConnection, wsInit } from '../../redux/actions';
 
 function App() {
 
@@ -48,12 +47,6 @@ function App() {
 
   //Получение списка ингредиентов 
   useEffect(() => dispatch(getIngredientsItems()), [dispatch]);
-
-  //Лента заказов
-  useEffect(() => {
-    dispatch(wsInit());
-    return () => dispatch(closeConnection());
-  }, [dispatch]);
 
   const location = useLocation();
   const background = location.state?.background;
@@ -75,14 +68,14 @@ function App() {
         <Route path={PAGE_FEED} element={<Feed />} />
 
         <Route path={`${PAGE_FEED}/:id`} element={
-          <div className='mt-30'>
+          <div className='mt-30 mb-4'>
             <OrderInfo />
           </div>
         } />
 
         <Route path={`${PAGE_PROFILE}/${PAGE_ORDERS}/:id`} element={
           <ProtectRout>
-            <div className='mt-30'>
+            <div className='mt-30 mb-4'>
               <OrderInfo />
             </div>
           </ProtectRout>
@@ -131,12 +124,12 @@ function App() {
 
             <ProtectRout>
               <Modal handlerClose={closeModal}>
-                <OrderInfo />
+                <div className='mb-4 mt-15'>
+                  <OrderInfo />
+                </div>
               </Modal>
             </ProtectRout>
-
           } />
-
 
         </Routes>
       }

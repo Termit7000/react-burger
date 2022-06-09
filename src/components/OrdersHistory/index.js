@@ -1,7 +1,8 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React from "react";
+import { useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
-import { closeConnection_Auth, wsInit_Auth } from "../../redux/actions";
+import useWsSocket from "../../hooks/useWsSocket";
+
 import OrderItem from "../OrderItem/OrderItem";
 
 import styles from './index.module.css';
@@ -16,17 +17,12 @@ export default function OrdersHistory() {
         errorText, 
         orders } = useSelector(state=>state.wsOrdersHistory);
 
-    const dispatch = useDispatch();
-
-    useEffect(()=>{
-
-        dispatch(wsInit_Auth());               
-        return ()=>dispatch(closeConnection_Auth());
-
-    },[dispatch]);
-
-    if (orders.length===0) return <p>Поиск заказов пользователя...</p>;
+    useWsSocket({isAuthSocket:true});    
+    
+    if (!isOpened && orders.length===0) return <p>Поиск заказов пользователя...</p>;
     if (isError) return <p>Ошибка: {errorText}</p>
+
+    orders.sort((a,b)=>b.number-a.number);
 
     return (
 

@@ -51,6 +51,6 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ? window.__
 
 export const store = createStore(rootReducer, composeEnhancers(applyMiddleware(
     thunk, 
-  //  socketMiddleWare(URL_WS_ORDERS_ALL, wsActionsOrderALL),
+    socketMiddleWare(URL_WS_ORDERS_ALL, wsActionsOrderALL),
     socketMiddleWare(URL_WS_ORDERS_HISTORY, wsActionsOrdersHistory, true)
     )));

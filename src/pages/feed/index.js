@@ -4,14 +4,17 @@ import { useSelector } from "react-redux";
 import OrdersCard from './ordersCard';
 import StatusItem from "./statusItem";
 
+
 import styles from './index.module.css';
+import useWsSocket from "../../hooks/useWsSocket";
 
 const MAX_ORDERS = 30;
 
 export default function Feed() {
 
     const { isOpened, isError, errorText, orders, total, totalToday } = useSelector(state => state.wsSocket);
-
+    useWsSocket();
+    
     const ordersDone = useMemo(() =>
         orders.filter(el => el.status === 'done').slice(0, MAX_ORDERS).map(el => el.number), [orders]);
 
@@ -19,7 +22,7 @@ export default function Feed() {
         orders.filter(el => el.status !== 'done').slice(0, (MAX_ORDERS - 1)).map(el => el.number), [orders]);
 
     if (isError) return <p className="text text_type_main-medium">{`Ошибка соединения: ${errorText}`}</p>
-    if (!isOpened) return <p className="text text_type_main-medium">Установка соединения...</p>
+    if (!isOpened && orders.length===0) return <p className="text text_type_main-medium">Установка соединения...</p>
 
     return (
 

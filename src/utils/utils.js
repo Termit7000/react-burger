@@ -26,6 +26,16 @@ export function parseToken(jwt) {
     return JSON.parse(window.atob(jwt.split('.')[1]));
 }
 
+export default function strStatus(status) {
+    switch(status) {
+        case 'done': return 'Выполнен';
+        case 'pending': return 'Готовится';
+        case 'created': return 'Создан';
+        case 'cancel': return 'Отменен';
+        default: return status;
+    }
+}
+
 /**
  * получает описание кода ошибки, согласно 
  * https://www.rfc-editor.org/rfc/rfc6455#section-7.4.1
