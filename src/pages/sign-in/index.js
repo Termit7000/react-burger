@@ -8,7 +8,7 @@ import RegForm from "../../components/RegForm/RegForm";
 import useInputsHandler from "../../hooks/useInputsHandler";
 
 import { PAGE_HOME } from "../../utils/constants";
-import { signIn } from "../../redux/thunks";
+import { signIn } from "../../services/thunks";
 
 import styles from './index.module.css';
 

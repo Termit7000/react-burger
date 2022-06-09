@@ -7,7 +7,7 @@ import RegForm from "../../components/RegForm/RegForm";
 import useInputsHandler from "../../hooks/useInputsHandler";
 
 import { PAGE_HOME, PAGE_LOGIN } from "../../utils/constants";
-import { registerNewUser } from "../../redux/thunks";
+import { registerNewUser } from "../../services/thunks";
 
 const addInfo = [{
     title: 'Уже зарегистрированы?',

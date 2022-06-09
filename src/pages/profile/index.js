@@ -2,7 +2,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, Outlet } from "react-router-dom";
 
-import { logOut } from "../../redux/thunks";
+import { logOut } from "../../services/thunks";
 
 import { PAGE_ORDERS } from "../../utils/constants";
 

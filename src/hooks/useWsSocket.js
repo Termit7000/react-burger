@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { closeConnection, closeConnection_Auth, wsInit, wsInit_Auth } from "../redux/actions";
+import { closeConnection, closeConnection_Auth, wsInit, wsInit_Auth } from "../services/actions";
 
 
 export default function useWsSocket({isAuthSocket}={}) {

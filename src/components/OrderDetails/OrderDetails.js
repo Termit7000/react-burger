@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { createOrder } from "../../redux/thunks";
+import { createOrder } from "../../services/thunks";
 
 import styles from './OrderDetails.module.css';
 

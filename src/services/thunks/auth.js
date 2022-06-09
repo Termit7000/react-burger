@@ -19,7 +19,7 @@ import {
     requestLogOutSuccess, 
     resetRequestError, 
     setToken, 
-    setUserInfo } from "../actions/";
+    setUserInfo } from "../actions";
 
 //РЕГИСТРАЦИЯ и АВТОРИЗАЦИЯ
 function dispatchUserInfo(dispatch, { accessToken, refreshToken, user }) {

@@ -36,7 +36,7 @@ import OrdersHistory from '../OrdersHistory';
 
 import ProfileForm from '../ProfileForm/ProfileForm';
 
-import { getIngredientsItems } from '../../redux/thunks';
+import { getIngredientsItems } from '../../services/thunks';
 
 function App() {
 

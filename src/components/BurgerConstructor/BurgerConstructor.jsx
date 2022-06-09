@@ -9,7 +9,7 @@ import BurgerItem from './BurgerItem';
 
 import { PAGE_ORDER } from '../../utils/constants';
 
-import { addToConstructor, increaseIngredient } from '../../redux/actions';
+import { addToConstructor, increaseIngredient } from '../../services/actions';
 
 import styles from './BurgerConstructor.module.css';
 
