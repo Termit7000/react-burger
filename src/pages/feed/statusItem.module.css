@@ -1,0 +1,24 @@
+.statuses__item {
+    width: 272px;
+}
+
+.ordersNumbers {
+    padding: 0;
+    margin: 0;   
+
+    list-style: none; 
+
+    column-count: 3;
+    column-fill: auto;
+    column-gap: 12px;
+      
+    max-width: 272px;    
+}
+
+/*
+.ordersNumbers__item:nth-of-type(10n) {
+    margin: 0;    
+}
+
+*/
+

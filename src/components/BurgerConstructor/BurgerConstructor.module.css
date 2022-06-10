@@ -3,14 +3,13 @@
     flex-direction: column;
     
     width: 568px;
-    height: 690px;
+    height: calc(100vh - 280px);
     box-sizing: border-box;    
 }
 
 .isHover {
     background-color: rgba(0,0,0,.4);
-    border-radius: 40px;
-    
+    border-radius: 40px;    
 }
 
 .emptyConstructor {
@@ -30,8 +29,7 @@
     
     display: flex;
     flex-direction: column;    
-    overflow-y: scroll;
-    
+    overflow-y: scroll;    
 }
 
 .components__items::-webkit-scrollbar-thumb {

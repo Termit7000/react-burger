@@ -1,40 +1,27 @@
-import { fetchCreateOrder } from "../../utils/api";
-import { getActualAccessToken } from "./auth";
+
 import { 
-    GET_ORDER_REQUEST, 
-    GET_ORDER_SUCCESS, 
-    DELETE_ALL_FROM_CONSTRUCTOR, 
     CLEAR_ALL_INGREDIENTS, 
-    GET_ORDER_FAILED } from "./index";
+    DELETE_ALL_FROM_CONSTRUCTOR, 
+    GET_ORDER_FAILED, 
+    GET_ORDER_REQUEST, 
+    GET_ORDER_SUCCESS } from "../action-types";
 
-/**
- * Создание заказа
- */
-export const createOrder = () => (dispatch, getState) => {
+export function requestOrder() {
+    return {type: GET_ORDER_REQUEST};
+}
 
-    dispatch({ type: GET_ORDER_REQUEST });
+export function requestOrderSuccess({orderId}){
+    return {type: GET_ORDER_SUCCESS, orderId};
+}
 
-    const { ingredients, auth } = getState();
+export function deleteAllFromConstructor() {
+    return {type: DELETE_ALL_FROM_CONSTRUCTOR};
+}
 
-    const ingredientsIds = [...ingredients.constructor.ingredients.map(el => el.id),
-    ingredients.constructor.bun,
-    ingredients.constructor.bun];
+export function resetAllCounts() {
+    return {type: CLEAR_ALL_INGREDIENTS};
+}
 
-    const { accessToken, refreshToken, expiration } = auth;
-
-    const getOrder = accessToken => fetchCreateOrder({ ingredientsIds, accessToken })
-        .then((dataFetch) => {
-            dispatch({ type: GET_ORDER_SUCCESS, orderId: dataFetch?.order.number || 0 });
-        })
-        .then(() => {
-            dispatch({ type: DELETE_ALL_FROM_CONSTRUCTOR });
-            dispatch({ type: CLEAR_ALL_INGREDIENTS });
-        })
-        .catch(error => {
-            dispatch({ type: GET_ORDER_FAILED, errorText: error });
-        });
-
-    return getActualAccessToken(dispatch, { accessToken, expiration, refreshToken })
-        .then(getOrder)
-        .catch(error => dispatch({ type: GET_ORDER_FAILED, errorText: error }));
-};
+export function requestOrderFailed({errorText}) {
+    return {type: GET_ORDER_FAILED, errorText};
+}

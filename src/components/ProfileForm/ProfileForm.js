@@ -5,7 +5,7 @@ import { Button, Input, PasswordInput } from "@ya.praktikum/react-developer-burg
 
 import RegForm from "../../components/RegForm/RegForm";
 import useInputsHandler from "../../hooks/useInputsHandler";
-import { updateUser } from "../../services/actions/auth";
+import { updateUser } from "../../services/thunks";
 
 const TITLE_SUBMIT = 'Сохранить';
 

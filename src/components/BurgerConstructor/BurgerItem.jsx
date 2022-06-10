@@ -7,7 +7,7 @@ import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burg
 
 import styles from './BurgerItem.module.css';
 
-import { decreaseIngredient, deleteFromConstructor, moveConstructorElement } from '../../services/actions/ingredients';
+import { decreaseIngredient, deleteFromConstructor, moveConstructorElement } from '../../services/actions';
 
 
 function BurgerItem({ itemKey, id, name, price, image }) {

@@ -2,10 +2,11 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, Outlet } from "react-router-dom";
 
-import { logOut } from "../../services/actions/auth";
+import { logOut } from "../../services/thunks";
+
 import { PAGE_ORDERS } from "../../utils/constants";
 
-import styles from './profile.module.css';
+import styles from './index.module.css';
 
 export default function Profile() {
 

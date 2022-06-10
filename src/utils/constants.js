@@ -22,5 +22,8 @@ export const PAGE_RESET_PASSWORD = '/reset-password';
 export const PAGE_ORDER = '/order';
 export const PAGE_INGREDIENT_DETAILS = '/ingredients';
 export const PAGE_PROFILE = '/profile';
+export const PAGE_FEED = '/feed';
 export const PAGE_ORDERS = 'orders';
-export const PAGE_FEED = 'feed';
+
+export const URL_WS_ORDERS_ALL = 'wss://norma.nomoreparties.space/orders/all'; //Лента заказов (общая)
+export const URL_WS_ORDERS_HISTORY = 'wss://norma.nomoreparties.space/orders'; //История заказов (пользователя)

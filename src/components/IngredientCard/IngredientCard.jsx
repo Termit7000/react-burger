@@ -1,12 +1,13 @@
 import React from "react";
 import PropTypes from 'prop-types';
+import { useDrag } from "react-dnd";
+import { Link, useLocation } from "react-router-dom";
 
 import { Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import styles from './IngredientCard.module.css';
-import { useDrag } from "react-dnd";
-import { Link, useLocation } from "react-router-dom";
 import { PAGE_INGREDIENT_DETAILS } from "../../utils/constants";
+
+import styles from './IngredientCard.module.css';
 
 function Card({ _id, imgSrc, price, name, count }) {
 

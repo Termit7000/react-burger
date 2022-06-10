@@ -10,7 +10,7 @@
     overflow-y: scroll;    
     list-style: none;    
     padding: 0;
-    height: 590px; 
+    height: calc(100vh - 350px);
     
 }
 

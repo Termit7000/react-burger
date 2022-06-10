@@ -1,0 +1,23 @@
+.feed {
+    margin: 0 auto;
+    margin-top: 40px;
+    max-width: 1280px;   
+}
+
+.orders__wrapper{
+    display: flex;
+    justify-content: space-between;    
+}
+
+.stats {
+    width: 580px;    
+}
+
+.statuses{
+    display: flex;
+    justify-content: space-between;
+}
+
+.ordersNumbers_success {
+    color: var(--colors-interface-success);
+}

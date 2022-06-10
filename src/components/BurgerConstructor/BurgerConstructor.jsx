@@ -1,15 +1,19 @@
 import React  from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useDrop } from 'react-dnd';
 
 import { Button, ConstructorElement, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import BurgerItem from './BurgerItem';
-import { addToConstructor, increaseIngredient } from '../../services/actions/ingredients';
-import { useLocation, useNavigate } from 'react-router-dom';
+
 import { PAGE_ORDER } from '../../utils/constants';
 
+import { addToConstructor, increaseIngredient } from '../../services/actions';
+
 import styles from './BurgerConstructor.module.css';
+
+
 
 function BurgerConstructor() {
 

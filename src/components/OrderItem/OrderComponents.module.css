@@ -1,0 +1,32 @@
+.container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.components {
+    position: relative;
+    height: 64px;
+}
+
+.components__ingredientsRest {
+
+    padding: 2px;
+    
+    position: absolute;
+    z-index: 1;
+    
+    width: 64px;
+    height: 64px;
+    border-radius: 100px;
+
+    display: flex;
+    justify-content: center;    
+    align-items: center;
+
+    background-color: rgba(28, 28, 33, .6);      
+}
+
+.components__price {
+    display: flex;
+    align-items: center;
+}

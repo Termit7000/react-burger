@@ -46,9 +46,11 @@ export default function AppHeader() {
                     </NavLink>
                 </nav>
 
-                <div className={styles.logo}>
-                    <Logo />
-                </div>
+                <NavLink to={PAGE_HOME} className={styles.link}>
+                    <div className={styles.logo}>
+                        <Logo />
+                    </div>
+                </NavLink>
 
                 <div className={styles.profile}>
                     <NavLink to={PAGE_PROFILE} className={`${styles.link} pl-5 pr-5 pt-4 pb-4`}>
