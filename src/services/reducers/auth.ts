@@ -1,6 +1,9 @@
 import { KEY_USER_DATA } from "../../utils/constants";
 import { parseToken } from "../../utils/utils";
 
+import { TAuthActions } from "../actions";
+import { TUser } from "../types";
+
 import { 
     AUTH_FAILED, 
     AUTH_REQUEST, 
@@ -16,8 +19,22 @@ import {
     AUTH_UPDATE_SUCCESS
 } from "../action-types"
 
+type TState = {
+    isAuthChecked: boolean,    
+    authInProgress: boolean,
+    logoutInProgress: boolean,
+    updateInProgress: boolean,
+    isErrorUpdate: boolean,
+    isError: boolean,
+    error: string,
+    user: TUser,
+    accessToken: string,
+    expiration: number,
+    refreshToken: string,
+}
 
-const initialState = {
+
+const initialState: TState = {
     isAuthChecked: false,
     
     authInProgress: false,
@@ -37,7 +54,7 @@ const initialState = {
     refreshToken: '',
 }
 
-const getExpirationTokenDate = token => {
+const getExpirationTokenDate = (token: string) => {
 
     const expToken = parseToken(token)?.exp || 0;    
 
@@ -47,7 +64,7 @@ const getExpirationTokenDate = token => {
 
 };
 
-const saveUserToken = value => window.localStorage.setItem(KEY_USER_DATA, value);
+const saveUserToken = (value:string) => window.localStorage.setItem(KEY_USER_DATA, value);
 const getUserToken = ()=> window.localStorage.getItem(KEY_USER_DATA) || '';  
 const removeUserToken = () => window.localStorage.removeItem(KEY_USER_DATA);
 
@@ -57,7 +74,7 @@ if (refreshToken) {
     initialState.refreshToken = refreshToken;     
 }
 
-export const authReducer = (state = initialState, action) => {
+export const authReducer = (state = initialState, action: TAuthActions):TState  => {
 
     switch (action.type) {
 

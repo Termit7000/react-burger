@@ -1,9 +1,9 @@
 import { combineReducers } from "redux";
 
-import { authReducer } from "./auth.js";
-import { ingredientsReducer } from "./ingredients.js";
-import { orderReducer } from "./order.js";
-import { wsSocketReducer } from "./wsSocket.js";
+import { authReducer } from "./auth";
+import { ingredientsReducer } from "./ingredients";
+import { orderReducer } from "./order";
+import { wsSocketReducer } from "./wsSocket";
 import { wsOrdersHistoryReducer } from './wsOrdersHistory';
 
 const rootReducer = combineReducers({

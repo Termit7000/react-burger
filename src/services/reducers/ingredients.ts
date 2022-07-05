@@ -1,3 +1,6 @@
+import { TIngredientsAction } from "../actions";
+import { TConstructorItem, TIngredients } from "../types";
+
 import {
     GET_INGREDIENTS_REQUEST,
     GET_INGREDIENTS_SUCCESS,
@@ -13,7 +16,20 @@ import {
     MOVE_INGREDIENTS_CONSTRUCTOR
 } from "../action-types"
 
-const initialState = {
+type TState = {
+
+    requestInProgress: boolean,
+    requestFailed: boolean,
+    errorText: string,
+    items: TIngredients[],
+
+    constructor: {
+        ingredients: TConstructorItem[],
+        bun: null | string,
+    }
+}
+
+const initialState: TState = {
     requestInProgress: false,
     requestFailed: false,
     errorText: '',
@@ -25,7 +41,7 @@ const initialState = {
     }
 };
 
-export const ingredientsReducer = (state = initialState, action) => {
+export const ingredientsReducer = (state = initialState, action: TIngredientsAction): TState => {
 
     switch (action.type) {
 
@@ -47,10 +63,13 @@ export const ingredientsReducer = (state = initialState, action) => {
         case INCREASE_INGREDIENT: {
 
             const currentIngredient = state.items.find(el=>el._id===action.id);
+
+            if (!currentIngredient) return state;
+
             const isBun = currentIngredient.type === 'bun';
 
             //Если булочка уже в конструкторе (count>0), сбросить количество
-            if (isBun && currentIngredient.count > 0) {
+            if (isBun && currentIngredient.count! > 0) {
                 currentIngredient.count = 0;
             }
 
@@ -61,7 +80,7 @@ export const ingredientsReducer = (state = initialState, action) => {
                     return {...el, count:0};
                 }
 
-                return el._id===action.id ? {...el, count: ++el.count} : el;
+                return el._id===action.id ? {...el, count: ++el.count!} : el;
             });
 
             return {...state, items};
@@ -71,7 +90,7 @@ export const ingredientsReducer = (state = initialState, action) => {
         case DECREASE_INGREDIENT: {
 
             return {...state, items: state.items.map(el=>{
-                return el._id===action.id ? {...el, count: --el.count} : el;
+                return el._id===action.id ? {...el, count: --el.count!} : el;
             })}
         }
 
@@ -91,7 +110,6 @@ export const ingredientsReducer = (state = initialState, action) => {
             }
 
             return {...state, constructor};
-
         }
 
         //удалить ингредиент из конструктора, булочка не может быть удалена
