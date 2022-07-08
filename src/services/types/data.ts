@@ -29,3 +29,5 @@ export type TConstructorItem = {
     readonly id: string;
     readonly itemKey: string;
 }
+
+export type TOrderID = number;

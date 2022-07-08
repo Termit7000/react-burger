@@ -25,7 +25,7 @@ export const createOrder = () => (dispatch, getState) => {
 
     const getOrder = accessToken => fetchCreateOrder({ ingredientsIds, accessToken })
         .then((dataFetch) => {
-            dispatch(requestOrderSuccess({orderId: dataFetch?.order.number || 0}));
+            dispatch(requestOrderSuccess(dataFetch?.order.number || 0));
         })
         .then(() => {
             dispatch(deleteAllFromConstructor());

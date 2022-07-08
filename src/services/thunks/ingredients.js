@@ -11,7 +11,7 @@ export const getIngredientsItems = () => dispatch => {
 
     getIngredients()
         .then((dataFetch) => {
-            dispatch( requestIngredientsSuccess({ingredients: dataFetch.data }));
+            dispatch( requestIngredientsSuccess(dataFetch.data));
         })
-        .catch(errorText => dispatch(requestIngredientsFailed({errorText})));
+        .catch(errorText => dispatch(requestIngredientsFailed(errorText)));
 };

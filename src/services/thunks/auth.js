@@ -28,7 +28,7 @@ function dispatchUserInfo(dispatch, { accessToken, refreshToken, user }) {
         accessToken: accessToken.split('Bearer ')[1],
         refreshToken}));
 
-   dispatch(setUserInfo({user}));
+   dispatch(setUserInfo(user));
    dispatch(requestAuthSuccess());
 }
 //Создать нового пользователя
@@ -70,7 +70,7 @@ export const getUser = () => (dispatch, getState) => {
                 name: res.user.name
             };
 
-            dispatch(setUserInfo({user}));
+            dispatch(setUserInfo(user));
             dispatch(requestAuthSuccess());
         })
         .catch(error => {
@@ -95,10 +95,10 @@ export const updateUser = form => (dispatch, getState) => {
                 name: res.user.name
             };
 
-            dispatch(requestAuthUpdateSuccess({user}));
+            dispatch(requestAuthUpdateSuccess(user));
 
         })
-        .catch(error => dispatch(reqestAuthUpdateFailed({error})));
+        .catch(error => dispatch(reqestAuthUpdateFailed(error)));
 };
 
 export function getActualAccessToken(dispatch, { accessToken, expiration, refreshToken }) {
@@ -132,5 +132,5 @@ export const logOut = refreshToken => dispatch => {
 
     return fetchLogOut(refreshToken)
         .then(() => dispatch(requestLogOutSuccess()))
-        .catch(error => dispatch(requestLogOutFailed({error})));
+        .catch(error => dispatch(requestLogOutFailed(error)));
 };

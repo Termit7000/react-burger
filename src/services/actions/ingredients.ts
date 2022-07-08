@@ -82,11 +82,11 @@ export function requestIngredients(): IRequestIngredients{
     return {type: GET_INGREDIENTS_REQUEST};
 }
 
-export function requestIngredientsSuccess({ingredients}:{ingredients: TIngredients[]}): IRequestIngredientsSuccess {
+export function requestIngredientsSuccess(ingredients:TIngredients[]): IRequestIngredientsSuccess {
     return {type: GET_INGREDIENTS_SUCCESS, ingredients };
 }
 
-export function requestIngredientsFailed({errorText}: {errorText: string}): IRequestIngredientsFailed {
+export function requestIngredientsFailed(errorText: string): IRequestIngredientsFailed {
     return {type: GET_INGREDIENTS_FAILED, errorText};
 }
 

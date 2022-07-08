@@ -113,15 +113,15 @@ export function requestAuthUpdate(): IRequestAuthUpdate {
     return {type: AUTH_UPDATE_REQUEST};
 }
 
-export function requestAuthUpdateSuccess({user}: {user:TUser}):IRequestAuthUpdateSuccess {
+export function requestAuthUpdateSuccess(user: TUser):IRequestAuthUpdateSuccess {
     return {type: AUTH_UPDATE_SUCCESS, user};
 }
 
-export function reqestAuthUpdateFailed({error}:{error: string}): IReqestAuthUpdateFailed {
+export function reqestAuthUpdateFailed(error: string): IReqestAuthUpdateFailed {
     return {type: AUTH_UPDATE_FAILED, error};
 }
 
-export function setUserInfo({user}:{user:TUser}): ISetUserInfo {
+export function setUserInfo(user:TUser): ISetUserInfo {
     return {type: AUTH_SET_USER_INFO, user};
 }
 
@@ -134,6 +134,6 @@ export function requestLogOutSuccess(): IRequestLogOutSuccess {
     return {type: AUTH_LOGOUT_SUCCESS};
 }
 
-export function requestLogOutFailed({error}:{error: string}): IRequestLogOutFailed {
+export function requestLogOutFailed(error:string): IRequestLogOutFailed {
     return {type: AUTH_LOGOUT_FAILED, error};
 }
