@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { validateEmail } from "../utils/utils";
 
-export default function useInputsHandler(defaultState={}) {
+export default function useInputsHandler(defaultState:{login?:string}={}) {
 
     const [inputValues, setInputValue] = useState(defaultState);
     const [isLoginValid, setLoginEmailValidation] = useState(false);
@@ -12,19 +12,19 @@ export default function useInputsHandler(defaultState={}) {
 
     },[defaultState.login]);
     
-    const setValue = (name,value) => {
+    const setValue = (name:string, value:any) => {
         if (name === 'login') {            
             setLoginEmailValidation(validateEmail(value));
         };
         setInputValue({...inputValues,  [name]: value })
     };
 
-    const handleChangeInput = e => {
+    const handleChangeInput = (e:React.ChangeEvent<HTMLInputElement>) => {
         const {name, value} = e.target;
         setValue(name, value);
     };
 
-    const setInputsValue =inputs=> {
+    const setInputsValue = (inputs:{}) => {
         setInputValue({ ...inputs });
     };
 

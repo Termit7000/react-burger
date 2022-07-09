@@ -1,13 +1,13 @@
 import React from "react";
-import PropTypes from 'prop-types';
 
 const DAY_MSEC = 24 * 3600 * 1000;
 
-const getlocalPeriod = strDate => {
+type TGetLocalPeriod = (strDate: string) => string;
+const getlocalPeriod: TGetLocalPeriod = strDate => {
 
     const date = new Date(Date.parse(strDate));
 
-    const daysAgo = date => {
+    const daysAgo = (date: Date) => {
         const todayNum = Date.parse((new Date()).toISOString().slice(0, 10));
         const daysNum = Date.parse(date.toISOString().slice(0, 10));
 
@@ -35,22 +35,14 @@ const getlocalPeriod = strDate => {
             : `0${date.getMinutes()}`;
 
     return `${daysAgo(date)}, ${hours}:${minutes} i-GMT+${(date.getTimezoneOffset() * -1) / 60}`;
-};
+}
 
-
-function PassedPeriod({date}) {
+function PassedPeriod({ date }: { date: string }) {
 
     return (
-
         <p className="text text_type_main-default text_color_inactive">
             {getlocalPeriod(date)}
         </p>
     );
 }
-
-
-PassedPeriod.propTypes = {
-    date: PropTypes.string.isRequired
-}
-
 export default PassedPeriod;

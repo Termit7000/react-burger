@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import OrderComponents from "./OrderComponents";
-import PassedPeriod from "../../ui/passed-period";
+import PassedPeriod from "../../ui/passed-period/index";
 
 import styles from './OrderItem.module.css';
 import strStatus from "../../utils/utils";
