@@ -1,18 +1,19 @@
+import { AnyAction, MiddlewareAPI } from "redux";
+import { TWsActions } from "../types";
 
-export function socketMiddleWare(urlSocket, wsActions, isAuth = false) {
+export function socketMiddleWare(urlSocket:string, wsActions:TWsActions, isAuth:boolean = false) {
 
     const { wsInit, wsSendMessage, wsClose, onOpen, onClose, onError, onMessage } = wsActions;
 
-    return store => {
+    return (store:MiddlewareAPI) => {
         const { dispatch, getState } = store;
-        let socket = null;
+        let socket:WebSocket|null = null;
 
-        return next => action => {
+        return (next: (item:AnyAction)=>void) => (action:AnyAction) => {
 
             const { type, payload } = action;
 
             if (type === wsInit) {
-
                 if (isAuth )  {
                     const { accessToken } = getState().auth;
                     socket = new WebSocket(`${urlSocket}?token=${accessToken}`);
@@ -46,9 +47,7 @@ export function socketMiddleWare(urlSocket, wsActions, isAuth = false) {
                     socket = null;
                 }
             }
-
             next(action);
-
         }
     }
 }
