@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { validateEmail } from "../utils/utils";
 
-export default function useInputsHandler(defaultState:{login?:string}={}) {
+type TDefState = {[key: string]: any; login?:string};
+export default function useInputsHandler(defaultState:TDefState = {}) {
 
     const [inputValues, setInputValue] = useState(defaultState);
     const [isLoginValid, setLoginEmailValidation] = useState(false);
@@ -12,19 +13,23 @@ export default function useInputsHandler(defaultState:{login?:string}={}) {
 
     },[defaultState.login]);
     
-    const setValue = (name:string, value:any) => {
+    type TInputsState = typeof defaultState;
+    type TKeys = keyof TInputsState;    
+    type TSetValue = <K extends TKeys>(name:K, value:TInputsState[K])=>void;    
+    const setValue:TSetValue = (name, value) => {
+
         if (name === 'login') {            
-            setLoginEmailValidation(validateEmail(value));
+            setLoginEmailValidation(validateEmail(value!));
         };
         setInputValue({...inputValues,  [name]: value })
     };
 
     const handleChangeInput = (e:React.ChangeEvent<HTMLInputElement>) => {
-        const {name, value} = e.target;
+        const {name, value} = e.target as {name:TKeys, value:TInputsState[TKeys]};
         setValue(name, value);
     };
 
-    const setInputsValue = (inputs:{}) => {
+    const setInputsValue = (inputs:TInputsState) => {
         setInputValue({ ...inputs });
     };
 

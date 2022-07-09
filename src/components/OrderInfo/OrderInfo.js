@@ -21,7 +21,7 @@ export default function OrderInfo() {
 
     const { orders } = useSelector(state => (isAuthSocket) ? state.wsOrdersHistory : state.wsSocket);
 
-    useWsSocket({isAuthSocket});    
+    useWsSocket(isAuthSocket);    
     
     if (orders.length === 0) return (<p>Поиск заказа...</p>);
 

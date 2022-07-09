@@ -7,9 +7,8 @@ import {
   wsInit, 
   wsInit_Auth } from "../services/actions";
 
-export default function useWsSocket(props:{isAuthSocket?:boolean}):void {
+export default function useWsSocket(isAuthSocket:boolean=false):void {
 
-    const {isAuthSocket} = props;
     const dispatch = useDispatch() ;
 
     useEffect(()=>{

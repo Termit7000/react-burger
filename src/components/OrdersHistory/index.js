@@ -17,7 +17,7 @@ export default function OrdersHistory() {
         errorText, 
         orders } = useSelector(state=>state.wsOrdersHistory);
 
-    useWsSocket({isAuthSocket:true});    
+    useWsSocket(true);    
     
     if (!isOpened && orders.length===0) return <p>Поиск заказов пользователя...</p>;
     if (isError) return <p>Ошибка: {errorText}</p>
