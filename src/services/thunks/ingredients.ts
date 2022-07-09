@@ -1,3 +1,4 @@
+import { AppDispatch, AppThunk } from "../types";
 import { getIngredients } from "../../utils/api";
 
 import { 
@@ -5,7 +6,8 @@ import {
     requestIngredientsFailed, 
     requestIngredientsSuccess } from "../actions";
 
-export const getIngredientsItems = () => dispatch => {
+
+export const getIngredientsItems: AppThunk = () => (dispatch: AppDispatch) => {
 
     dispatch(requestIngredients());    
 

@@ -1,3 +1,4 @@
+
 import {
     fetchRegister,
     fetchSignIn,
@@ -21,8 +22,16 @@ import {
     setToken, 
     setUserInfo } from "../actions";
 
+import { 
+    AppDispatch, 
+    AppThunk, 
+    TLogin, 
+    TUserInfo, 
+    TTokens, 
+    TUserWitnTokens } from "../types";
+
 //РЕГИСТРАЦИЯ и АВТОРИЗАЦИЯ
-function dispatchUserInfo(dispatch, { accessToken, refreshToken, user }) {
+function  dispatchUserInfo(dispatch: AppDispatch, { accessToken, refreshToken, user }:TUserWitnTokens): void {
 
     dispatch(setToken({
         accessToken: accessToken.split('Bearer ')[1],
@@ -33,7 +42,7 @@ function dispatchUserInfo(dispatch, { accessToken, refreshToken, user }) {
 }
 //Создать нового пользователя
 
-export const registerNewUser = form => dispatch => {
+export const registerNewUser: AppThunk = (form: TUserInfo) => (dispatch:AppDispatch) => {
 
     dispatch(requestAuth());
 
@@ -43,8 +52,7 @@ export const registerNewUser = form => dispatch => {
 };
 
 //Авторизация
-export const signIn = form => dispatch => {
-
+export const signIn: AppThunk = (form:TLogin) => (dispatch: AppDispatch) => {
     dispatch(requestAuth());
     return fetchSignIn(form)
         .then(res => dispatchUserInfo(dispatch, res))
@@ -52,7 +60,7 @@ export const signIn = form => dispatch => {
 };
 
 //Получить данные пользователя
-export const getUser = () => (dispatch, getState) => {
+export const getUser: AppThunk = () => (dispatch: AppDispatch, getState) => {
 
     const { auth } = getState();
 
@@ -80,7 +88,7 @@ export const getUser = () => (dispatch, getState) => {
 };
 
 //Обновить данные пользователя
-export const updateUser = form => (dispatch, getState) => {
+export const updateUser: AppThunk = form => (dispatch: AppDispatch, getState) => {
 
     dispatch(requestAuthUpdate());
 
@@ -101,13 +109,18 @@ export const updateUser = form => (dispatch, getState) => {
         .catch(error => dispatch(reqestAuthUpdateFailed(error)));
 };
 
-export function getActualAccessToken(dispatch, { accessToken, expiration, refreshToken }) {
+type TAccessTokenWithExp = TTokens & { expiration: number };
+
+export function getActualAccessToken(dispatch: AppDispatch, { accessToken, expiration, refreshToken }: TAccessTokenWithExp): Promise<string> {
 
     if (!refreshToken) {
         return Promise.reject('Отсутствует refreshToken');
     }
 
-    if ((new Date() - new Date(expiration)) < 0) { // токен действует
+    const now = (new Date()).getTime();
+    const expDate = (new Date(expiration)).getTime();
+
+    if (  now - expDate  < 0) { // токен действует
         return Promise.resolve(accessToken);
     }
 
@@ -126,7 +139,7 @@ export function getActualAccessToken(dispatch, { accessToken, expiration, refres
         });
 }
 
-export const logOut = refreshToken => dispatch => {
+export const logOut: AppThunk = (refreshToken: string) => (dispatch: AppDispatch) => {
 
     dispatch(requestLogOut());
 

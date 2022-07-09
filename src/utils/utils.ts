@@ -1,9 +1,13 @@
-/**
- * 
+type TValidateEmail = {   
+    checkEmailInputElement?: HTMLInputElement; 
+    (email:string): boolean
+}
+
+/** 
  * @param {String} email - текст для проверки 
  * @returns {Boolean} - true - если переданный текст является валидным e-mail
  */
-export const validateEmail = email => {
+export const validateEmail:TValidateEmail = email => {
 
     if (!validateEmail.checkEmailInputElement) {
 
@@ -19,14 +23,14 @@ export const validateEmail = email => {
  * @param {String} jwt 
  * @returns Объект из переданного токена
  */
-export function parseToken(jwt) {
+export function parseToken(jwt:string):{exp?:number}|null {
 
     if (!jwt) return null;
 
     return JSON.parse(window.atob(jwt.split('.')[1]));
 }
 
-export default function strStatus(status) {
+export default function strStatus(status:string):string {
     switch(status) {
         case 'done': return 'Выполнен';
         case 'pending': return 'Готовится';
@@ -41,7 +45,7 @@ export default function strStatus(status) {
  * https://www.rfc-editor.org/rfc/rfc6455#section-7.4.1
  * @param {Number} code 
  */
-export function getErrorDescriptionByCodeEvent(code) {
+export function getErrorDescriptionByCodeEvent(code:number):string {
 
     switch (code) {
         case 1000: return "Normal closure, meaning that the purpose for which the connection was established has been fulfilled.";
@@ -60,4 +64,3 @@ export function getErrorDescriptionByCodeEvent(code) {
         default: return "Unknown reason";
     }
 }
-

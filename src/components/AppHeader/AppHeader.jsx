@@ -9,7 +9,7 @@ import { ProfileIcon } from "@ya.praktikum/react-developer-burger-ui-components"
 import { 
     PAGE_FEED, 
     PAGE_HOME, 
-    PAGE_PROFILE } from "../../utils/constants.js";
+    PAGE_PROFILE } from "../../utils/constants";
 
 import styles from './AppHeader.module.css';
 

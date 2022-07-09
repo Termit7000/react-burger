@@ -1,12 +1,5 @@
-export type TOrder = {
-    _id: string;
-    ingredients: Array<string>;
-    name: string;
-    status: string;
-    number: number;
-    createdAt: string;
-    updatedAt: string;
-};
+import { TOrder } from "./data";
+
 
 export type TWSData = {
     success: boolean;

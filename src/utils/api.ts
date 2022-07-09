@@ -1,4 +1,15 @@
 import { 
+    TEmail, 
+    TIngredients, 
+    TLogin, 
+    TUserInfo, 
+    TOrder, 
+    TResetPass, 
+    TTokens, 
+    TUser, 
+    TUserWitnTokens } from "../services/types";
+
+import { 
     BASE_URL,  
     URL_SERVICE_INGREDIENTS, 
     URL_SEVICE_ORDER, 
@@ -11,11 +22,13 @@ import {
     URL_LOGOUT,
     URL_UPDATE_USER} from "./constants";
 
-export function getIngredients() {
+
+export function getIngredients(): Promise<{data: TIngredients[]}> {
     return fetchRequest(BASE_URL + URL_SERVICE_INGREDIENTS, { method: 'GET' });
 }
 
-export function fetchCreateOrder({ ingredientsIds, accessToken }) {
+type TCreateOrder = ({ingredientsIds, accessToken}:{ingredientsIds: string[], accessToken: string}) => Promise<{order:TOrder}>;
+export const fetchCreateOrder:TCreateOrder = ({ ingredientsIds, accessToken }) => {
 
     return fetchRequest(BASE_URL + URL_SEVICE_ORDER, {
         method: 'POST',
@@ -25,7 +38,7 @@ export function fetchCreateOrder({ ingredientsIds, accessToken }) {
 }
 
 //Регистрация нового пользователя
-export function fetchRegister(form) {
+export function fetchRegister(form: TUserInfo): Promise<TUserWitnTokens> {
 
     return fetchRequest(BASE_URL+URL_REGISTER, {
         method: 'POST',
@@ -34,7 +47,7 @@ export function fetchRegister(form) {
 }
 
 //Авторизация существующего пользователя
-export function fetchSignIn(form) {
+export function fetchSignIn(form: TLogin): Promise<TUserWitnTokens> {
     return fetchRequest(BASE_URL + URL_SIGN_IN, {
         method: 'POST',        
         body: JSON.stringify(form)
@@ -42,7 +55,7 @@ export function fetchSignIn(form) {
 }
 
 //Восстановление пароля
-export function fetchForgotPassword(form) {
+export function fetchForgotPassword(form:TEmail) {
     return fetchRequest(BASE_URL + URL_FORGOT_PASSWORD, {
         method: 'POST',        
         body: JSON.stringify(form)
@@ -50,7 +63,7 @@ export function fetchForgotPassword(form) {
 }
 
 //Сброс пароля
-export function fetchResetPassword(form) {
+export function fetchResetPassword(form:TResetPass) {
     return fetchRequest(BASE_URL + URL_RESET_PASSWORD, {
         method: 'POST',        
         body: JSON.stringify(form)
@@ -58,7 +71,7 @@ export function fetchResetPassword(form) {
 }
 
 //Обновление токена
-export function fetchRefreshToken(refreshToken) {
+export function fetchRefreshToken(refreshToken:string): Promise<TTokens> {
     return fetchRequest(BASE_URL + URL_REFRESH_TOKEN, {
         method: 'POST',        
         body: JSON.stringify({token: refreshToken})
@@ -66,7 +79,7 @@ export function fetchRefreshToken(refreshToken) {
 }
 
 //Данные пользователя
-export function fetchUser(accessToken) {
+export function fetchUser(accessToken: string): Promise<{user:TUser}> {
 
     return fetchRequest(BASE_URL + URL_USER_INFO, {
         method: 'GET',  
@@ -75,7 +88,7 @@ export function fetchUser(accessToken) {
 }
 
 //LOGOUT
-export function fetchLogOut(refreshToken) {
+export function fetchLogOut(refreshToken:string) {
     
     return fetchRequest(BASE_URL + URL_LOGOUT, {
         method: 'POST',        
@@ -84,23 +97,27 @@ export function fetchLogOut(refreshToken) {
 }
 
 //update user
-export function fetchUpdateUser(form, accessToken) {
+export function fetchUpdateUser(form:TUserInfo, accessToken:string): Promise<{user:TUser}> {
 
     return fetchRequest(BASE_URL+URL_UPDATE_USER, {
-
         method: 'PATCH',
         accessToken,
-        body: JSON.stringify(form)
-        
+        body: JSON.stringify(form)        
     });
 }
 
 
 //СЕРВИСНЫЕ ФУНКЦИИ
 
-function fetchRequest(urlService, { method, body = undefined, accessToken='' }) {
+type TFetch = <R=void>(
+    urlService: string, 
+    { method, body, accessToken} : {method: 'GET' | 'PATCH' | 'POST', body?: string, accessToken?:string}
+    ) 
+    => Promise<R>;
 
-    const headers = {
+const fetchRequest:TFetch = (urlService, { method, body = undefined, accessToken='' } ) => {
+
+    const headers: {'Content-Type':string, 'Authorization'?:string} = {
         'Content-Type': 'application/json'
     };
 

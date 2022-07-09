@@ -1,12 +1,3 @@
-export type TUser = {
-    readonly email: string;
-    readonly name: string;
-}
-
-export type TTokens = {
-    accessToken: string;
-    refreshToken: string;
-}
 
 export type TIngredients = {
     calories: number;
@@ -31,3 +22,13 @@ export type TConstructorItem = {
 }
 
 export type TOrderID = number;
+
+export type TOrder = {
+    _id: string;
+    ingredients: Array<string>;
+    name: string;
+    status: string;
+    number: number;
+    createdAt: string;
+    updatedAt: string;
+};
