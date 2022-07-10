@@ -25,7 +25,7 @@ export default function useInputsHandler(defaultState:TDefState = {}) {
     };
 
     const handleChangeInput = (e:React.ChangeEvent<HTMLInputElement>) => {
-        const {name, value} = e.target as {name:TKeys, value:TInputsState[TKeys]};
+        const {name, value} = e.target as  {name:TKeys, value:any};
         setValue(name, value);
     };
 

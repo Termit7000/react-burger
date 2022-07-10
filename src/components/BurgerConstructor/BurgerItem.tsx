@@ -1,20 +1,20 @@
-import React, { useRef } from "react";
-import PropTypes from 'prop-types';
+import React, { FC, useRef } from "react";
 import { useDrag, useDrop } from 'react-dnd';
-import { useDispatch } from "react-redux";
 
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import styles from './BurgerItem.module.css';
 
 import { decreaseIngredient, deleteFromConstructor, moveConstructorElement } from '../../services/actions';
+import { TConstructorItem, TIngredients } from "../../services/types";
+import { useDispatch } from "../../services/hooks";
 
-
-function BurgerItem({ itemKey, id, name, price, image }) {
+export type TConstructorParams = Pick<TIngredients, 'name'| 'price' |'image'> & TConstructorItem
+const BurgerItem: FC<TConstructorParams> = ({ itemKey, id, name, price, image }) => {
 
     const dispatch = useDispatch();
 
-    const ref = useRef();
+    const ref = useRef<HTMLDivElement>(null);
 
     const removeIngredient = () => {
         dispatch(decreaseIngredient({ id }));
@@ -32,7 +32,7 @@ function BurgerItem({ itemKey, id, name, price, image }) {
 
     const [, drop] = useDrop({
         accept: 'constructor',
-        hover(dragItem) {
+        hover(dragItem: TConstructorItem) {
 
             if (!ref.current) {
                 return;
@@ -60,15 +60,6 @@ function BurgerItem({ itemKey, id, name, price, image }) {
             />
         </div>
     );
-}
-
-
-BurgerItem.propTypes = {
-    itemKey: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    id: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
-    image: PropTypes.string.isRequired,
 }
 
 export default BurgerItem;

@@ -13,8 +13,9 @@ import {
 
 import styles from './AppHeader.module.css';
 
-const getClassNameText = isActive=> `ml-2 text text_type_main-default ${isActive ?  styles.text_primary : styles.text_secondary}`;
-const getTypeIcon = isActive=>isActive ? 'primary' : 'secondary';
+type TActiveClassFunc<T> = (isActive:boolean)=>T;
+const getClassNameText:TActiveClassFunc<string> = isActive=> `ml-2 text text_type_main-default ${isActive ?  styles.text_primary : styles.text_secondary}`;
+const getTypeIcon:TActiveClassFunc<'primary' | 'secondary'> = isActive=>isActive ? 'primary' : 'secondary';
 
 export default function AppHeader() {
 

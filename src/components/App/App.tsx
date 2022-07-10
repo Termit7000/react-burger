@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
+
+import { useDispatch } from '../../services/hooks';
 
 //pages
 import ForgotPassword from '../../pages/forgot-password';
@@ -38,7 +39,14 @@ import ProfileForm from '../ProfileForm/ProfileForm';
 
 import { getIngredientsItems } from '../../services/thunks';
 
-function App() {
+type TLocation = {
+  state: 
+   {
+    background?: Location
+   }
+}
+
+export default function App() {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -46,9 +54,9 @@ function App() {
   const closeModal = useCallback(() => navigate(-1), [navigate]);
 
   //Получение списка ингредиентов 
-  useEffect(() => dispatch(getIngredientsItems()), [dispatch]);
+  useEffect(() => {dispatch(getIngredientsItems())}, [dispatch]);
 
-  const location = useLocation();
+  const location = useLocation() as TLocation;
   const background = location.state?.background;
 
   return (
@@ -136,15 +144,3 @@ function App() {
     </>
   );
 }
-
-export default App;
-
-
-
-/*
-
-
-         
-
-
-*/
