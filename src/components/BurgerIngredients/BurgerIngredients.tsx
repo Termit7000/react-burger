@@ -6,20 +6,23 @@ import ListItems from "./ListItems";
 
 import styles from './BurgerIngredients.module.css';
 
-const BUN_NAME = 'bun';
+const BUN_NAME: 'bun' = 'bun';
 const SAUSE_NAME = 'sauce';
 const MAIN_NAME = 'main';
 
+type TTab =  typeof BUN_NAME | typeof SAUSE_NAME | typeof MAIN_NAME;
+
 function BurgerIngredients() {    
 
-    const [currentTab, setTab] = useState(BUN_NAME);
+    const [currentTab, setTab] = useState<TTab>(BUN_NAME);
 
-    const bunRef = useRef(null);
-    const sauseRef = useRef(null);
-    const mainRef = useRef(null);
-    const containerRef = useRef(null);
+    const bunRef = useRef<HTMLParagraphElement>(null);
+    const sauseRef = useRef<HTMLParagraphElement>(null);
+    const mainRef = useRef<HTMLParagraphElement>(null);
+    const containerRef = useRef<HTMLUListElement>(null);
 
-    function onClickTab(activeTab) {
+    type TOnClick = (activeTab: string) => void;
+    const onClickTab:TOnClick = (activeTab) => {
 
         const containerPositionTop = containerRef.current?.offsetTop;
         if (!containerPositionTop) return;
@@ -43,15 +46,15 @@ function BurgerIngredients() {
 
     function onScroll() {
 
-        if (!(bunRef && sauseRef && mainRef && containerRef)) return;
+        if (!(bunRef.current && sauseRef.current && mainRef.current && containerRef.current)) return;
 
-        const currentPosition = containerRef.current.offsetTop + containerRef.current.scrollTop;
+        const currentPosition = containerRef.current.offsetTop + containerRef.current!.scrollTop;
 
-        const arr = [
+        const arr =  [
             { name: BUN_NAME, div: Math.abs(bunRef.current.offsetTop - currentPosition) },
             { name: SAUSE_NAME, div: Math.abs(sauseRef.current.offsetTop - currentPosition) },
-            { name: MAIN_NAME, div: Math.abs(mainRef.current.offsetTop - currentPosition) }
-        ];
+            { name: MAIN_NAME, div: Math.abs(mainRef.current.offsetTop - currentPosition) } 
+        ] as const;
 
         const minElement = arr.reduce(
             (acc, el) => el.div < acc.div ? el : acc
@@ -84,11 +87,9 @@ function BurgerIngredients() {
             </ul>
 
             <ul ref={containerRef} onScroll={onScroll} className={`${styles.content} mt-10 custom-scroll`}>
-
                     <ListItems name='Булки' type = {BUN_NAME} ref = {bunRef}/>
                     <ListItems name='Соусы' type = {SAUSE_NAME} ref = {sauseRef}/>
-                    <ListItems name='Начинки' type = {MAIN_NAME} ref = {mainRef}/>
-                   
+                    <ListItems name='Начинки' type = {MAIN_NAME} ref = {mainRef}/>                   
             </ul>
         </section>
     );

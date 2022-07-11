@@ -1,5 +1,5 @@
-import React, { useRef, useEffect, useMemo } from "react";
-import PropTypes from 'prop-types';
+import React, { useRef, useEffect, useMemo, FC } from "react";
+
 import { createPortal } from "react-dom";
 
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
@@ -8,19 +8,22 @@ import { MODAL_ROOT_NAME } from "../../utils/constants";
 import ModalOverlay from "../ModalOverlay/ModalOverlay";
 
 import styles from './Modal.module.css';
+import { TExportFunctionsOverlay } from "../ModalOverlay/types";
 
+type TModalParams = {
+    handlerClose: ()=>void;
 
-function Modal({ handlerClose, children }) {
-
+}
+const Modal:FC<TModalParams>=({ handlerClose, children }) => {
     
-    const refOverlay = useRef();
-    const modalElement = useMemo(()=>document.getElementById(MODAL_ROOT_NAME), []);
+    const refOverlay = useRef<TExportFunctionsOverlay>(null);
+    const modalElement = useMemo<HTMLElement | null>(()=>document.getElementById(MODAL_ROOT_NAME), []);
 
-    const closeSmooth = ()=> refOverlay.current.closeSmooth();
+    const closeSmooth = ()=> refOverlay.current!.closeSmooth();
 
     useEffect(() => {
 
-        const closeOnEsc = (event) => {
+        const closeOnEsc = (event: KeyboardEvent) => {
             if (event.key === 'Escape') {
                 closeSmooth();                
             }
@@ -32,6 +35,8 @@ function Modal({ handlerClose, children }) {
     }, []);
 
     return (
+
+        modalElement &&
         createPortal(
 
             <ModalOverlay ref={refOverlay} handlerClose={handlerClose}>
@@ -47,11 +52,6 @@ function Modal({ handlerClose, children }) {
 
             , modalElement)
     );
-}
-
-Modal.propTypes = {
-    children: PropTypes.element.isRequired,
-    handlerClose: PropTypes.func.isRequired
 }
 
 export default Modal;

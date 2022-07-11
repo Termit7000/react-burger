@@ -1,17 +1,16 @@
 import React, { forwardRef } from "react";
 import { useSelector } from "react-redux";
-import PropTypes from 'prop-types';
+import { RootState, TIngredients } from "../../services/types";
 
 import IngredientCard from '../IngredientCard/IngredientCard';
 
 import styles from './ListItems.module.css';
 
+const ListItems = forwardRef<HTMLParagraphElement, {name:string, type:string}>(( {name, type}, ref) => {
 
-const ListItems= forwardRef( ( { name, type }, ref ) => {
+    const { items } = useSelector((store: RootState)=>store.ingredients);
 
-    const { items } = useSelector(store=>store.ingredients);
-
-    const ingredientsByType = items.filter(el => el.type === type);
+    const ingredientsByType = items.filter(el => el.type === type)!;
 
     return (
         <article className={styles.ingredients}>
@@ -19,20 +18,15 @@ const ListItems= forwardRef( ( { name, type }, ref ) => {
 
             {items &&
                 <ul className={`${styles.ingrediens__wrapper} pl-4 pr-4 mb-10`}>
-                    {ingredientsByType.map(el =>
+                    {ingredientsByType.map((el: TIngredients) =>
                         <li key={el._id} className={`${styles.card_item} mr-6`}>
 
-                            <IngredientCard imgSrc={el.image} {...el} />                             
+                            <IngredientCard card={el} />                             
                             
                         </li>
                     )}
                 </ul>}
         </article>)
 });
-
-ListItems.propTypes = {
-    name: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired      
-}
 
 export default ListItems;

@@ -2,13 +2,14 @@ import React, { useEffect, useMemo } from "react";
 
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import { RootState } from "../../services/types";
 
 import styles from './IngredientDetails.module.css';
 
 function IngredientDetails() {
 
     const {id : ingredientId } = useParams();
-    const { items } = useSelector(store=>store.ingredients);
+    const { items } = useSelector((store: RootState)=>store.ingredients);
     const currentIngredient = useMemo(() => items.find(el => el._id === ingredientId), [ingredientId, items]);
 
     useEffect(()=>window.history.replaceState({}, document.title),[]);
@@ -34,7 +35,7 @@ function IngredientDetails() {
             { name: 'Белки, г', value: proteins },
             { name: 'Жиры, г', value: fat },
             { name: 'Углеводы, ', value: carbohydrates },
-        ];
+        ] as const;
 
     return (
 
