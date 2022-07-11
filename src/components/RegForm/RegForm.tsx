@@ -1,14 +1,14 @@
 
-import React, { Fragment } from "react";
-import PropTypes from 'prop-types';
+import React, { FC, Fragment, SyntheticEvent } from "react";
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link } from "react-router-dom";
 
 import styles from './RegForm.module.css';
+import { TRegFormProps } from "./types";
 
-function RegForm({ title, isError, error, submitButtonTitle, submitHandler, inputs, isFormValid, addInfo, addButton }) {
+const RegForm:FC<TRegFormProps>=({ title='', isError=false, error='', submitButtonTitle='', submitHandler, inputs, isFormValid=false, addInfo=[], addButton=null }) =>{
 
-    const handleSubmit = (e) => {
+    const handleSubmit = (e: SyntheticEvent) => {
         e.preventDefault();
         submitHandler();
     }
@@ -50,35 +50,6 @@ function RegForm({ title, isError, error, submitButtonTitle, submitHandler, inpu
             </form>
         </section>
     );
-}
-
-const addInfoShape = PropTypes.arrayOf(PropTypes.shape({
-    title: PropTypes.string.isRequired,
-    link: PropTypes.shape({
-        to: PropTypes.string.isRequired,
-        text: PropTypes.string.isRequired
-    }).isRequired
-}));
-
-RegForm.propTypes = {
-    title: PropTypes.string,
-    isError: PropTypes.bool,
-    error: PropTypes.string,
-    submitButtonTitle: PropTypes.string.isRequired,
-    submitHandler: PropTypes.func,
-    isFormValid: PropTypes.bool,
-    inputs: PropTypes.arrayOf(PropTypes.element.isRequired).isRequired,
-    addInfo: PropTypes.oneOfType([PropTypes.array, addInfoShape]),
-    addButton: PropTypes.element
-};
-
-RegForm.defaultProps = {
-    title: '',
-    isError: false,
-    error: '',
-    isFormValid: false,
-    addInfo: [],
-    addButton: null
 }
 
 export default RegForm;

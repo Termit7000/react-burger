@@ -1,17 +1,18 @@
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { SyntheticEvent } from "react";
 
 import { Button, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import RegForm from "../../components/RegForm/RegForm";
+import RegForm from "../RegForm/RegForm";
 import useInputsHandler from "../../hooks/useInputsHandler";
 import { updateUser } from "../../services/thunks";
+import { RootState } from "../../services/types";
+import { useDispatch, useSelector } from "../../services/hooks";
 
 const TITLE_SUBMIT = 'Сохранить';
 
 export default function ProfileForm() {
 
-    const { user, isErrorUpdate, error, updateInProgress } = useSelector(state => state.auth);
+    const { user, isErrorUpdate, error, updateInProgress } = useSelector((state: RootState) => state.auth);
     const dispatch = useDispatch();
     const { inputValues, handleChangeInput, isLoginValid, setInputsValue } = useInputsHandler({ userName: user.name, login: user.email });
 
@@ -24,14 +25,13 @@ export default function ProfileForm() {
         dispatch(updateUser({
             email: inputValues.login,
             password: inputValues.password,
-            name: inputValues.userName
+            name: inputValues.userName,            
         }))
     };
 
-    const handleCancel = e => {
+    const handleCancel = (e:SyntheticEvent) => {
         e.preventDefault();
         setInputsValue({ userName: user.name, login: user.email });
-
     };
 
     const inputsElem = [
@@ -47,7 +47,7 @@ export default function ProfileForm() {
         <Input type='email'
             placeholder='Логин'
             onChange={handleChangeInput}
-            value={inputValues.login}
+            value={inputValues.login || ''}
             name='login'
             error={!isLoginValid}
             size='default'

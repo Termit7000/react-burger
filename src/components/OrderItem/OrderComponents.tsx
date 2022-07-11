@@ -1,26 +1,27 @@
 import React, { useMemo } from "react";
-import PropTypes from 'prop-types';
-import { useSelector } from "react-redux";
 
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import IngredientPreview from "../../ui/ingredient-preview";
 import styles from './OrderComponents.module.css';
+import { RootState } from "../../services/types";
+import { TOrderComponentsProps } from "./types";
+import { useSelector } from "../../services/hooks";
 
 const MAX_COMPONENTS = 6;
 const OFFSET_COMPONENT = 48;
 const styleRestComponents = { left: (MAX_COMPONENTS - 1) * OFFSET_COMPONENT };
 
-function OrderComponents({ ingredients }) {
+function OrderComponents({ ingredients }: TOrderComponentsProps) {
 
-    const { items: ingredientsAll } = useSelector(state => state.ingredients);
+    const { items: ingredientsAll } = useSelector((state:RootState) => state.ingredients);
 
     const imgArray = useMemo(() =>
-        ingredients.slice(0, MAX_COMPONENTS).map(item => ingredientsAll.find(i => i._id === item).image_mobile),
+        ingredients.slice(0, MAX_COMPONENTS).map(item => ingredientsAll.find(i => i._id === item)!.image_mobile),
         [ingredients, ingredientsAll]);
 
     const price = useMemo(() =>
-        ingredients.reduce((acc, el) => acc + ingredientsAll.find(i => i._id === el).price, 0)
+        ingredients.reduce((acc, el) => acc + ingredientsAll.find(i => i._id === el)!.price, 0)
         , [ingredients, ingredientsAll]);
 
     return (
@@ -55,11 +56,6 @@ function OrderComponents({ ingredients }) {
             </div>
         </div>
     );
-}
-
-
-OrderComponents.propTypes = {
-    ingredients: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
 }
 
 export default OrderComponents;

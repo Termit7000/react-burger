@@ -1,5 +1,5 @@
 import React, { forwardRef } from "react";
-import { useSelector } from "react-redux";
+import { useSelector } from "../../services/hooks";
 import { RootState, TIngredients } from "../../services/types";
 
 import IngredientCard from '../IngredientCard/IngredientCard';

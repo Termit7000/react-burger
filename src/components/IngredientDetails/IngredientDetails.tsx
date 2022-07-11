@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo } from "react";
 
-import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import { useSelector } from "../../services/hooks";
 import { RootState } from "../../services/types";
 
 import styles from './IngredientDetails.module.css';

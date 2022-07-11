@@ -88,7 +88,12 @@ export const getUser: AppThunk = () => (dispatch: AppDispatch, getState) => {
 };
 
 //Обновить данные пользователя
-export const updateUser: AppThunk = form => (dispatch: AppDispatch, getState) => {
+type TUpdateUserProps = {
+    email: string;
+    password: string;
+    name: string;
+}
+export const updateUser: AppThunk = (form:TUpdateUserProps) => (dispatch: AppDispatch, getState) => {
 
     dispatch(requestAuthUpdate());
 

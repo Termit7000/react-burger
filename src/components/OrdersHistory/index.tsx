@@ -1,7 +1,8 @@
 import React from "react";
-import { useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import useWsSocket from "../../hooks/useWsSocket";
+import { useSelector } from "../../services/hooks";
+import { RootState } from "../../services/types";
 
 import OrderItem from "../OrderItem/OrderItem";
 
@@ -15,7 +16,7 @@ export default function OrdersHistory() {
         isOpened, 
         isError, 
         errorText, 
-        orders } = useSelector(state=>state.wsOrdersHistory);
+        orders } = useSelector((state: RootState)=>state.wsOrdersHistory);
 
     useWsSocket(true);    
     

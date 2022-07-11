@@ -1,14 +1,13 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React, { FC } from "react";
 
 import OrderComponents from "./OrderComponents";
 import PassedPeriod from "../../ui/passed-period/index";
 
 import styles from './OrderItem.module.css';
 import strStatus from "../../utils/utils";
+import { TOrderItemProps } from "./types";
 
-
-function OrderItem({ ingredients, name, createdAt, number, status }) {
+const OrderItem:FC<TOrderItemProps>=({ ingredients, name, createdAt, number, status='' })=> {
 
     const isDone = status==='done';    
 
@@ -30,17 +29,5 @@ function OrderItem({ ingredients, name, createdAt, number, status }) {
         </article>
     );
 }
-
-OrderItem.defaultProps = {
-    status: ''
-}
-
-OrderItem.propTypes = {
-    ingredients: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
-    name: PropTypes.string.isRequired,
-    createdAt: PropTypes.string.isRequired,
-    number: PropTypes.number.isRequired,
-    status: PropTypes.string
-};
 
 export default OrderItem;

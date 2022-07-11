@@ -1,16 +1,16 @@
-import React, { useEffect } from "react";
-import PropTypes from 'prop-types';
-import { useDispatch, useSelector } from "react-redux";
+import React, { FC, useEffect } from "react";
 import { Navigate, useLocation } from "react-router-dom";
 
 import { PAGE_LOGIN } from "../../utils/constants";
 import { getUser } from "../../services/thunks";
+import { RootState } from "../../services/types";
+import { useDispatch, useSelector } from "../../services/hooks";
 
-function ProtectRout({ children }) {
+const ProtectRout:FC=({ children })=> {
 
     const dispatch = useDispatch();
     const location = useLocation();
-    const { isAuthChecked } = useSelector(state => state.auth);
+    const { isAuthChecked } = useSelector((state:RootState) => state.auth);
 
     useEffect(()=>{
 
@@ -29,9 +29,5 @@ function ProtectRout({ children }) {
         </>
     );
 }
-
-ProtectRout.propTypes = {
-    children: PropTypes.element.isRequired
-};
 
 export default ProtectRout;

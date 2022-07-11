@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "../../services/hooks";
 
 import { createOrder } from "../../services/thunks";
+import { RootState } from "../../services/types";
 
 import styles from './OrderDetails.module.css';
 
@@ -12,7 +13,7 @@ function OrderDetails() {
         orderRequestFailed,
         orderErrorText,
         orderId
-    } = useSelector(store => store.order);
+    } = useSelector((store: RootState) => store.order);
 
     const dispatch = useDispatch();
 

@@ -1,5 +1,4 @@
 import React from "react";
-import { useSelector } from "react-redux";
 import { useMatch, useParams } from "react-router-dom";
 
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
@@ -11,15 +10,18 @@ import styles from './OrderInfo.module.css';
 import { PAGE_ORDERS, PAGE_PROFILE } from "../../utils/constants";
 import useWsSocket from "../../hooks/useWsSocket";
 import strStatus from "../../utils/utils";
+import { RootState  } from "../../services/types";
+import { TGroupIngredientsByCount } from "./types";
+import { useSelector } from "../../services/hooks";
 
 //Содержит состав заказа с ингредиентами
 export default function OrderInfo() {
     
     const { id } = useParams();
-    const { items: ingredientsAll } = useSelector(state => state.ingredients);
+    const { items: ingredientsAll } = useSelector((state: RootState) => state.ingredients);
     const isAuthSocket = !!useMatch(`${PAGE_PROFILE}/${PAGE_ORDERS}/:id`);
 
-    const { orders } = useSelector(state => (isAuthSocket) ? state.wsOrdersHistory : state.wsSocket);
+    const { orders } = useSelector((state:RootState) => (isAuthSocket) ? state.wsOrdersHistory : state.wsSocket);
 
     useWsSocket(isAuthSocket);    
     
@@ -31,18 +33,17 @@ export default function OrderInfo() {
 
     const doneStyle = (currentOrder.status === 'done') ? styles.orderInfo__status_done : '';
 
-    const ingredientsByGroup = currentOrder.ingredients.filter(i=>i!==null).reduce((acc, el) => {
+    const ingredientsByGroup = currentOrder.ingredients.filter(i=>i!==null).reduce((acc:TGroupIngredientsByCount, el) => {
 
         if (!acc[el]) {
-            const ingredient = ingredientsAll.find(i => i._id === el);
+            const ingredient = ingredientsAll.find(i => i._id === el)!;
             acc[el] = { ...ingredient, count: 1 };
         } else {
             acc[el].count++;
         }
 
         return acc;
-
-    }, {});
+    }, {} );
 
     const listIngredients = Object.values(ingredientsByGroup);
 
@@ -68,7 +69,7 @@ export default function OrderInfo() {
                         <p className="text text_type_main-default">{comp.name}</p>
                         <div className={styles.orderInfo_currency}>
                             <p className="mr-2 text text_type_digits-default"> {comp.count} x {comp.price}</p>
-                            <CurrencyIcon />
+                            <CurrencyIcon type={'primary'} />
                         </div>
                     </React.Fragment>
                 ))}
@@ -79,7 +80,7 @@ export default function OrderInfo() {
 
                 <div className={styles.orderInfo_currency}>
                     <p className="mr-2 text text_type_digits-default"> {totalPrice}</p>
-                    <CurrencyIcon />
+                    <CurrencyIcon type={'primary'}/>
                 </div>
             </div>
         </section>

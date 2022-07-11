@@ -8,12 +8,8 @@ import { MODAL_ROOT_NAME } from "../../utils/constants";
 import ModalOverlay from "../ModalOverlay/ModalOverlay";
 
 import styles from './Modal.module.css';
-import { TExportFunctionsOverlay } from "../ModalOverlay/types";
+import { TExportFunctionsOverlay, TModalParams } from "../ModalOverlay/types";
 
-type TModalParams = {
-    handlerClose: ()=>void;
-
-}
 const Modal:FC<TModalParams>=({ handlerClose, children }) => {
     
     const refOverlay = useRef<TExportFunctionsOverlay>(null);

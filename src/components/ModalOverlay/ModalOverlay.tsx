@@ -1,10 +1,8 @@
-
-import React, { forwardRef, MouseEvent, useImperativeHandle, useRef, PropsWithChildren } from "react";
+import React, { forwardRef, MouseEvent, useImperativeHandle, useRef } from "react";
 import styles from './ModalOverlay.module.css';
-import { TExportFunctionsOverlay } from "./types";
+import { TExportFunctionsOverlay, TPropsModalOverlay } from "./types";
 
-type TProps = PropsWithChildren<{ handlerClose: () => void }>;
-const ModalOverlay = forwardRef<TExportFunctionsOverlay, TProps>(({ handlerClose, children }, ref) => {
+const ModalOverlay = forwardRef<TExportFunctionsOverlay, TPropsModalOverlay>(({ handlerClose, children }, ref) => {
 
     const refContainer = useRef<HTMLDivElement>(null);
 
@@ -15,8 +13,7 @@ const ModalOverlay = forwardRef<TExportFunctionsOverlay, TProps>(({ handlerClose
         }
     };
 
-    useImperativeHandle(ref, () =>({closeSmooth}))
-    
+    useImperativeHandle(ref, () =>({closeSmooth}))    
 
     const onMouseDown = ( {target}: MouseEvent<HTMLElement>) => {
 
@@ -32,6 +29,5 @@ const ModalOverlay = forwardRef<TExportFunctionsOverlay, TProps>(({ handlerClose
             {children}
         </div>);
 });
-
 
 export default ModalOverlay;

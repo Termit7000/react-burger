@@ -1,11 +1,10 @@
 import React  from 'react';
-import { useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useDrop } from 'react-dnd';
 
 import { Button, ConstructorElement, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
-import { useDispatch } from '../../services/hooks';
+import { useDispatch, useSelector } from '../../services/hooks';
 
 import BurgerItem from './BurgerItem';
 

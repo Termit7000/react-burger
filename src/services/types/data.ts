@@ -23,7 +23,7 @@ export type TConstructorItem = {
 
 export type TOrderID = number;
 
-export type TOrder = {
+export type TOrder = Readonly<{
     _id: string;
     ingredients: Array<string>;
     name: string;
@@ -31,4 +31,4 @@ export type TOrder = {
     number: number;
     createdAt: string;
     updatedAt: string;
-};
+}>;

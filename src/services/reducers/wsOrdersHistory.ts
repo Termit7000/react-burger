@@ -7,11 +7,13 @@ import {
     WS_ON_MESSAGE_AUTH, 
     WS_ON_OPEN_AUTH } from "../action-types"
 
+import { TOrder } from "../types";
+
 type TState = {
     isOpened: boolean,
     isError: boolean,
     errorText: string,
-    orders: [],
+    orders: TOrder[],
     total: number,
     totalToday: number
 }    
