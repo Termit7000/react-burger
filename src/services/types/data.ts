@@ -32,3 +32,12 @@ export type TOrder = Readonly<{
     createdAt: string;
     updatedAt: string;
 }>;
+
+
+export type TLocation = {
+    state: 
+     {
+      background?: Location;
+      from?: Location;
+     }
+  }

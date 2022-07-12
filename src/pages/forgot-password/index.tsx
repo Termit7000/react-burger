@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
 import { Navigate, useLocation } from "react-router-dom";
 
 import { Input } from "@ya.praktikum/react-developer-burger-ui-components";
@@ -9,6 +8,8 @@ import useInputsHandler from "../../hooks/useInputsHandler";
 import { fetchForgotPassword } from "../../utils/api";
 import { PAGE_HOME, PAGE_LOGIN, PAGE_RESET_PASSWORD } from "../../utils/constants";
 
+import { useSelector } from "../../services/hooks";
+import { RootState } from "../../services/types";
 
 const addInfo = [{
     title: 'Вспомнили пароль?',
@@ -24,7 +25,7 @@ export default function ForgotPassword() {
 
     const { inputValues, handleChangeInput, isLoginValid } = useInputsHandler();
 
-    const { isAuthChecked } = useSelector(state => state.auth);
+    const { isAuthChecked } = useSelector((state: RootState) => state.auth);
     const [changeRequest, setRequestData] = useState({ isError: false, error: '', success: false, inProgress: false });
 
     if (isAuthChecked) return (<Navigate to={PAGE_HOME} />);
@@ -35,7 +36,7 @@ export default function ForgotPassword() {
 
         setRequestData({ ...changeRequest, inProgress: true });
 
-        fetchForgotPassword({ email: inputValues.login })
+        fetchForgotPassword({ email: inputValues.login || '' })
             .then(() => setRequestData({ ...changeRequest, success: true }))
             .catch(error => setRequestData({ ...changeRequest, isError: true, error }))
             .finally(() => setRequestData(currentState => ({ ...currentState, inProgress: false })));
@@ -62,8 +63,7 @@ export default function ForgotPassword() {
                 submitHandler={handleSubmit}
                 inputs={[inputElem]}
                 isFormValid={isLoginValid}
-                addInfo={addInfo} />
-                
+                addInfo={addInfo} />                
         </div>
     );
 }

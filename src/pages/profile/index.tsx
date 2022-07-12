@@ -1,8 +1,9 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { NavLink, Outlet } from "react-router-dom";
+import { useDispatch, useSelector } from "../../services/hooks";
 
 import { logOut } from "../../services/thunks";
+import { RootState } from "../../services/types";
 
 import { PAGE_ORDERS } from "../../utils/constants";
 
@@ -11,7 +12,7 @@ import styles from './index.module.css';
 export default function Profile() {
 
     const dispatch = useDispatch();    
-    const {refreshToken,logoutInProgress, isError, error} = useSelector(state=>state.auth);    
+    const {refreshToken,logoutInProgress, isError, error} = useSelector((state:RootState)=>state.auth);    
 
     const handleExit = () => dispatch(logOut(refreshToken));
 

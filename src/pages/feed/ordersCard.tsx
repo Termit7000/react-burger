@@ -1,8 +1,9 @@
 import React from "react";
-import { useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 
 import OrderItem from "../../components/OrderItem/OrderItem";
+import { useSelector } from "../../services/hooks";
+import { RootState } from "../../services/types";
 
 import { PAGE_FEED } from "../../utils/constants";
 
@@ -10,7 +11,7 @@ import styles from './ordersCard.module.css';
 
 function OrdersCard() {
 
-    const {orders} = useSelector(state => state.wsSocket);
+    const {orders} = useSelector((state: RootState) => state.wsSocket);
     const location = useLocation();
 
     return (

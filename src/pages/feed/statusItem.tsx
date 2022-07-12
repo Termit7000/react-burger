@@ -1,9 +1,9 @@
-import React from "react";
-import PropTypes from 'prop-types';
+import React, { FC } from "react";
 
 import styles from './statusItem.module.css';
+import { TStatusItemProps } from "./types";
 
-function Statsus_item({ title, ordersData, itemsExtraClass }) {
+const Statsus_item:FC<TStatusItemProps>=({ title, ordersData, itemsExtraClass = '' }) =>{
 
     return (
         <div className={styles.statuses__item}>
@@ -20,15 +20,5 @@ function Statsus_item({ title, ordersData, itemsExtraClass }) {
         </div>
     );
 }
-
-Statsus_item.defaultProps = {
-    itemsExtraClass: ''
-}
-
-Statsus_item.propTypes = {
-    title: PropTypes.string,
-    ordersData: PropTypes.arrayOf(PropTypes.number.isRequired).isRequired,
-    itemsExtraClass: PropTypes.string
-};
 
 export default Statsus_item;

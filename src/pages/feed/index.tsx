@@ -1,5 +1,4 @@
 import React, { useMemo } from "react";
-import { useSelector } from "react-redux";
 
 import OrdersCard from './ordersCard';
 import StatusItem from "./statusItem";
@@ -7,12 +6,14 @@ import StatusItem from "./statusItem";
 
 import styles from './index.module.css';
 import useWsSocket from "../../hooks/useWsSocket";
+import { useSelector } from "../../services/hooks";
+import { RootState } from "../../services/types";
 
 const MAX_ORDERS = 30;
 
 export default function Feed() {
 
-    const { isOpened, isError, errorText, orders, total, totalToday } = useSelector(state => state.wsSocket);
+    const { isOpened, isError, errorText, orders, total, totalToday } = useSelector((state: RootState) => state.wsSocket);
     useWsSocket();
     
     const ordersDone = useMemo(() =>

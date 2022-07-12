@@ -38,13 +38,7 @@ import OrdersHistory from '../OrdersHistory';
 import ProfileForm from '../ProfileForm/ProfileForm';
 
 import { getIngredientsItems } from '../../services/thunks';
-
-type TLocation = {
-  state: 
-   {
-    background?: Location
-   }
-}
+import { TLocation } from '../../services/types';
 
 export default function App() {
 

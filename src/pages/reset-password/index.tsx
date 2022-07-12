@@ -1,6 +1,5 @@
 
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
 import { Navigate, useLocation } from "react-router-dom";
 
 import { Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
@@ -16,6 +15,9 @@ import {
     PAGE_REGISTER
 } from "../../utils/constants";
 
+import { useSelector } from "../../services/hooks";
+import { RootState } from "../../services/types";
+
 const addInfo = [{
     title: 'Вы новый пользователь?',
     link: { to: PAGE_REGISTER, text: 'Зарегистрироваться' }
@@ -30,11 +32,11 @@ const TITLE_SUBMIT = 'Сохранить';
 
 export default function ResetPassword() {
 
-    const stateLocation = useLocation().state;
+    const stateLocation = useLocation().state as {from?: string};
     const isFromForgotPasswordPage = stateLocation?.from === PAGE_FORGOT_PASSWORD;
 
     const { inputValues, handleChangeInput } = useInputsHandler();
-    const { isAuthChecked } = useSelector(state => state.auth);
+    const { isAuthChecked } = useSelector((state:RootState) => state.auth);
 
     const [request, setRequestData] = useState({
         inProgress: false,

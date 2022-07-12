@@ -1,13 +1,16 @@
 import React from "react";
-import { Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useDispatch, useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
+
+import { Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import RegForm from "../../components/RegForm/RegForm";
 import useInputsHandler from "../../hooks/useInputsHandler";
 
 import { PAGE_HOME, PAGE_LOGIN } from "../../utils/constants";
 import { registerNewUser } from "../../services/thunks";
+
+import { useDispatch, useSelector } from "../../services/hooks";
+import { RootState } from "../../services/types";
 
 const addInfo = [{
     title: 'Уже зарегистрированы?',
@@ -20,7 +23,7 @@ const TITLE_SUBMIT = 'Зарегистрироваться';
 export default function Registration() {
 
     const { inputValues, handleChangeInput, isLoginValid } = useInputsHandler();
-    const { isAuthChecked, authInProgress, isError, error } = useSelector(state => state.auth);
+    const { isAuthChecked, authInProgress, isError, error } = useSelector((state:RootState) => state.auth);
 
     const dispatch = useDispatch();
 

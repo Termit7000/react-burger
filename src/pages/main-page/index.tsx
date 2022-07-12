@@ -1,5 +1,4 @@
 import React, { memo } from 'react';
-import { useSelector } from 'react-redux';
 
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
@@ -9,12 +8,15 @@ import BurgerConstructor from '../../components/BurgerConstructor/BurgerConstruc
 
 import styles from './index.module.css';
 
+import { useSelector } from '../../services/hooks';
+import { RootState } from '../../services/types';
+
 function MainPage() {
 
   const {
     requestInProgress,
     requestFailed,
-    errorText} = useSelector(store => store.ingredients);
+    errorText} = useSelector((store:RootState) => store.ingredients);
 
   if (requestInProgress) return <p>Loading...</p>;
   if (requestFailed) return <pre> {JSON.stringify(errorText)} </pre>;

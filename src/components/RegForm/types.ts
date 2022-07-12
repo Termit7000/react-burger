@@ -17,5 +17,5 @@ export type TRegFormProps = {
     inputs: React.ReactElement[];
     isFormValid: boolean;
     addInfo?: TAddInfo[];
-    addButton: React.ReactElement;
+    addButton?: React.ReactElement;
 }

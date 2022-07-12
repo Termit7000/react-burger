@@ -6,7 +6,16 @@ import { Link } from "react-router-dom";
 import styles from './RegForm.module.css';
 import { TRegFormProps } from "./types";
 
-const RegForm:FC<TRegFormProps>=({ title='', isError=false, error='', submitButtonTitle='', submitHandler, inputs, isFormValid=false, addInfo=[], addButton=null }) =>{
+const RegForm:FC<TRegFormProps>=({ 
+    title='', 
+    isError=false, 
+    error='', 
+    submitButtonTitle='', 
+    submitHandler, 
+    inputs, 
+    isFormValid=false, 
+    addInfo=[], 
+    addButton=null }) =>{
 
     const handleSubmit = (e: SyntheticEvent) => {
         e.preventDefault();
