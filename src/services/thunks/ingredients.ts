@@ -6,7 +6,6 @@ import {
     requestIngredientsFailed, 
     requestIngredientsSuccess } from "../actions";
 
-
 export const getIngredientsItems: AppThunk = () => (dispatch: AppDispatch) => {
 
     dispatch(requestIngredients());    

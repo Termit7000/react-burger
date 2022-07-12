@@ -27,8 +27,8 @@ export default function Registration() {
 
     const dispatch = useDispatch();
 
-    const submitHandler = () => {
-        dispatch(registerNewUser({ email: inputValues.login, name: inputValues.userName, password: inputValues.password }));
+    const submitHandler = () => {        
+        dispatch(registerNewUser({email: inputValues.login || '', name: inputValues.userName, password: inputValues.password }));
     }
 
     if (isAuthChecked) {
