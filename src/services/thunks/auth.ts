@@ -43,7 +43,7 @@ function  dispatchUserInfo(dispatch: AppDispatch, { accessToken, refreshToken, u
 //Создать нового пользователя
 
 type TregisterNewUser = (form: TUserInfo)=>(dispatch:AppDispatch) =>void;
-export const registerNewUser: TregisterNewUser = form => dispatch => {
+export const registerNewUser: AppThunk = (form: TUserInfo) => dispatch => {
 
     dispatch(requestAuth());
 
